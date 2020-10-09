@@ -1,0 +1,8 @@
+# Blacklist everything by default
+*
+
+# Allow file patterns to be whitelisted
+!*/
+
+# Whitelist specific file patterns
+!/.gitignore
