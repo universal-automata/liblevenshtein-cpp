@@ -5,7 +5,7 @@ using namespace std::literals;
 
 namespace liblevenshtein {
 
-    int MemoizedDistance::get_distance(SymmetricImmutablePair<std::string> &key) {
+    int MemoizedDistance::get_distance(const SymmetricImmutablePair &key) {
         std::shared_lock reader(mutex);
         auto iter = memo.find(key);
         if (iter != memo.end()) {
@@ -14,7 +14,7 @@ namespace liblevenshtein {
         return -1;
     }
 
-    int MemoizedDistance::set_distance(SymmetricImmutablePair<std::string> &key, int distance) {
+    int MemoizedDistance::set_distance(const SymmetricImmutablePair &key, int const distance) {
         std::unique_lock writer(mutex);
         memo[key] = distance;
         return distance;
@@ -26,4 +26,4 @@ namespace liblevenshtein {
         }
         return "";
     }
-}
+} // namespace liblevenshtein

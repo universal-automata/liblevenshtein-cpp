@@ -1,11 +1,12 @@
 #ifndef __LIBLEVENSHTEIN__DISTANCE__DISTANCE_H__
 #define __LIBLEVENSHTEIN__DISTANCE__DISTANCE_H__
 
+#include <string>
 
-template <class Term>
+
 class Distance {
 public:
-    int between(Term v, Term w);
+    int between(std::string v, std::string w);
 };
 
 
