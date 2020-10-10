@@ -39,14 +39,4 @@ RC_GTEST_PROP(SymmetricPair, is_comparable, (const std::string &foo,
         RC_ASSERT(hash(pair1) != hash(pair3));
         RC_ASSERT(hash(pair2) != hash(pair3));
     }
-    else {
-        RC_ASSERT(pair1 == pair3);
-        RC_ASSERT(pair3 == pair1);
-
-        RC_ASSERT(pair2 == pair3);
-        RC_ASSERT(pair3 == pair2);
-
-        RC_ASSERT(hash(pair1) == hash(pair3));
-        RC_ASSERT(hash(pair2) == hash(pair3));
-    }
 }
