@@ -5,4 +5,18 @@
 !*/
 
 # Whitelist specific file patterns
+!/**/.gitkeep
 !/.gitignore
+!/CMakeLists.txt
+!/LICENSE.txt
+!/README.md
+
+!/src/**/CMakeLists.txt
+!/src/**/*.h
+!/src/**/*.hpp
+!/src/**/*.cpp
+
+!/test/**/CMakeLists.txt
+!/test/**/*.h
+!/test/**/*.hpp
+!/test/**/*.cpp
