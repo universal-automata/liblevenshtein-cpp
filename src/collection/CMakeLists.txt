@@ -1,7 +1,7 @@
 set(MODULE_NAME "collection")
 
 set(MODULE_SOURCES
-  "symmetric_immutable_pair.cpp")
+  "symmetric_pair.cpp")
 
 file(GLOB MODULE_HEADERS "*.h")
 

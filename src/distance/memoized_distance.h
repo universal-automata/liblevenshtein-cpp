@@ -6,18 +6,18 @@
 #include <string>
 #include <unordered_map>
 
-#include "../collection/symmetric_immutable_pair.h"
+#include "../collection/symmetric_pair.h"
 #include "distance.h"
 
 namespace liblevenshtein {
 
     class MemoizedDistance : public Distance {
     protected:
-        int get_distance(const SymmetricImmutablePair &key);
-        int set_distance(const SymmetricImmutablePair &key, int const distance);
+        int get_distance(const SymmetricPair &key);
+        int set_distance(const SymmetricPair &key, int const distance);
         std::string f(std::string& u, int t) const;
     private:
-        std::unordered_map<SymmetricImmutablePair, int> memo;
+        std::unordered_map<SymmetricPair, int> memo;
         mutable std::shared_mutex mutex;
     };
 } // namespace liblevenshtein

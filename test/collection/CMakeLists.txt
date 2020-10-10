@@ -1,6 +1,7 @@
 set(MODULE_NAME "collection")
 
 set(TEST_SOURCES
+  "test_symmetric_pair.cpp"
   "test_${MODULE_NAME}.cpp")
 
 add_executable(test-${MODULE_NAME} ${TEST_SOURCES})

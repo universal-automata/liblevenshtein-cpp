@@ -8,16 +8,18 @@
 
 namespace liblevenshtein {
 
-    class SymmetricImmutablePair {
+    class SymmetricPair {
     public:
-        SymmetricImmutablePair(std::string &first, std::string &second);
-        bool operator==(const SymmetricImmutablePair &other) const;
-    private:
+        SymmetricPair(std::string &first, std::string &second);
+        bool operator==(const SymmetricPair &other) const;
+        bool operator!=(const SymmetricPair &other) const;
+
+      private:
         std::string first;
         std::string second;
 
         // for hash code
-        friend class std::hash<liblevenshtein::SymmetricImmutablePair>;
+        friend class std::hash<liblevenshtein::SymmetricPair>;
     };
 } // namespace liblevenshtein
 
@@ -25,8 +27,8 @@ namespace liblevenshtein {
 namespace std {
 
     template <>
-    struct hash<liblevenshtein::SymmetricImmutablePair> : unary_function<liblevenshtein::SymmetricImmutablePair, size_t> {
-        size_t operator()(const liblevenshtein::SymmetricImmutablePair &pair) const;
+    struct hash<liblevenshtein::SymmetricPair> : unary_function<liblevenshtein::SymmetricPair, size_t> {
+        size_t operator()(const liblevenshtein::SymmetricPair &pair) const;
     };
 } // namespace std
 

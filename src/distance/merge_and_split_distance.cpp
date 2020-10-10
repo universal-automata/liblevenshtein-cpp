@@ -1,11 +1,11 @@
 #include "merge_and_split_distance.h"
-#include "../collection/symmetric_immutable_pair.h"
+#include "../collection/symmetric_pair.h"
 
 
 namespace liblevenshtein {
 
     int MergeAndSplitDistance::between(std::string v, std::string w) {
-        const SymmetricImmutablePair key(v, w);
+        const SymmetricPair key(v, w);
 
         int distance = get_distance(key);
         if (distance > -1) {
