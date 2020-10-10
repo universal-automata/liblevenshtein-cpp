@@ -1,46 +1,52 @@
 #include <string>
+#include <cstdio>
 
 #include <gtest/gtest.h>
 
+#include <rapidcheck/gtest.h>
+
 #include "../../src/collection/symmetric_pair.h"
 
-using namespace std::literals;
-
-
-TEST(SymmetricPair, is_symmetric) {
-    std::string foo("foo");
-    std::string bar("bar");
+RC_GTEST_PROP(SymmetricPair, is_comparable, (const std::string &foo,
+                                             const std::string &bar,
+                                             const std::string &baz)) {
+    std::hash<liblevenshtein::SymmetricPair> hash;
 
     liblevenshtein::SymmetricPair pair1(foo, bar);
     liblevenshtein::SymmetricPair pair2(bar, foo);
+    liblevenshtein::SymmetricPair pair3(foo, baz);
 
-    EXPECT_EQ(pair1, pair2);
-    EXPECT_EQ(pair2, pair1);
+    RC_ASSERT(pair1 == pair1);
+    RC_ASSERT(pair2 == pair2);
+    RC_ASSERT(pair3 == pair3);
 
-    std::hash<liblevenshtein::SymmetricPair> hash;
-    EXPECT_EQ(hash(pair1), hash(pair2));
-}
+    RC_ASSERT(pair1 == pair2);
+    RC_ASSERT(pair2 == pair1);
 
-TEST(SymmetricPair, is_comparable) {
-  std::string foo("foo");
-  std::string bar("bar");
-  std::string baz("baz");
+    RC_ASSERT(hash(pair1) == hash(pair1));
+    RC_ASSERT(hash(pair2) == hash(pair2));
+    RC_ASSERT(hash(pair3) == hash(pair3));
 
-  liblevenshtein::SymmetricPair pair1(foo, bar);
-  liblevenshtein::SymmetricPair pair2(bar, foo);
-  liblevenshtein::SymmetricPair pair3(foo, baz);
+    RC_ASSERT(hash(pair1) == hash(pair2));
 
-  EXPECT_EQ(pair1, pair2);
-  EXPECT_EQ(pair2, pair1);
+    if (bar.compare(baz) != 0) {
+        RC_ASSERT(pair1 != pair3);
+        RC_ASSERT(pair3 != pair1);
 
-  EXPECT_NE(pair1, pair3);
-  EXPECT_NE(pair3, pair1);
+        RC_ASSERT(pair2 != pair3);
+        RC_ASSERT(pair3 != pair2);
 
-  EXPECT_NE(pair2, pair3);
-  EXPECT_NE(pair3, pair2);
+        RC_ASSERT(hash(pair1) != hash(pair3));
+        RC_ASSERT(hash(pair2) != hash(pair3));
+    }
+    else {
+        RC_ASSERT(pair1 == pair3);
+        RC_ASSERT(pair3 == pair1);
 
-  std::hash<liblevenshtein::SymmetricPair> hash;
-  EXPECT_EQ(hash(pair1), hash(pair2));
-  EXPECT_NE(hash(pair1), hash(pair3));
-  EXPECT_NE(hash(pair2), hash(pair3));
+        RC_ASSERT(pair2 == pair3);
+        RC_ASSERT(pair3 == pair2);
+
+        RC_ASSERT(hash(pair1) == hash(pair3));
+        RC_ASSERT(hash(pair2) == hash(pair3));
+    }
 }

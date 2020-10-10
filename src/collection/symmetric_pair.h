@@ -10,7 +10,7 @@ namespace liblevenshtein {
 
     class SymmetricPair {
     public:
-        SymmetricPair(std::string &first, std::string &second);
+        SymmetricPair(const std::string &first, const std::string &second);
         bool operator==(const SymmetricPair &other) const;
         bool operator!=(const SymmetricPair &other) const;
 

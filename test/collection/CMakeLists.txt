@@ -9,4 +9,5 @@ add_test(NAME test-${MODULE_NAME} COMMAND test-${MODULE_NAME})
 target_link_libraries(test-${MODULE_NAME} PUBLIC
   levenshtein-utils
   levenshtein-${MODULE_NAME}
-  gtest)
+  gtest
+  rapidcheck_gtest)

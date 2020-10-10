@@ -4,7 +4,7 @@
 
 namespace liblevenshtein {
 
-    SymmetricPair::SymmetricPair(std::string &first, std::string &second) {
+    SymmetricPair::SymmetricPair(const std::string &first, const std::string &second) {
         if (first.compare(second) < 0) {
             this->first = first;
             this->second = second;
