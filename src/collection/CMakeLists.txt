@@ -1,12 +1,23 @@
-add_library(levenshtein-collection SHARED
+set(LIBRARY_SUFFIX "collection")
+
+set(LIBRARY_SOURCES
   "symmetric_immutable_pair.cpp")
 
-# set_target_properties(levenshtein-collection PROPERTIES
-#   LINKER_LANGUAGE CXX)
+file(GLOB LIBRARY_HEADERS "*.h")
 
-target_link_libraries(levenshtein-collection
+add_library(levenshtein-${LIBRARY_SUFFIX} SHARED ${LIBRARY_SOURCES})
+
+set_target_properties(levenshtein-${LIBRARY_SUFFIX} PROPERTIES
+  VERSION ${PROJECT_VERSION}
+  SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+
+target_link_libraries(levenshtein-${LIBRARY_SUFFIX}
   levenshtein-utils)
 
-# install(TARGETS levenshtein-collection DESTINATION lib)
-# install(FILES "symmetric_immutable_pair.h"
-#   DESTINATION include/liblevenshtein/collection)
+install(TARGETS levenshtein-${LIBRARY_SUFFIX} EXPORT ${PROJECT_NAME}-${LIBRARY_SUFFIX}-config
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(FILES ${LIBRARY_HEADERS}
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${LIBRARY_SUFFIX})

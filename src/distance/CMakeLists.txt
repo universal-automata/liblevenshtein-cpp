@@ -1,5 +1,23 @@
-add_library(${CMAKE_PROJECT_NAME}-distance SHARED
+set(LIBRARY_SUFFIX "distance")
+
+set(LIBRARY_SOURCES
   "memoized_distance.cpp"
   "standard_distance.cpp"
   "transposition_distance.cpp"
   "merge_and_split_distance.cpp")
+
+file(GLOB LIBRARY_HEADERS "*.h")
+
+add_library(levenshtein-${LIBRARY_SUFFIX} SHARED ${LIBRARY_SOURCES})
+
+set_target_properties(levenshtein-${LIBRARY_SUFFIX} PROPERTIES
+  VERSION ${PROJECT_VERSION}
+  SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+
+install(TARGETS levenshtein-${LIBRARY_SUFFIX} EXPORT ${PROJECT_NAME}-${LIBRARY_SUFFIX}-config
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(FILES ${LIBRARY_HEADERS}
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${LIBRARY_SUFFIX})
