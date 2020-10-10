@@ -15,3 +15,9 @@ cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/usr/local ..
 make
 make install
 ```
+
+#### Testing
+
+#### Dependencies
+1. [Google Test](https://github.com/google/googletest)
+2. [RapidCheck](https://github.com/emil-e/rapidcheck)

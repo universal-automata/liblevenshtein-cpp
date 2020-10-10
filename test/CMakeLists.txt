@@ -1,7 +1,12 @@
-add_executable(main
-  "main.cpp")
+list(APPEND CMAKE_MODULE_PATH
+  /usr/lib/cmake/GTest
+  /usr/share/rapidcheck/cmake)
 
-target_link_libraries(main
-  levenshtein-utils
-  levenshtein-collection
-  levenshtein-distance)
+include(GTestConfig)
+include(rapidcheckConfig)
+
+add_subdirectory(utils)
+add_subdirectory(collection)
+add_subdirectory(distance)
+add_subdirectory(transducer)
+add_subdirectory(serialization)
