@@ -36,8 +36,9 @@ RC_GTEST_PROP(StandardDistance, satisfies_triangle_inequality,
 }
 
 RC_GTEST_PROP(StandardDistance, satisfies_left_and_right_invariance,
-              (const std::string &x, const std::string &y,
+              (const std::string &x,
+               const std::string &y,
                const std::string &z)) {
-  RC_ASSERT(d(z + x, z + y) == d(x, y));
-  RC_ASSERT(d(x + z, y + z) == d(x, y));
+    RC_ASSERT(d(z + x, z + y) == d(x, y));
+    RC_ASSERT(d(x + z, y + z) == d(x, y));
 }
