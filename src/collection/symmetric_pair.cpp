@@ -25,6 +25,11 @@ namespace liblevenshtein {
     bool SymmetricPair::operator!=(const SymmetricPair &other) const {
         return !(*this == other);
     }
+
+    std::ostream& operator<<(std::ostream &out, const SymmetricPair &pair) {
+        out << "SymmetricPair{first=\"" << pair.first << "\", second=\"" << pair.second << "\"}";
+        return out;
+    }
 } // namespace liblevenshtein
 
 

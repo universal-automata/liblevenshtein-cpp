@@ -6,7 +6,8 @@
 
 class Distance {
 public:
-    int between(std::string v, std::string w);
+    virtual int between(std::string v, std::string w) = 0;
+    virtual int operator()(std::string v, std::string w) = 0;
 };
 
 

@@ -1,6 +1,7 @@
 #ifndef __LIBLEVENSHTEIN__COLLECTION__SYMMETRIC_IMMUTABLE_PAIR_H__
 #define __LIBLEVENSHTEIN__COLLECTION__SYMMETRIC_IMMUTABLE_PAIR_H__
 
+#include <iostream>
 #include <string>
 
 #include "../utils/MurmurHash2.h"
@@ -14,12 +15,12 @@ namespace liblevenshtein {
         bool operator==(const SymmetricPair &other) const;
         bool operator!=(const SymmetricPair &other) const;
 
+        friend class std::hash<liblevenshtein::SymmetricPair>;
+        friend std::ostream &operator<<(std::ostream &out, const SymmetricPair &pair);
+
       private:
         std::string first;
         std::string second;
-
-        // for hash code
-        friend class std::hash<liblevenshtein::SymmetricPair>;
     };
 } // namespace liblevenshtein
 

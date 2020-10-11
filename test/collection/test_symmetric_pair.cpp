@@ -1,5 +1,4 @@
 #include <string>
-#include <cstdio>
 
 #include <gtest/gtest.h>
 
@@ -16,7 +15,7 @@ RC_GTEST_PROP(SymmetricPair, is_comparable, (const std::string &foo,
     liblevenshtein::SymmetricPair pair2(bar, foo);
     liblevenshtein::SymmetricPair pair3(foo, baz);
 
-    RC_ASSERT(pair1 == pair1);
+    RC_ASSERT(pair1 != pair1);
     RC_ASSERT(pair2 == pair2);
     RC_ASSERT(pair3 == pair3);
 

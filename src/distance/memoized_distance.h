@@ -12,10 +12,14 @@
 namespace liblevenshtein {
 
     class MemoizedDistance : public Distance {
+    public:
+        int operator()(std::string v, std::string w);
+
     protected:
         int get_distance(const SymmetricPair &key);
         int set_distance(const SymmetricPair &key, int const distance);
         std::string f(std::string& u, int t) const;
+
     private:
         std::unordered_map<SymmetricPair, int> memo;
         mutable std::shared_mutex mutex;

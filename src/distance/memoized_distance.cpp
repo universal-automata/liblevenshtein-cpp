@@ -5,6 +5,10 @@ using namespace std::literals;
 
 namespace liblevenshtein {
 
+    int MemoizedDistance::operator()(std::string v, std::string w) {
+        return between(v, w);
+    }
+
     int MemoizedDistance::get_distance(const SymmetricPair &key) {
         std::shared_lock reader(mutex);
         auto iter = memo.find(key);
