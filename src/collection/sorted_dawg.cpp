@@ -10,6 +10,10 @@
 
 namespace liblevenshtein {
 
+    SortedDawg::~SortedDawg() {
+        clean_up();
+    }
+
     bool SortedDawg::add(const std::string &term) {
         if (term < prev_term) {
             return false;
@@ -36,21 +40,21 @@ namespace liblevenshtein {
         minimize(i);
 
         // Add the suffix starting from the correct node min-way through the graph
-        DawgNode *source = unchecked_transitions.empty()
+        DawgNode *source = unchecked_transitions->empty()
             ? root
-            : unchecked_transitions.top().get_target();
+            : unchecked_transitions->top().get_target();
 
         for (int k = term.length() - 1; i < k; i += 1) {
             DawgNode *target = new DawgNode();
-            floating_nodes.insert(target);
-            unchecked_transitions.push(Transition(term[i], source, target));
+            floating_nodes->insert(target);
+            unchecked_transitions->push(Transition(term[i], source, target));
             source = target;
         }
 
         if (i < term.length()) {
             DawgNode *target = new FinalDawgNode();
-            floating_nodes.insert(target);
-            unchecked_transitions.push(Transition(term[i], source, target));
+            floating_nodes->insert(target);
+            unchecked_transitions->push(Transition(term[i], source, target));
         }
 
         prev_term = term;
@@ -60,18 +64,11 @@ namespace liblevenshtein {
 
     void SortedDawg::finish() {
         minimize(0);
-        for (DawgNode *node : this->all_nodes()) {
-            floating_nodes.erase(node);
-        }
-        for (DawgNode *node : floating_nodes) {
-            delete node;
-        }
-        floating_nodes.empty();
     }
 
     DawgNode* SortedDawg::get_minimized_node(DawgNode* key) const {
-        auto iter = minimized_nodes.find(*key);
-        if (iter != minimized_nodes.end()) {
+        auto iter = minimized_nodes->find(*key);
+        if (iter != minimized_nodes->end()) {
             return iter->second;
         }
         return nullptr;
@@ -79,9 +76,9 @@ namespace liblevenshtein {
 
     void SortedDawg::minimize(int lower_bound) {
         // proceed from the leaf up to a certain point
-        for (int j = unchecked_transitions.size(); j > lower_bound; j -= 1) {
-            Transition transition = unchecked_transitions.top();
-            unchecked_transitions.pop();
+        for (int j = unchecked_transitions->size(); j > lower_bound; j -= 1) {
+            Transition transition = unchecked_transitions->top();
+            unchecked_transitions->pop();
             char label = transition.get_label();
             DawgNode* source = transition.get_source();
             DawgNode* target = transition.get_target();
@@ -91,7 +88,7 @@ namespace liblevenshtein {
             }
             else {
                 source->add_edge(label, target);
-                minimized_nodes[*target] = target;
+                (*minimized_nodes)[*target] = target;
             }
         }
     }
@@ -100,9 +97,42 @@ namespace liblevenshtein {
         return false;
     }
 
+    void SortedDawg::init() {
+        unchecked_transitions = new std::stack<Transition>();
+        minimized_nodes = new std::unordered_map<DawgNode, DawgNode *>();
+        floating_nodes = new std::unordered_set<DawgNode *>();
+    }
+
+    void SortedDawg::clean_up() {
+        if (unchecked_transitions != nullptr) {
+            delete unchecked_transitions;
+            unchecked_transitions = nullptr;
+        }
+
+        if (minimized_nodes != nullptr) {
+            delete minimized_nodes;
+            minimized_nodes = nullptr;
+        }
+
+        if (floating_nodes != nullptr) {
+            for (DawgNode *node : all_nodes()) {
+                floating_nodes->erase(node);
+            }
+
+            for (DawgNode *node : *floating_nodes) {
+                delete node;
+            }
+
+            delete floating_nodes;
+            floating_nodes = nullptr;
+        }
+    }
+
     template <class IterType>
     SortedDawg* sorted_dawg(IterType iter, IterType end) {
         SortedDawg *dawg = new SortedDawg();
+        dawg->init();
+
         while (iter != end) {
             const std::string &term = *iter;
             if (!dawg->add(term)) {
@@ -111,7 +141,9 @@ namespace liblevenshtein {
             }
             ++iter;
         }
+
         dawg->finish();
+        dawg->clean_up();
         return dawg;
     }
 
