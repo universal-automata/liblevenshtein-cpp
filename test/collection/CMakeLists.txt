@@ -2,7 +2,12 @@ set(MODULE_NAME "collection")
 
 set(TEST_SOURCES
   "test_symmetric_pair.cpp"
-  "test_${MODULE_NAME}.cpp")
+  "test_dawg_node.cpp"
+  "test_prefix.cpp"
+  "test_transition.cpp"
+  "test_sorted_dawg.cpp"
+  "test_${MODULE_NAME}.cpp"
+  )
 
 add_executable(test-${MODULE_NAME} ${TEST_SOURCES})
 add_test(NAME test-${MODULE_NAME} COMMAND test-${MODULE_NAME})

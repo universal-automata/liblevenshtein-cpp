@@ -1,7 +1,14 @@
 set(MODULE_NAME "collection")
 
 set(MODULE_SOURCES
-  "symmetric_pair.cpp")
+  "symmetric_pair.cpp"
+  "dawg_node.cpp"
+  "final_dawg_node.cpp"
+  "prefix.cpp"
+  "transition.cpp"
+  "dawg.cpp"
+  "sorted_dawg.cpp"
+  )
 
 file(GLOB MODULE_HEADERS "*.h")
 

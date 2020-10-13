@@ -15,7 +15,7 @@ RC_GTEST_PROP(SymmetricPair, is_comparable, (const std::string &foo,
     liblevenshtein::SymmetricPair pair2(bar, foo);
     liblevenshtein::SymmetricPair pair3(foo, baz);
 
-    RC_ASSERT(pair1 != pair1);
+    RC_ASSERT(pair1 == pair1);
     RC_ASSERT(pair2 == pair2);
     RC_ASSERT(pair3 == pair3);
 
@@ -28,7 +28,7 @@ RC_GTEST_PROP(SymmetricPair, is_comparable, (const std::string &foo,
 
     RC_ASSERT(hash(pair1) == hash(pair2));
 
-    if (bar.compare(baz) != 0) {
+    if (bar != baz) {
         RC_ASSERT(pair1 != pair3);
         RC_ASSERT(pair3 != pair1);
 

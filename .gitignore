@@ -15,6 +15,7 @@
 !/src/**/*.h
 !/src/**/*.hpp
 !/src/**/*.cpp
+!/src/**/*.pxd
 
 !/test/**/CMakeLists.txt
 !/test/**/*.h

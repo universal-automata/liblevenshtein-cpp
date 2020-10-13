@@ -15,7 +15,7 @@ namespace liblevenshtein {
         bool operator==(const SymmetricPair &other) const;
         bool operator!=(const SymmetricPair &other) const;
 
-        friend class std::hash<liblevenshtein::SymmetricPair>;
+        friend class std::hash<SymmetricPair>;
         friend std::ostream &operator<<(std::ostream &out, const SymmetricPair &pair);
 
       private:
