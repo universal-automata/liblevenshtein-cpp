@@ -1,5 +1,3 @@
-#include <cstdio>
-
 #include "../utils/MurmurHash2.h"
 #include "dawg_node.h"
 

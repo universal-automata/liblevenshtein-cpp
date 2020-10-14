@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cstdio>
 #include <iterator>
 #include <random>
 #include <string>

@@ -8,7 +8,8 @@
 # target_link_libraries(test-${MODULE_NAME} PUBLIC
 #   levenshtein-rapidcheck-parser
 #   levenshtein-${MODULE_NAME}
-#   gtest)
+#   gtest
+#   rapidcheck_gtest)
 
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rapidcheck.yaml")
 #   file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/rapidcheck.yaml"

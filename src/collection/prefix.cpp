@@ -1,4 +1,3 @@
-#include <cstdio>
 #include <sstream>
 
 #include "prefix.h"
