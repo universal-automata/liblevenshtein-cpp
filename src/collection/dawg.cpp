@@ -7,7 +7,7 @@
 
 namespace liblevenshtein {
 
-    Dawg::Dawg(DawgNode* root, int size)
+    Dawg::Dawg(DawgNode* root, std::size_t size)
         : root(root),
           size(size)
     {}
@@ -50,8 +50,16 @@ namespace liblevenshtein {
         return root;
     }
 
-    int Dawg::get_size() const {
+    std::size_t Dawg::get_size() const {
         return size;
+    }
+
+    DawgIterator Dawg::begin() const {
+        return DawgIterator(root);
+    }
+
+    DawgIterator Dawg::end() const {
+        return DawgIterator(size);
     }
 
     std::ostream& operator<<(std::ostream& out, const Dawg& dawg) {

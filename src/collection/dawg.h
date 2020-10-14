@@ -7,13 +7,14 @@
 #include <vector>
 
 #include "dawg_node.h"
+#include "dawg_iterator.h"
 
 
 namespace liblevenshtein {
 
     class Dawg {
     public:
-        Dawg(DawgNode* root, int size);
+        Dawg(DawgNode* root, std::size_t size);
         Dawg();
         virtual ~Dawg();
 
@@ -23,14 +24,17 @@ namespace liblevenshtein {
         bool contains(const std::string& term) const;
 
         DawgNode* get_root() const;
-        int get_size() const;
+        std::size_t get_size() const;
+
+        DawgIterator begin() const;
+        DawgIterator end() const;
 
         friend class std::hash<Dawg>;
         friend std::ostream& operator<<(std::ostream& out, const Dawg& dawg);
 
       protected:
         DawgNode* root;
-        int size;
+        std::size_t size;
 
         std::unordered_set<DawgNode *> all_nodes() const;
     };

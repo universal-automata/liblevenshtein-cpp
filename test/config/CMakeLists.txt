@@ -1,26 +1,18 @@
-set(MODULE_NAME "collection")
+set(MODULE_NAME "rapidcheck-parser")
 
 set(MODULE_SOURCES
-  "symmetric_pair.cpp"
-  "dawg_node.cpp"
-  "final_dawg_node.cpp"
-  "prefix.cpp"
-  "transition.cpp"
-  "dawg.cpp"
-  "sorted_dawg.cpp"
-  "dawg_iterator.cpp"
-  )
+  "rapidcheck_parser.cpp")
 
 file(GLOB MODULE_HEADERS "*.h")
 
 add_library(levenshtein-${MODULE_NAME} SHARED ${MODULE_SOURCES})
 
+target_link_libraries(levenshtein-${MODULE_NAME} PUBLIC
+  yaml-cpp)
+
 set_target_properties(levenshtein-${MODULE_NAME} PROPERTIES
   VERSION ${PROJECT_VERSION}
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
-
-target_link_libraries(levenshtein-${MODULE_NAME} PUBLIC
-  levenshtein-utils)
 
 install(TARGETS levenshtein-${MODULE_NAME}
   EXPORT ${PROJECT_NAME}-${MODULE_NAME}
@@ -29,4 +21,4 @@ install(TARGETS levenshtein-${MODULE_NAME}
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
 install(FILES ${MODULE_HEADERS}
-  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${MODULE_NAME}")
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${MODULE_NAME})

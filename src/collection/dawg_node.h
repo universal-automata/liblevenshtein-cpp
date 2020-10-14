@@ -1,6 +1,7 @@
 #ifndef __LIBLEVENSHTEIN__COLLECTION__DAWG_NODE_H__
 #define __LIBLEVENSHTEIN__COLLECTION__DAWG_NODE_H__
 
+#include <functional>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -16,6 +17,7 @@ namespace liblevenshtein {
         virtual bool is_final() const;
         std::vector<char> labels() const;
         std::vector<DawgNode *> targets() const;
+        void for_each_edge(std::function<void(char, DawgNode *)> fn) const;
         DawgNode* transition(char label) const;
         DawgNode* add_edge(char label, DawgNode* target);
         void clear();

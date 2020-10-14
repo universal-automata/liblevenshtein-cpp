@@ -17,7 +17,8 @@
 !/src/**/*.cpp
 !/src/**/*.pxd
 
-!/test/**/CMakeLists.txt
+!/test/**/*.cpp
 !/test/**/*.h
 !/test/**/*.hpp
-!/test/**/*.cpp
+!/test/**/CMakeLists.txt
+!/test/config/rapidcheck.yaml

@@ -30,6 +30,12 @@ namespace liblevenshtein {
         return targets;
     }
 
+    void DawgNode::for_each_edge(std::function<void(char, DawgNode *)> fn) const {
+        for (auto& [label, target] : edges) {
+            fn(label, target);
+        }
+    }
+
     DawgNode* DawgNode::transition(char label) const {
         auto iter = edges.find(label);
         if (iter != edges.end()) {

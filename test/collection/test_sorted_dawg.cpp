@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <iterator>
+#include <random>
 #include <string>
 #include <vector>
 #include <set>
@@ -11,6 +12,8 @@
 
 #include "../../src/collection/sorted_dawg.h"
 
+namespace ll = liblevenshtein;
+
 
 struct std_str_cmp {
     bool operator()(const std::string &lhs, const std::string &rhs) const {
@@ -19,38 +22,58 @@ struct std_str_cmp {
 };
 
 
-RC_GTEST_PROP(SortedDawg, contains_all_terms, (std::set<std::string, std_str_cmp> terms)) {
-    liblevenshtein::Dawg *dawg = liblevenshtein::sorted_dawg(terms.begin(), terms.end());
-    RC_ASSERT(dawg != nullptr);
-    RC_ASSERT(terms.size() == dawg->get_size());
-    for (const std::string &term : terms) {
-        RC_ASSERT(dawg->contains(term));
+bool is_sorted(std::vector<std::string>& terms) {
+    std::string prev = terms[0];
+    for (int i = 1; i < terms.size(); i += 1) {
+        if (prev > terms[i]) {
+            return false;
+        }
+        prev = terms[i];
     }
-    delete dawg;
+    return true;
 }
 
 
-RC_GTEST_PROP(SortedDawg, does_not_contain_missing_terms,
+RC_GTEST_PROP(SortedDawg, rejects_unsorted_terms, (std::set<std::string> terms, unsigned seed)) {
+    RC_PRE(terms.size() > 1);
+    std::vector terms_to_add(terms.begin(), terms.end());
+    std::default_random_engine random_engine(seed);
+    while (is_sorted(terms_to_add)) {
+        std::shuffle(terms_to_add.begin(), terms_to_add.end(), random_engine);
+    }
+    ll::Dawg *dawg = ll::sorted_dawg(terms_to_add.begin(), terms_to_add.end());
+    RC_ASSERT(dawg == nullptr);
+}
+
+
+RC_GTEST_PROP(SortedDawg, contains_expected_terms,
               (std::set<std::string, std_str_cmp> terms_to_add,
                std::set<std::string, std_str_cmp> terms_to_ignore)) {
 
-    std::vector<std::string> terms;
+    for (const std::string& term : terms_to_ignore) {
+        terms_to_add.erase(term);
+    }
 
-    // Remove all terms from terms_to_add that are in terms_to_ignore
-    std::set_difference(terms_to_add.begin(), terms_to_add.end(),
-                        terms_to_ignore.begin(), terms_to_ignore.end(),
-                        std::inserter(terms, terms.begin()));
-
-    liblevenshtein::Dawg *dawg = liblevenshtein::sorted_dawg(terms.begin(), terms.end());
+    ll::Dawg *dawg = ll::sorted_dawg(terms_to_add.begin(), terms_to_add.end());
     RC_ASSERT(dawg != nullptr);
 
     if (terms_to_add.find("") == terms_to_add.end()) {
         RC_ASSERT(!dawg->contains(""));
     }
 
+    for (const std::string& term : terms_to_add) {
+        RC_ASSERT(dawg->contains(term));
+    }
+
     for (const std::string& term : terms_to_ignore) {
         RC_ASSERT(!dawg->contains(term));
     }
+
+    for (std::string term : *dawg) {
+        RC_ASSERT(terms_to_add.find(term) != terms_to_add.end());
+        terms_to_add.erase(term);
+    }
+    RC_ASSERT(terms_to_add.empty());
 
     delete dawg;
 }
