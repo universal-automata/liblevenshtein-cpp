@@ -4,7 +4,6 @@
 #include <functional>
 
 #include "position.h"
-#include <algorithm>
 
 
 namespace liblevenshtein {

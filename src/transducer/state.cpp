@@ -1,5 +1,4 @@
 #include "state.h"
-#include <algorithm>
 
 
 namespace liblevenshtein {

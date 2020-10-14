@@ -5,6 +5,7 @@ set(MODULE_SOURCES
   "special_position.cpp"
   "state.cpp"
   "state_iterator.cpp"
+  "subsumes.cpp"
   )
 
 file(GLOB MODULE_HEADERS "*.h")
