@@ -33,6 +33,8 @@ namespace liblevenshtein {
     private:
         std::map<char, DawgNode *> edges;
     };
+
+    std::queue<std::pair<char, DawgNode *>> get_edges(DawgNode *node);
 }
 
 namespace std {
