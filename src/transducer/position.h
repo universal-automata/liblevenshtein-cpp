@@ -11,6 +11,7 @@ namespace liblevenshtein {
     class Position {
     public:
         Position(std::size_t term_index, std::size_t num_errors);
+        ~Position();
 
         void set_next(Position *next);
         Position* get_next() const;

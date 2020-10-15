@@ -5,37 +5,38 @@
 
 namespace liblevenshtein {
 
-    template <Algorithm Type, class Node>
-    Intersection<Type, Node>::Intersection(Intersection<Type, Node> *parent,
-                                           char label, Node *node, State<Type> *state)
+    Intersection::Intersection(Intersection *parent, char label, DawgNode *node, State *state)
         : parent(parent),
           label(label),
           node(node),
           state(state)
     {}
 
-    template <Algorithm Type, class Node>
-    Intersection<Type, Node>::Intersection(char label, Node *node, State<Type> *state)
+    Intersection::Intersection(char label, DawgNode *node, State *state)
         : parent(nullptr),
           label(label),
           node(node),
           state(state)
     {}
 
-    template <Algorithm Type, class Node>
-    std::string Intersection<Type, Node>::str() const {
+    DawgNode *Intersection::get_node() const {
+        return node;
+    }
+
+    State *Intersection::get_state() const {
+        return state;
+    }
+
+    std::string Intersection::str() const {
         std::stringstream ss;
         ss << *this;
         return ss.str();
     }
 
-    template <Algorithm Type, class Node>
-    std::ostream &operator<<(std::ostream &out,
-                             const Intersection<Type, Node> &intersection) {
+    std::ostream &operator<<(std::ostream &out, const Intersection &intersection) {
         if (intersection.parent != nullptr) {
-            out << *(intersection.parent);
+            out << *(intersection.parent) << intersection.label;
         }
-        out << intersection.label;
         return out;
     }
 

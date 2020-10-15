@@ -3,15 +3,31 @@
 
 namespace liblevenshtein {
 
-    template <Algorithm Type>
-    State<Type>* State<Type>::set_head(Position* head) {
+    State::State(std::initializer_list<Position *> positions) {
+        Position *prev = nullptr;
+        for (Position *curr : positions) {
+            insert_after(prev, curr);
+            prev = curr;
+        }
+    }
+
+    State::~State() {
+        if (head != nullptr) {
+            delete head;
+        }
+    }
+
+    State* State::set_head(Position* head) {
         head->set_next(this->head);
         this->head = head;
         return this;
     }
 
-    template <Algorithm Type>
-    State<Type>* State<Type>::add(Position* next) {
+    Position *State::get_head() const {
+        return head;
+    }
+
+    State* State::add(Position* next) {
         if (head == nullptr) {
             head = next;
         }
@@ -25,8 +41,7 @@ namespace liblevenshtein {
         return this;
     }
 
-    template <Algorithm Type>
-    State<Type>* State<Type>::insert_after(Position *curr, Position *next) {
+    State* State::insert_after(Position *curr, Position *next) {
         if (curr != nullptr) {
             next->set_next(curr->get_next());
             curr->set_next(next);
@@ -37,8 +52,7 @@ namespace liblevenshtein {
         return this;
     }
 
-    template <Algorithm Type>
-    State<Type>* State<Type>::remove(Position *prev, Position *curr) {
+    State* State::remove(Position *prev, Position *curr) {
         Position* temp;
         if (prev != nullptr) {
             temp = prev->get_next();
@@ -52,8 +66,7 @@ namespace liblevenshtein {
         return this;
     }
 
-    template <Algorithm Type>
-    Position* State<Type>::merge_sort(Comparator<Type> compare, Position *lhs_head) {
+    Position* State::merge_sort(Comparator compare, Position *lhs_head) {
         if (lhs_head == nullptr || lhs_head->get_next() == nullptr) {
             return lhs_head;
         }
@@ -67,8 +80,7 @@ namespace liblevenshtein {
                      merge_sort(compare, rhs_head));
     }
 
-    template <Algorithm Type>
-    Position* State<Type>::merge(Comparator<Type> compare, Position *lhs_head, Position *rhs_head) {
+    Position* State::merge(Comparator compare, Position *lhs_head, Position *rhs_head) {
         Position temp(-1, -1);
         Position* next = &temp;
         Position* curr = next;
@@ -93,11 +105,11 @@ namespace liblevenshtein {
         }
 
         curr = next->get_next();
+        temp.set_next(nullptr); // so the transitions aren't deleted
         return curr;
     }
 
-    template <Algorithm Type>
-    Position* State<Type>::find_middle(Position *head) {
+    Position* State::find_middle(Position *head) {
         Position* slow = head;
         Position* fast = head;
 
@@ -109,20 +121,17 @@ namespace liblevenshtein {
         return slow;
     }
 
-    template <Algorithm Type>
-    State<Type>* State<Type>::sort(Comparator<Type> compare) {
+    State* State::sort(Comparator compare) {
         head = merge_sort(compare, head);
         return this;
     }
 
-    template <Algorithm Type>
-    StateIterator<Type> State<Type>::begin() {
-        return StateIterator<Type>(this, head);
+    StateIterator State::begin() {
+        return StateIterator(this, head);
     }
 
-    template <Algorithm Type>
-    StateIterator<Type> State<Type>::end() {
-        return StateIterator<Type>(this, nullptr);
+    StateIterator State::end() {
+        return StateIterator(this, nullptr);
     }
 
 } // namespace liblevenshtein

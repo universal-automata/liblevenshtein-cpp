@@ -1,7 +1,6 @@
 #include "../utils/MurmurHash2.h"
 #include "dawg_node.h"
 
-
 namespace liblevenshtein {
 
     DawgNode::DawgNode(std::map<char, DawgNode *> &edges)
@@ -90,6 +89,15 @@ namespace liblevenshtein {
         out << "}}";
         return out;
     }
+
+    std::queue<std::pair<char, DawgNode *>> get_edges(DawgNode *node) {
+        std::queue<std::pair<char, DawgNode *>> edges;
+        node->for_each_edge([&](char label, DawgNode *target) {
+            edges.push(std::pair<char, DawgNode *>(label, target));
+        });
+        return edges;
+    }
+
 } // namespace liblevenshtein
 
 

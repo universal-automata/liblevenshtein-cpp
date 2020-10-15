@@ -4,47 +4,31 @@
 #include <iostream>
 #include <string>
 
-#include "algorithm.h"
+#include "../collection/dawg_node.h"
 #include "state.h"
 
 
 namespace liblevenshtein {
 
-    template <Algorithm Type, class Node>
-    class Intersection;
-
-    template <Algorithm Type, class Node>
-    std::ostream &operator<<(std::ostream &out, const Intersection<Type, Node> &intersection);
-
-    template <Algorithm Type, class Node>
     class Intersection {
     public:
-        Intersection(Intersection<Type, Node> *parent,
-                     char label, Node *node, State<Type> *state);
+        Intersection(Intersection *parent, char label, DawgNode *node, State *state);
 
-        Intersection(char label, Node *node, State<Type> *state);
+        Intersection(char label, DawgNode *node, State *state);
+
+        DawgNode *get_node() const;
+        State *get_state() const;
 
         std::string str() const;
 
-        friend std::ostream &operator << <Type, Node>(
-            std::ostream &out,
-            const Intersection<Type, Node> &intersection);
+        friend std::ostream &operator<<(std::ostream &out, const Intersection &intersection);
 
       private:
-        Intersection<Type, Node> *parent;
+        Intersection *parent;
         char label;
-        Node *node;
-        State<Type> *state;
+        DawgNode *node;
+        State *state;
     };
-
-    template <class Node>
-    class Intersection<Algorithm::STANDARD, Node>;
-
-    template <class Node>
-    class Intersection<Algorithm::TRANSPOSITION, Node>;
-
-    template <class Node>
-    class Intersection<Algorithm::MERGE_AND_SPLIT, Node>;
 
 } // namespace liblevenshtein
 

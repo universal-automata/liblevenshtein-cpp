@@ -8,6 +8,12 @@ namespace liblevenshtein {
           num_errors(num_errors)
     {}
 
+    Position::~Position() {
+        if (next != nullptr) {
+            delete next;
+        }
+    }
+
     void Position::set_next(Position *next) {
         this->next = next;
     }

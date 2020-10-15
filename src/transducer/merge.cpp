@@ -7,7 +7,7 @@
 namespace liblevenshtein {
 
     template <Algorithm Type>
-    void Merge<Type>::insert_after(State<Type> *state, Position *curr, Position *next) {
+    void Merge<Type>::insert_after(State *state, Position *curr, Position *next) {
         if (curr == nullptr) {
             state->set_head(next);
         }
@@ -17,14 +17,14 @@ namespace liblevenshtein {
     }
 
     template <Algorithm Type>
-    void Merge<Type>::operator()(State<Type> *state, State<Type> *positions) {
+    void Merge<Type>::operator()(State *state, State *positions) {
         for (Position *a : *positions) {
             std::size_t i = a->get_term_index();
             std::size_t e = a->get_num_errors();
             bool s = a->is_special();
 
-            StateIterator<Type> iter = state->begin();
-            StateIterator<Type> iter_end = state->end();
+            StateIterator iter = state->begin();
+            StateIterator iter_end = state->end();
             Position *p = nullptr;
 
             while (iter != iter_end) {
@@ -61,13 +61,13 @@ namespace liblevenshtein {
     }
 
     template <>
-    void Merge<Algorithm::STANDARD>::operator()(State<Algorithm::STANDARD> *state, State<Algorithm::STANDARD> *positions) {
+    void Merge<Algorithm::STANDARD>::operator()(State *state, State *positions) {
         for (Position *a : *positions) {
             std::size_t i = a->get_term_index();
             std::size_t e = a->get_num_errors();
 
-            StateIterator<Algorithm::STANDARD> iter = state->begin();
-            StateIterator<Algorithm::STANDARD> iter_end = state->end();
+            StateIterator iter = state->begin();
+            StateIterator iter_end = state->end();
             Position *p = nullptr;
 
             while (iter != iter_end) {

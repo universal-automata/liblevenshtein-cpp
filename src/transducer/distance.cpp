@@ -7,7 +7,7 @@
 namespace liblevenshtein {
 
     template <Algorithm Type>
-    std::size_t distance(State<Type> *state, std::size_t query_length) {
+    std::size_t distance(State *state, std::size_t query_length) {
         std::size_t min_distance = std::numeric_limits<std::size_t>::max();
         for (Position *position : *state) {
             if (!position->is_special()) {
@@ -23,7 +23,8 @@ namespace liblevenshtein {
     }
 
     template <>
-    std::size_t distance(State<Algorithm::STANDARD> *state, std::size_t query_length) {
+    std::size_t distance<Algorithm::STANDARD>(State *state,
+                                              std::size_t query_length) {
         std::size_t min_distance = std::numeric_limits<std::size_t>::max();
         for (Position *position : *state) {
             std::size_t i = position->get_term_index();

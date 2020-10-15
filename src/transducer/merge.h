@@ -11,9 +11,9 @@ namespace liblevenshtein {
     template <Algorithm Type>
     class Merge {
     public:
-        void operator()(State<Type> *state, State<Type> *positions);
+        void operator()(State *state, State *positions);
     private:
-        void insert_after(State<Type> *state, Position *curr, Position *next);
+        void insert_after(State *state, Position *curr, Position *next);
     };
 
     template class Merge<Algorithm::STANDARD>;
