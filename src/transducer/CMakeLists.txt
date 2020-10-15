@@ -2,10 +2,10 @@ set(MODULE_NAME "transducer")
 
 set(MODULE_SOURCES
   "position.cpp"
-  "special_position.cpp"
   "state.cpp"
   "state_iterator.cpp"
   "subsumes.cpp"
+  "unsubsume.cpp"
   )
 
 file(GLOB MODULE_HEADERS "*.h")

@@ -6,7 +6,7 @@ set(TEST_SOURCES
   "test_prefix.cpp"
   "test_transition.cpp"
   "test_sorted_dawg.cpp"
-  "test_${MODULE_NAME}.cpp"
+  "test_module.cpp"
   )
 
 add_executable(test-${MODULE_NAME} ${TEST_SOURCES})

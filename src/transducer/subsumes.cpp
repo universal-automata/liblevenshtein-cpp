@@ -4,7 +4,9 @@
 namespace liblevenshtein {
 
     template <>
-    bool subsumes<Algorithm::STANDARD>(Position *lhs, Position *rhs, std::size_t n) {
+    bool subsumes(Position<Algorithm::STANDARD> *lhs,
+                  Position<Algorithm::STANDARD> *rhs,
+                  std::size_t n) {
         std::size_t i = lhs->get_term_index();
         std::size_t e = lhs->get_num_errors();
         std::size_t j = rhs->get_term_index();
@@ -13,10 +15,13 @@ namespace liblevenshtein {
     }
 
     template <>
-    bool subsumes<Algorithm::TRANSPOSITION>(Position *lhs, Position *rhs, std::size_t n) {
+    bool subsumes(Position<Algorithm::TRANSPOSITION> *lhs,
+                  Position<Algorithm::TRANSPOSITION> *rhs,
+                  std::size_t n) {
         std::size_t i = lhs->get_term_index();
         std::size_t e = lhs->get_num_errors();
         bool s = lhs->is_special();
+
         std::size_t j = rhs->get_term_index();
         std::size_t f = rhs->get_num_errors();
         bool t = lhs->is_special();
@@ -37,7 +42,9 @@ namespace liblevenshtein {
     }
 
     template <>
-    bool subsumes<Algorithm::MERGE_AND_SPLIT>(Position *lhs, Position *rhs, std::size_t n) {
+    bool subsumes(Position<Algorithm::MERGE_AND_SPLIT> *lhs,
+                  Position<Algorithm::MERGE_AND_SPLIT> *rhs,
+                  std::size_t n) {
         std::size_t i = lhs->get_term_index();
         std::size_t e = lhs->get_num_errors();
         bool s = lhs->is_special();

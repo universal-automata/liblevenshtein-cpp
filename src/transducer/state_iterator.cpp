@@ -3,12 +3,14 @@
 
 namespace liblevenshtein {
 
-    StateIterator::StateIterator(State* state, Position* head)
+    template <Algorithm Type>
+    StateIterator<Type>::StateIterator(State<Type>* state, Position<Type>* head)
         : state(state),
           lookahead(head)
     {}
 
-    StateIterator::StateIterator(const StateIterator &iter)
+    template <Algorithm Type>
+    StateIterator<Type>::StateIterator(const StateIterator<Type> &iter)
         : state(iter.state),
           lookahead(iter.lookahead),
           next(iter.next),
@@ -16,7 +18,8 @@ namespace liblevenshtein {
           prev(iter.prev)
     {}
 
-    StateIterator::StateIterator(StateIterator &&iter) noexcept
+    template <Algorithm Type>
+    StateIterator<Type>::StateIterator(StateIterator<Type> &&iter) noexcept
         : state(iter.state),
           lookahead(iter.lookahead),
           next(iter.next),
@@ -24,20 +27,24 @@ namespace liblevenshtein {
           prev(iter.prev)
     {}
 
-    StateIterator& StateIterator::operator++() {
+    template <Algorithm Type>
+    StateIterator<Type> &StateIterator<Type>::operator++() {
         advance();
         return *this;
     }
 
-    Position* StateIterator::operator*() const {
+    template <Algorithm Type>
+    Position<Type> *StateIterator<Type>::operator*() const {
         return next;
     }
 
-    bool StateIterator::operator!=(const StateIterator &other) const {
+    template <Algorithm Type>
+    bool StateIterator<Type>::operator!=(const StateIterator<Type> &other) const {
         return lookahead == other.lookahead;
     }
 
-    void StateIterator::insert(Position* position) {
+    template <Algorithm Type>
+    void StateIterator<Type>::insert(Position<Type>* position) {
         if (curr != nullptr) {
             state->insert_after(curr, position);
         }
@@ -47,14 +54,16 @@ namespace liblevenshtein {
         lookahead = position;
     }
 
-    void StateIterator::remove() {
+    template <Algorithm Type>
+    void StateIterator<Type>::remove() {
         if (curr != nullptr) {
             state->remove(prev, curr);
             curr = nullptr;
         }
     }
 
-    void StateIterator::advance() {
+    template <Algorithm Type>
+    void StateIterator<Type>::advance() {
         if (lookahead != nullptr) {
             next = lookahead;
             if (curr != nullptr) {

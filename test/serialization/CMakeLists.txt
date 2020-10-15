@@ -1,7 +1,7 @@
 # set(MODULE_NAME "serialization")
 
 # set(TEST_SOURCES
-#   "test_${MODULE_NAME}.cpp")
+#   "test_module.cpp")
 
 # add_executable(test-${MODULE_NAME} ${TEST_SOURCES})
 # add_test(NAME test-${MODULE_NAME} COMMAND test-${MODULE_NAME})
