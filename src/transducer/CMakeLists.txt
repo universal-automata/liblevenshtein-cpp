@@ -9,6 +9,7 @@ set(MODULE_SOURCES
   "candidate.cpp"
   "distance.cpp"
   "merge.cpp"
+  "intersection.cpp"
   )
 
 file(GLOB MODULE_HEADERS "*.h")
