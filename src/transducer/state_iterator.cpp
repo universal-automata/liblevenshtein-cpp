@@ -4,7 +4,7 @@
 namespace liblevenshtein {
 
     template <Algorithm Type>
-    StateIterator<Type>::StateIterator(State<Type>* state, Position<Type>* head)
+    StateIterator<Type>::StateIterator(State<Type>* state, Position* head)
         : state(state),
           lookahead(head)
     {}
@@ -34,7 +34,7 @@ namespace liblevenshtein {
     }
 
     template <Algorithm Type>
-    Position<Type> *StateIterator<Type>::operator*() const {
+    Position *StateIterator<Type>::operator*() const {
         return next;
     }
 
@@ -44,7 +44,7 @@ namespace liblevenshtein {
     }
 
     template <Algorithm Type>
-    void StateIterator<Type>::insert(Position<Type>* position) {
+    void StateIterator<Type>::insert(Position* position) {
         if (curr != nullptr) {
             state->insert_after(curr, position);
         }

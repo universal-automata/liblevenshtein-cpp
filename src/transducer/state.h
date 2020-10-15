@@ -11,7 +11,7 @@
 namespace liblevenshtein {
 
     template <Algorithm Type>
-    using Comparator = std::function<int(Position<Type> *, Position<Type> *)>;
+    using Comparator = std::function<int(Position *, Position *)>;
 
     template <Algorithm Type>
     class StateIterator;
@@ -19,21 +19,21 @@ namespace liblevenshtein {
     template <Algorithm Type>
     class State {
     public:
-        State<Type> *set_head(Position<Type> *head);
-        State<Type> *add(Position<Type> *head);
-        State<Type> *insert_after(Position<Type> *curr, Position<Type> *next);
-        State<Type> *remove(Position<Type> *prev, Position<Type> *curr);
+        State<Type> *set_head(Position *head);
+        State<Type> *add(Position *head);
+        State<Type> *insert_after(Position *curr, Position *next);
+        State<Type> *remove(Position *prev, Position *curr);
         State<Type> *sort(Comparator<Type> compare);
 
         StateIterator<Type> begin();
         StateIterator<Type> end();
 
       private:
-        Position<Type> *head = nullptr;
+        Position *head = nullptr;
 
-        Position<Type> *merge_sort(Comparator<Type> compare, Position<Type> *lhs_head);
-        Position<Type> *merge(Comparator<Type> compare, Position<Type> *lhs_head, Position<Type> *rhs_head);
-        Position<Type> *find_middle(Position<Type> *head);
+        Position *merge_sort(Comparator<Type> compare, Position *lhs_head);
+        Position *merge(Comparator<Type> compare, Position *lhs_head, Position *rhs_head);
+        Position *find_middle(Position *head);
     };
 
     template class State<Algorithm::STANDARD>;

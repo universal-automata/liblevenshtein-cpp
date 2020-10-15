@@ -13,7 +13,7 @@
 namespace liblevenshtein {
 
     template <Algorithm Type>
-    using Subsumes = std::function<bool(Position<Type> *, Position<Type> *, std::size_t)>;
+    using Subsumes = std::function<bool(Position *, Position *, std::size_t)>;
 
     template <Algorithm Type>
     class Unsubsume {

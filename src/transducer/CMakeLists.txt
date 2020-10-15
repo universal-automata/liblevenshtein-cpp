@@ -6,6 +6,9 @@ set(MODULE_SOURCES
   "state_iterator.cpp"
   "subsumes.cpp"
   "unsubsume.cpp"
+  "candidate.cpp"
+  "distance.cpp"
+  "merge.cpp"
   )
 
 file(GLOB MODULE_HEADERS "*.h")

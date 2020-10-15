@@ -14,23 +14,23 @@ namespace liblevenshtein {
     template <Algorithm Type>
     class StateIterator {
     public:
-        StateIterator(State<Type>* state, Position<Type>* head);
+        StateIterator(State<Type>* state, Position* head);
         StateIterator(const StateIterator<Type> &iter);
         StateIterator(StateIterator<Type> &&iter) noexcept;
 
-        void insert(Position<Type>* position);
+        void insert(Position* position);
         void remove();
 
         StateIterator<Type>& operator++();
-        Position<Type>* operator*() const;
+        Position* operator*() const;
         bool operator!=(const StateIterator<Type> &other) const;
 
       private:
         State<Type>* state;
-        Position<Type>* lookahead;
-        Position<Type>* next = nullptr;
-        Position<Type>* curr = nullptr;
-        Position<Type>* prev = nullptr;
+        Position* lookahead;
+        Position* next = nullptr;
+        Position* curr = nullptr;
+        Position* prev = nullptr;
 
         void advance();
     };
