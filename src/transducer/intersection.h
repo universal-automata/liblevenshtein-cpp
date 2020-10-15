@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-#include "../collection/dawg_node.h"
 #include "algorithm.h"
 #include "state.h"
 
@@ -38,9 +37,14 @@ namespace liblevenshtein {
         State<Type> *state;
     };
 
-    template class Intersection<Algorithm::STANDARD, DawgNode>;
-    template class Intersection<Algorithm::TRANSPOSITION, DawgNode>;
-    template class Intersection<Algorithm::MERGE_AND_SPLIT, DawgNode>;
+    template <class Node>
+    class Intersection<Algorithm::STANDARD, Node>;
+
+    template <class Node>
+    class Intersection<Algorithm::TRANSPOSITION, Node>;
+
+    template <class Node>
+    class Intersection<Algorithm::MERGE_AND_SPLIT, Node>;
 
 } // namespace liblevenshtein
 
