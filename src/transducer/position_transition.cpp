@@ -7,10 +7,8 @@
 
 namespace liblevenshtein {
 
-    template <Algorithm Type>
-    std::size_t PositionTransition<Type>::index_of(std::vector<bool> &characteristic_vector,
-                                                   std::size_t k,
-                                                   std::size_t i) {
+    std::size_t index_of(std::vector<bool> &characteristic_vector,
+                         std::size_t k, std::size_t i) {
         for (std::size_t j = 0; j < k; j += 1) {
             if (characteristic_vector[i + j]) {
                 return j;
@@ -20,7 +18,7 @@ namespace liblevenshtein {
     }
 
     template <>
-    State * PositionTransition<Algorithm::STANDARD>::operator()(
+    State * position_transition<Algorithm::STANDARD>(
         std::size_t n, Position *position,
         std::vector<bool> &characteristic_vector, std::size_t offset) {
 
@@ -86,7 +84,7 @@ namespace liblevenshtein {
     }
 
     template <>
-    State * PositionTransition<Algorithm::TRANSPOSITION>::operator()(
+    State * position_transition<Algorithm::TRANSPOSITION>(
         std::size_t n, Position *position,
         std::vector<bool> &characteristic_vector, std::size_t offset) {
 
@@ -236,7 +234,7 @@ namespace liblevenshtein {
     }
 
     template <>
-    State * PositionTransition<Algorithm::MERGE_AND_SPLIT>::operator()(
+    State * position_transition<Algorithm::MERGE_AND_SPLIT>(
         std::size_t n, Position *position,
         std::vector<bool> &characteristic_vector, std::size_t offset) {
 
