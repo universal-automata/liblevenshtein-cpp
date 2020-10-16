@@ -27,7 +27,6 @@ namespace liblevenshtein {
                   DawgNode *root,
                   State *initial_state,
                   TransitionFn transition,
-                  GetEdgesFn get_edges,
                   DistanceFn min_distance);
 
         ~LazyQuery();
@@ -37,23 +36,22 @@ namespace liblevenshtein {
         bool operator!=(const LazyQuery &other) const;
 
     private:
-        std::vector<Intersection *> intersections;
-        std::queue<Intersection *> pending;
-        std::queue<std::pair<char, DawgNode *>> edges;
+        std::vector<Intersection *> _intersections;
+        std::queue<Intersection *> _pending;
+        std::queue<std::pair<char, DawgNode *>> _edges;
 
-        bool is_complete = false;
-        Intersection *intersection = nullptr;
-        Result candidate;
+        bool _is_complete = false;
+        Intersection *_intersection = nullptr;
+        Result _candidate;
 
-        std::string term;
-        std::size_t max_distance;
+        std::string _term;
+        std::size_t _max_distance;
         TransitionFn transition;
-        GetEdgesFn get_edges;
         DistanceFn min_distance;
 
-        std::size_t a;
-        std::size_t k;
-        std::size_t i;
+        std::size_t _a;
+        std::size_t _k;
+        std::size_t _i;
 
         void update_candidate(std::string &term, std::size_t distance);
 

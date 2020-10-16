@@ -8,17 +8,19 @@
 
 namespace liblevenshtein {
 
-    template <Algorithm Type>
-    class Merge {
-    public:
-        void operator()(State *state, State *positions);
-    private:
-        void insert_after(State *state, Position *curr, Position *next);
-    };
+    void insert_after(State *state, Position *curr, Position *next);
 
-    template class Merge<Algorithm::STANDARD>;
-    template class Merge<Algorithm::TRANSPOSITION>;
-    template class Merge<Algorithm::MERGE_AND_SPLIT>;
+    template <Algorithm Type>
+    void merge(State *state, State *positions);
+
+    template <>
+    void merge<Algorithm::STANDARD>(State *state, State *positions);
+
+    template <>
+    void merge<Algorithm::TRANSPOSITION>(State *state, State *positions);
+
+    template <>
+    void merge<Algorithm::MERGE_AND_SPLIT>(State *state, State *positions);
 
 } // namespace liblevenshtein
 

@@ -22,8 +22,8 @@ namespace liblevenshtein {
         std::size_t n, Position *position,
         std::vector<bool> &characteristic_vector, std::size_t offset) {
 
-        std::size_t i = position->get_term_index();
-        std::size_t e = position->get_num_errors();
+        std::size_t i = position->term_index();
+        std::size_t e = position->num_errors();
         std::size_t h = i - offset;
         std::size_t w = characteristic_vector.size();
 
@@ -88,8 +88,8 @@ namespace liblevenshtein {
         std::size_t n, Position *position,
         std::vector<bool> &characteristic_vector, std::size_t offset) {
 
-        std::size_t i = position->get_term_index();
-        std::size_t e = position->get_num_errors();
+        std::size_t i = position->term_index();
+        std::size_t e = position->num_errors();
         bool t = position->is_special();
         std::size_t h = i - offset;
         std::size_t w = characteristic_vector.size();
@@ -111,7 +111,7 @@ namespace liblevenshtein {
                 case 1:
                     return new State({
                         new Position(i, 1),
-                        new SpecialPosition(i, 1),
+                        new Position(i, 1, true),
                         new Position(i + 1, 1),
                         new Position(i + 2, 1)
                     });
@@ -165,7 +165,7 @@ namespace liblevenshtein {
                     case 1:
                         return new State({
                             new Position(i, e + 1),
-                            new SpecialPosition(i, e + 1),
+                            new Position(i, e + 1, true),
                             new Position(i + 1, e + 1),
                             new Position(i + 2, e + 1)
                         });
@@ -238,8 +238,8 @@ namespace liblevenshtein {
         std::size_t n, Position *position,
         std::vector<bool> &characteristic_vector, std::size_t offset) {
 
-        std::size_t i = position->get_term_index();
-        std::size_t e = position->get_num_errors();
+        std::size_t i = position->term_index();
+        std::size_t e = position->num_errors();
         bool s = position->is_special();
         std::size_t h = i - offset;
         std::size_t w = characteristic_vector.size();
@@ -254,7 +254,7 @@ namespace liblevenshtein {
 
                 return new State({
                     new Position(i, e + 1),
-                    new SpecialPosition(i, e + 1),
+                    new Position(i, e + 1, true),
                     new Position(i + 1, e + 1),
                     new Position(i + 2, e + 1)
                 });
@@ -269,7 +269,7 @@ namespace liblevenshtein {
 
                 return new State({
                     new Position(i, e + 1),
-                    new SpecialPosition(i, e + 1),
+                    new Position(i, e + 1, true),
                     new Position(i + 1, e + 1)
                 });
             }
@@ -290,7 +290,7 @@ namespace liblevenshtein {
 
                     return new State({
                         new Position(i, e + 1),
-                        new SpecialPosition(i, e + 1),
+                        new Position(i, e + 1, true),
                         new Position(i + 1, e + 1),
                         new Position(i + 2, e + 1)
                     });
@@ -311,7 +311,7 @@ namespace liblevenshtein {
 
                     return new State({
                         new Position(i, e + 1),
-                        new SpecialPosition(i, e + 1),
+                        new Position(i, e + 1, true),
                         new Position(i + 1, e + 1)
                     });
                 }

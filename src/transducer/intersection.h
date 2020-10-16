@@ -16,18 +16,18 @@ namespace liblevenshtein {
 
         Intersection(char label, DawgNode *node, State *state);
 
-        DawgNode *get_node() const;
-        State *get_state() const;
+        DawgNode *node() const;
+        State *state() const;
 
         std::string str() const;
 
         friend std::ostream &operator<<(std::ostream &out, const Intersection &intersection);
 
-      private:
-        Intersection *parent;
-        char label;
-        DawgNode *node;
-        State *state;
+    private:
+        Intersection *_parent;
+        char _label;
+        DawgNode *_node;
+        State *_state;
     };
 
 } // namespace liblevenshtein

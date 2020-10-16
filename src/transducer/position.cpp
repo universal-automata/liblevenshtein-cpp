@@ -3,39 +3,36 @@
 
 namespace liblevenshtein {
 
-    Position::Position(std::size_t term_index, std::size_t num_errors)
-        : term_index(term_index),
-          num_errors(num_errors)
+    Position::Position(std::size_t term_index, std::size_t num_errors, bool is_special)
+        : _term_index(term_index),
+          _num_errors(num_errors),
+          _is_special(is_special)
     {}
 
     Position::~Position() {
-        if (next != nullptr) {
-            delete next;
+        if (_next != nullptr) {
+            delete _next;
         }
     }
 
-    void Position::set_next(Position *next) {
-        this->next = next;
+    void Position::next(Position *next) {
+        _next = next;
     }
 
-    Position *Position::get_next() const {
-        return next;
+    Position *Position::next() const {
+        return _next;
     }
 
-    std::size_t Position::get_term_index() const {
-        return term_index;
+    std::size_t Position::term_index() const {
+        return _term_index;
     }
 
-    std::size_t Position::get_num_errors() const {
-        return num_errors;
+    std::size_t Position::num_errors() const {
+        return _num_errors;
     }
 
     bool Position::is_special() const {
-      return false;
-    }
-
-    bool SpecialPosition::is_special() const {
-        return true;
+      return _is_special;
     }
 
 } // namespace liblevenshtein

@@ -7,7 +7,9 @@
 #include <rapidcheck/gtest.h>
 
 #include "../../src/collection/dawg_node.h"
-#include "../../src/collection/final_dawg_node.h"
+
+namespace ll = liblevenshtein;
+
 
 RC_GTEST_PROP(DawgNode, is_comparable, (const std::unordered_set<char> xs,
                                         const bool xs_is_final,
@@ -16,24 +18,16 @@ RC_GTEST_PROP(DawgNode, is_comparable, (const std::unordered_set<char> xs,
                                         const bool ys_is_final,
                                         const bool ys_has_final_transitions)) {
 
-    liblevenshtein::DawgNode *xs_node = xs_is_final
-        ? new liblevenshtein::FinalDawgNode()
-        : new liblevenshtein::DawgNode();
+    ll::DawgNode *xs_node = new ll::DawgNode(xs_is_final);
 
     for (const char label : xs) {
-        xs_node->add_edge(label, xs_has_final_transitions
-            ? new liblevenshtein::FinalDawgNode()
-            : new liblevenshtein::DawgNode());
+        xs_node->add_edge(label, new ll::DawgNode(xs_has_final_transitions));
     }
 
-    liblevenshtein::DawgNode *ys_node = ys_is_final
-        ? new liblevenshtein::FinalDawgNode()
-        : new liblevenshtein::DawgNode();
+    ll::DawgNode *ys_node = new ll::DawgNode(ys_is_final);
 
     for (const char label : ys) {
-        ys_node->add_edge(label, ys_has_final_transitions
-            ? new liblevenshtein::FinalDawgNode()
-            : new liblevenshtein::DawgNode());
+        ys_node->add_edge(label, new ll::DawgNode(ys_has_final_transitions));
     }
 
     if (xs == ys && xs_is_final == ys_is_final &&
@@ -49,25 +43,25 @@ RC_GTEST_PROP(DawgNode, is_comparable, (const std::unordered_set<char> xs,
 
 RC_GTEST_PROP(DawgNode, has_equivalent_constructors, (const std::unordered_set<char> labels,
                                                       const bool is_final)) {
-    liblevenshtein::DawgNode *lhs;
-    liblevenshtein::DawgNode *rhs;
+    ll::DawgNode *lhs;
+    ll::DawgNode *rhs;
 
-    std::map<char, liblevenshtein::DawgNode *> edges;
+    std::map<char, ll::DawgNode *> edges;
     for (const char label : labels) {
-        edges[label] = new liblevenshtein::DawgNode();
+        edges[label] = new ll::DawgNode();
     }
 
     if (is_final) {
-        lhs = new liblevenshtein::FinalDawgNode();
-        rhs = new liblevenshtein::FinalDawgNode(edges);
+        lhs = new ll::DawgNode(true);
+        rhs = new ll::DawgNode(edges, true);
     }
     else {
-        lhs = new liblevenshtein::DawgNode();
-        rhs = new liblevenshtein::DawgNode(edges);
+        lhs = new ll::DawgNode();
+        rhs = new ll::DawgNode(edges);
     }
 
     for (const char label : labels) {
-        lhs->add_edge(label, new liblevenshtein::DawgNode());
+        lhs->add_edge(label, new ll::DawgNode());
     }
 
     RC_ASSERT(*lhs == *rhs);
@@ -89,31 +83,27 @@ RC_GTEST_PROP(DawgNode, can_have_edges_added_and_cleared,
               (const std::unordered_set<char> labels,
                const bool is_final)) {
 
-    liblevenshtein::DawgNode *node = is_final
-        ? new liblevenshtein::FinalDawgNode()
-        : new liblevenshtein::DawgNode();
+    ll::DawgNode *node = new ll::DawgNode(is_final);
 
-    std::map<char, liblevenshtein::DawgNode *> edges;
+    std::map<char, ll::DawgNode *> edges;
 
     for (const char label : labels) {
-        liblevenshtein::DawgNode *target = new liblevenshtein::DawgNode();
+        ll::DawgNode *target = new ll::DawgNode();
         edges[label] = target;
         node->add_edge(label, target);
     }
 
-    std::vector<char> outgoing_labels = node->labels();
+    std::vector<char> outgoing_labels;
+    node->for_each_edge([&](char label, ll::DawgNode *target) {
+        outgoing_labels.push_back(label);
+    });
+
     RC_ASSERT(labels == std::unordered_set<char>(outgoing_labels.begin(), outgoing_labels.end()));
 
     for (const char label : labels) {
-        liblevenshtein::DawgNode *target = node->transition(label);
+        ll::DawgNode *target = node->transition(label);
         RC_ASSERT(target != nullptr);
         RC_ASSERT(target == edges[label]); // pointer comparison
-    }
-
-    node->clear();
-    for (const char label : labels) {
-        liblevenshtein::DawgNode *target = node->transition(label);
-        RC_ASSERT(target == nullptr);
     }
 
     delete node;

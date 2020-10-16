@@ -4,8 +4,6 @@
 #include <functional>
 #include <iostream>
 #include <map>
-#include <queue>
-#include <utility>
 #include <vector>
 
 
@@ -13,16 +11,16 @@ namespace liblevenshtein {
 
     class DawgNode {
     public:
-        DawgNode() = default;
-        DawgNode(std::map<char, DawgNode *>& edges);
+        DawgNode(bool is_final = false);
+        DawgNode(std::map<char, DawgNode *>& edges, bool is_final=false);
 
-        virtual bool is_final() const;
-        std::vector<char> labels() const;
-        std::vector<DawgNode *> targets() const;
+        void is_final(bool is_final);
+        bool is_final() const;
+
         void for_each_edge(std::function<void(char, DawgNode *)> fn) const;
+
         DawgNode* transition(char label) const;
         DawgNode* add_edge(char label, DawgNode* target);
-        void clear();
 
         bool operator==(const DawgNode &other) const;
         bool operator!=(const DawgNode &other) const;
@@ -31,10 +29,9 @@ namespace liblevenshtein {
         friend std::ostream &operator<<(std::ostream &out, const DawgNode &node);
 
     private:
-        std::map<char, DawgNode *> edges;
+        std::map<char, DawgNode *> _edges;
+        bool _is_final = false;
     };
-
-    std::queue<std::pair<char, DawgNode *>> get_edges(DawgNode *node);
 }
 
 namespace std {

@@ -10,25 +10,20 @@ namespace liblevenshtein {
 
     class Position {
     public:
-        Position(std::size_t term_index, std::size_t num_errors);
+        Position(std::size_t term_index, std::size_t num_errors, bool is_special=false);
         ~Position();
 
-        void set_next(Position *next);
-        Position* get_next() const;
+        void next(Position *next);
+        Position* next() const;
 
-        std::size_t get_term_index() const;
-        std::size_t get_num_errors() const;
-        virtual bool is_special() const;
+        std::size_t term_index() const;
+        std::size_t num_errors() const;
+        bool is_special() const;
     private:
-        Position* next = nullptr;
-        std::size_t term_index;
-        std::size_t num_errors;
-    };
-
-    class SpecialPosition : public Position {
-    public:
-        using Position::Position;
-        bool is_special() const override;
+        Position* _next = nullptr;
+        std::size_t _term_index;
+        std::size_t _num_errors;
+        bool _is_special;
     };
 
 } // namespace liblevenshtein

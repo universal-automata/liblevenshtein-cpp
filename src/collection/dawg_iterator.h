@@ -20,10 +20,10 @@ namespace liblevenshtein {
         std::string operator*() const;
         bool operator!=(const DawgIterator& other) const;
     private:
-        std::vector<Prefix *> prefixes;
-        std::queue<Prefix *> pending;
-        std::string next_value;
-        std::size_t term_index = 0;
+        std::vector<Prefix *> _prefixes;
+        std::queue<Prefix *> _pending;
+        std::string _next_value;
+        std::size_t _term_index = 0;
 
         void advance();
     };

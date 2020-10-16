@@ -3,39 +3,32 @@
 
 namespace liblevenshtein {
 
-    DawgNode::DawgNode(std::map<char, DawgNode *> &edges)
-        : edges(edges)
+    DawgNode::DawgNode(std::map<char, DawgNode *> &edges, bool is_final)
+        : _edges(edges),
+          _is_final(is_final)
     {}
 
+    DawgNode::DawgNode(bool is_final)
+        : _is_final(is_final)
+    {}
+
+    void DawgNode::is_final(bool is_final) {
+        _is_final = is_final;
+    }
+
     bool DawgNode::is_final() const {
-        return false;
-    }
-
-    std::vector<char> DawgNode::labels() const {
-        std::vector<char> labels;
-        for (const auto& [label, target] : edges) {
-            labels.push_back(label);
-        }
-        return labels;
-    }
-
-    std::vector<DawgNode *> DawgNode::targets() const {
-        std::vector<DawgNode *> targets;
-        for (const auto& [label, target] : edges) {
-            targets.push_back(target);
-        }
-        return targets;
+        return _is_final;
     }
 
     void DawgNode::for_each_edge(std::function<void(char, DawgNode *)> fn) const {
-        for (auto& [label, target] : edges) {
+        for (auto& [label, target] : _edges) {
             fn(label, target);
         }
     }
 
     DawgNode* DawgNode::transition(char label) const {
-        auto iter = edges.find(label);
-        if (iter != edges.end()) {
+        auto iter = _edges.find(label);
+        if (iter != _edges.end()) {
             return iter->second;
         }
         return nullptr;
@@ -46,12 +39,8 @@ namespace liblevenshtein {
         if (existing != nullptr) {
             delete existing;
         }
-        edges[label] = target;
+        _edges[label] = target;
         return this;
-    }
-
-    void DawgNode::clear() {
-        edges.clear();
     }
 
     bool DawgNode::operator==(const DawgNode &other) const {
@@ -59,11 +48,11 @@ namespace liblevenshtein {
             return false;
         }
 
-        if (edges.size() != other.edges.size()) {
+        if (_edges.size() != other._edges.size()) {
             return false;
         }
 
-        for (auto const& [label, expected_target] : edges) {
+        for (auto const& [label, expected_target] : _edges) {
             DawgNode* actual_target = other.transition(label);
             if (actual_target == nullptr || *expected_target != *actual_target) {
                 return false;
@@ -79,23 +68,15 @@ namespace liblevenshtein {
 
     std::ostream &operator<<(std::ostream &out, const DawgNode &node) {
         out << "DawgNode{is_final=" << (node.is_final() ? "true" : "false") << ", edges={";
-        auto iter = node.edges.begin();
-        if (iter != node.edges.end()) {
+        auto iter = node._edges.begin();
+        if (iter != node._edges.end()) {
             out << "'" << iter->first << "':" << *(iter->second);
-            while ((++iter) != node.edges.end()) {
+            while ((++iter) != node._edges.end()) {
                 out << ", '" << iter->first << "':" << *(iter->second);
             }
         }
         out << "}}";
         return out;
-    }
-
-    std::queue<std::pair<char, DawgNode *>> get_edges(DawgNode *node) {
-        std::queue<std::pair<char, DawgNode *>> edges;
-        node->for_each_edge([&](char label, DawgNode *target) {
-            edges.push(std::pair<char, DawgNode *>(label, target));
-        });
-        return edges;
     }
 
 } // namespace liblevenshtein
@@ -105,7 +86,7 @@ std::size_t std::hash<liblevenshtein::DawgNode>::operator()(const liblevenshtein
     uint64_t hash_code = 0xDEADBEEF;
     uint64_t key[1];
 
-    for (const auto& [label, target] : node.edges) {
+    for (const auto& [label, target] : node._edges) {
         key[0] = label;
         hash_code = MurmurHash64A(key, 1, hash_code);
 

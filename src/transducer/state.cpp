@@ -12,39 +12,39 @@ namespace liblevenshtein {
     }
 
     State::~State() {
-        if (head != nullptr) {
-            delete head;
+        if (_head != nullptr) {
+            delete _head;
         }
     }
 
-    State* State::set_head(Position* head) {
-        head->set_next(this->head);
-        this->head = head;
+    State* State::head(Position* head) {
+        head->next(_head);
+        _head = head;
         return this;
     }
 
-    Position *State::get_head() const {
-        return head;
+    Position *State::head() const {
+        return _head;
     }
 
     State* State::add(Position* next) {
-        if (head == nullptr) {
-            head = next;
+        if (_head == nullptr) {
+            _head = next;
         }
         else {
-            Position* curr = head;
-            while (curr->get_next()) {
-                curr = curr->get_next();
+            Position* curr = _head;
+            while (curr->next()) {
+                curr = curr->next();
             }
-            curr->set_next(next);
+            curr->next(next);
         }
         return this;
     }
 
     State* State::insert_after(Position *curr, Position *next) {
         if (curr != nullptr) {
-            next->set_next(curr->get_next());
-            curr->set_next(next);
+            next->next(curr->next());
+            curr->next(next);
         }
         else {
             add(next);
@@ -55,25 +55,25 @@ namespace liblevenshtein {
     State* State::remove(Position *prev, Position *curr) {
         Position* temp;
         if (prev != nullptr) {
-            temp = prev->get_next();
-            prev->set_next(curr->get_next());
+            temp = prev->next();
+            prev->next(curr->next());
         }
         else {
-            temp = head;
-            head = head->get_next();
+            temp = _head;
+            _head = _head->next();
         }
         delete temp;
         return this;
     }
 
     Position* State::merge_sort(Comparator compare, Position *lhs_head) {
-        if (lhs_head == nullptr || lhs_head->get_next() == nullptr) {
+        if (lhs_head == nullptr || lhs_head->next() == nullptr) {
             return lhs_head;
         }
 
         Position* middle = find_middle(lhs_head);
-        Position* rhs_head = middle->get_next();
-        middle->set_next(nullptr);
+        Position* rhs_head = middle->next();
+        middle->next(nullptr);
 
         return merge(compare,
                      merge_sort(compare, lhs_head),
@@ -87,25 +87,25 @@ namespace liblevenshtein {
 
         while (lhs_head != nullptr && rhs_head != nullptr) {
             if (compare(lhs_head, rhs_head) < 1) {
-                curr->set_next(lhs_head);
-                lhs_head = lhs_head->get_next();
+                curr->next(lhs_head);
+                lhs_head = lhs_head->next();
             }
             else {
-                curr->set_next(rhs_head);
-                rhs_head = rhs_head->get_next();
+                curr->next(rhs_head);
+                rhs_head = rhs_head->next();
             }
-            curr = curr->get_next();
+            curr = curr->next();
         }
 
         if (rhs_head != nullptr) {
-            curr->set_next(rhs_head);
+            curr->next(rhs_head);
         }
         else if (lhs_head != nullptr) {
-            curr->set_next(lhs_head);
+            curr->next(lhs_head);
         }
 
-        curr = next->get_next();
-        temp.set_next(nullptr); // so the transitions aren't deleted
+        curr = next->next();
+        temp.next(nullptr); // so the transitions aren't deleted
         return curr;
     }
 
@@ -113,21 +113,21 @@ namespace liblevenshtein {
         Position* slow = head;
         Position* fast = head;
 
-        while (fast->get_next() != nullptr && fast->get_next()->get_next() != nullptr) {
-            slow = slow->get_next();
-            fast = fast->get_next()->get_next();
+        while (fast->next() != nullptr && fast->next()->next() != nullptr) {
+            slow = slow->next();
+            fast = fast->next()->next();
         }
 
         return slow;
     }
 
     State* State::sort(Comparator compare) {
-        head = merge_sort(compare, head);
+        _head = merge_sort(compare, _head);
         return this;
     }
 
     StateIterator State::begin() {
-        return StateIterator(this, head);
+        return StateIterator(this, _head);
     }
 
     StateIterator State::end() {

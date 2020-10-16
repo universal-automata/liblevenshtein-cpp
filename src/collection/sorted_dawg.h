@@ -26,14 +26,14 @@ namespace liblevenshtein {
         std::stack<Transition>* unchecked_transitions = nullptr;
         std::unordered_map<DawgNode, DawgNode *>* minimized_nodes = nullptr;
         std::unordered_set<DawgNode *>* floating_nodes = nullptr;
-        std::string prev_term;
+        std::string _prev_term;
 
         void init();
         void clean_up();
 
         void finish();
         void minimize(int lower_bound);
-        DawgNode* get_minimized_node(DawgNode* key) const;
+        DawgNode* minimized_node(DawgNode* key) const;
     };
 
     template <class IterType>

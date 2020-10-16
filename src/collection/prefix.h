@@ -16,15 +16,16 @@ namespace liblevenshtein {
         Prefix(const Prefix &prefix);
         Prefix(Prefix &&prefix) noexcept;
 
-        DawgNode* get_node() const;
-        char get_label() const;
+        DawgNode* node() const;
+        char label() const;
         std::string str() const;
 
         friend std::ostream &operator<<(std::ostream &out, const Prefix &prefix);
-      private:
-        DawgNode* node;
-        Prefix* parent;
-        char label;
+
+    private:
+        DawgNode* _node;
+        Prefix* _parent;
+        char _label;
     };
 
 } // namespace liblevenshtein

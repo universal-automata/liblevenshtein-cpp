@@ -12,17 +12,17 @@ namespace liblevenshtein {
         Transition(const Transition& transition);
         Transition(Transition&& transition) noexcept;
 
-        char get_label() const;
-        DawgNode* get_source() const;
-        DawgNode* get_target() const;
+        char label() const;
+        DawgNode* source() const;
+        DawgNode* target() const;
 
         bool operator==(const Transition &other) const;
         bool operator!=(const Transition &other) const;
 
       private:
-        char label;
-        DawgNode* source;
-        DawgNode* target;
+        char _label;
+        DawgNode* _source;
+        DawgNode* _target;
     };
 } // namespace liblevenshtein
 

@@ -15,20 +15,20 @@ RC_GTEST_PROP(Position, has_proper_setters_and_getters,
                const bool next_is_special)) {
 
     ll::Position *position = position_is_special
-        ? new ll::SpecialPosition(term_index, num_errors)
-        : new ll::Position(term_index, num_errors);
+        ? new ll::Position(term_index, num_errors, true)
+        : new ll::Position(term_index, num_errors, false);
 
-    RC_ASSERT(nullptr == position->get_next());
+    RC_ASSERT(nullptr == position->next());
 
     ll::Position *next = next_is_special
-        ? new ll::SpecialPosition(term_index, 1 + num_errors)
-        : new ll::Position(term_index, 1 + num_errors);
+        ? new ll::Position(term_index, 1 + num_errors, true)
+        : new ll::Position(term_index, 1 + num_errors, false);
 
-    position->set_next(next);
-    RC_ASSERT(next == position->get_next());
+    position->next(next);
+    RC_ASSERT(next == position->next());
 
-    RC_ASSERT(term_index == position->get_term_index());
-    RC_ASSERT(num_errors == position->get_num_errors());
+    RC_ASSERT(term_index == position->term_index());
+    RC_ASSERT(num_errors == position->num_errors());
     RC_ASSERT(position_is_special == position->is_special());
 
     delete position;

@@ -8,13 +8,13 @@
 namespace liblevenshtein {
 
     Dawg::Dawg(DawgNode* root, std::size_t size)
-        : root(root),
-          size(size)
+        : _root(root),
+          _size(size)
     {}
 
     Dawg::Dawg()
-        : root(new DawgNode()),
-          size(0)
+        : _root(new DawgNode()),
+          _size(0)
     {}
 
     Dawg::~Dawg() {
@@ -26,44 +26,44 @@ namespace liblevenshtein {
     std::unordered_set<DawgNode *> Dawg::all_nodes() const {
         std::unordered_set<DawgNode *> nodes;
         std::queue<DawgNode *> pending;
-        pending.push(root);
+        pending.push(_root);
         while (!pending.empty()) {
             DawgNode *node = pending.front();
             pending.pop();
             nodes.insert(node);
-            for (DawgNode *target : node->targets()) {
+            node->for_each_edge([&](char label, DawgNode *target) {
                 pending.push(target);
-            }
+            });
         }
         return nodes;
     }
 
     bool Dawg::contains(const std::string& term) const {
-        DawgNode* node = root;
+        DawgNode* node = _root;
         for (int i = 0; i < term.length() && node != nullptr; i += 1) {
             node = node->transition(term[i]);
         }
         return node != nullptr && node->is_final();
     }
 
-    DawgNode* Dawg::get_root() const {
-        return root;
+    DawgNode* Dawg::root() const {
+        return _root;
     }
 
-    std::size_t Dawg::get_size() const {
-        return size;
+    std::size_t Dawg::size() const {
+        return _size;
     }
 
     DawgIterator Dawg::begin() const {
-        return DawgIterator(root);
+        return DawgIterator(_root);
     }
 
     DawgIterator Dawg::end() const {
-        return DawgIterator(size);
+        return DawgIterator(_size);
     }
 
     std::ostream& operator<<(std::ostream& out, const Dawg& dawg) {
-        out << "Dawg{size=" << dawg.size << ", root=" << dawg.root << "}";
+        out << "Dawg{size=" << dawg._size << ", root=" << dawg._root << "}";
         return out;
     }
 } // namespace liblevenshtein
@@ -76,9 +76,9 @@ std::size_t std::hash<liblevenshtein::Dawg>::operator()(const liblevenshtein::Da
     uint64_t hash_code = 0xDEADBEEF;
     uint64_t key[1];
 
-    key[0] = dawg.size;
+    key[0] = dawg._size;
     hash_code = MurmurHash64A(key, 1, hash_code);
 
-    key[0] = node_hash_code(*(dawg.root));
+    key[0] = node_hash_code(*(dawg._root));
     return MurmurHash64A(key, 1, hash_code);
 }

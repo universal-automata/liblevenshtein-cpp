@@ -11,14 +11,14 @@
 
 namespace liblevenshtein {
 
-    using Subsumes = std::function<bool(Position *, Position *, std::size_t)>;
+    using SubsumesFn = std::function<bool(Position *, Position *, std::size_t)>;
 
-    class Unsubsume {
+    class UnsubsumeFn {
     public:
-        Unsubsume(Subsumes subsumes);
+        UnsubsumeFn(SubsumesFn subsumes);
         void operator()(State *state, std::size_t query_length);
     private:
-        Subsumes subsumes;
+        SubsumesFn subsumes;
     };
 
 } // namespace liblevenshtein

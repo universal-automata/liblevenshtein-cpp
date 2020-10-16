@@ -21,7 +21,7 @@ namespace liblevenshtein {
     State *
     StateTransition::operator()(State *curr_state,
                                 std::vector<bool> &characteristic_vector) {
-        std::size_t offset = curr_state->get_head()->get_term_index();
+        std::size_t offset = curr_state->head()->term_index();
         State *next_state = new State();
         std::size_t n = max_distance;
 
@@ -36,7 +36,7 @@ namespace liblevenshtein {
 
         unsubsume(next_state, query_length);
 
-        if (next_state->get_head() != nullptr) {
+        if (next_state->head() != nullptr) {
             next_state->sort(compare);
             return next_state;
         }

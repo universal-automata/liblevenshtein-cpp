@@ -23,8 +23,8 @@ namespace liblevenshtein {
 
         bool contains(const std::string& term) const;
 
-        DawgNode* get_root() const;
-        std::size_t get_size() const;
+        DawgNode* root() const;
+        std::size_t size() const;
 
         DawgIterator begin() const;
         DawgIterator end() const;
@@ -33,8 +33,8 @@ namespace liblevenshtein {
         friend std::ostream& operator<<(std::ostream& out, const Dawg& dawg);
 
       protected:
-        DawgNode* root;
-        std::size_t size;
+        DawgNode* _root;
+        std::size_t _size;
 
         std::unordered_set<DawgNode *> all_nodes() const;
     };

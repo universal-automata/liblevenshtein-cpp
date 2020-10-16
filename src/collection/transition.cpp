@@ -6,39 +6,39 @@
 namespace liblevenshtein {
 
     Transition::Transition(char label, DawgNode* source, DawgNode* target)
-        : label(label),
-          source(source),
-          target(target)
+        : _label(label),
+          _source(source),
+          _target(target)
     {}
 
     Transition::Transition(const Transition &transition)
-        : label(transition.label),
-          source(transition.source),
-          target(transition.target)
+        : _label(transition._label),
+          _source(transition._source),
+          _target(transition._target)
     {}
 
     Transition::Transition(Transition &&transition) noexcept
-        : label(transition.label),
-          source(transition.source),
-          target(transition.target)
+        : _label(transition._label),
+          _source(transition._source),
+          _target(transition._target)
     {}
 
-    char Transition::get_label() const {
-        return label;
+    char Transition::label() const {
+        return _label;
     }
 
-    DawgNode* Transition::get_source() const {
-        return source;
+    DawgNode* Transition::source() const {
+        return _source;
     }
 
-    DawgNode* Transition::get_target() const {
-        return target;
+    DawgNode* Transition::target() const {
+        return _target;
     }
 
     bool Transition::operator==(const Transition &other) const {
-        return label == other.label
-            && *source == *(other.source)
-            && *target == *(other.target);
+        return _label == other._label
+            && *_source == *(other._source)
+            && *_target == *(other._target);
     }
 
     bool Transition::operator!=(const Transition &other) const {

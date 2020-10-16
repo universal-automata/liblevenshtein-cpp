@@ -6,25 +6,25 @@
 namespace liblevenshtein {
 
     Intersection::Intersection(Intersection *parent, char label, DawgNode *node, State *state)
-        : parent(parent),
-          label(label),
-          node(node),
-          state(state)
+        : _parent(parent),
+          _label(label),
+          _node(node),
+          _state(state)
     {}
 
     Intersection::Intersection(char label, DawgNode *node, State *state)
-        : parent(nullptr),
-          label(label),
-          node(node),
-          state(state)
+        : _parent(nullptr),
+          _label(label),
+          _node(node),
+          _state(state)
     {}
 
-    DawgNode *Intersection::get_node() const {
-        return node;
+    DawgNode *Intersection::node() const {
+        return _node;
     }
 
-    State *Intersection::get_state() const {
-        return state;
+    State *Intersection::state() const {
+        return _state;
     }
 
     std::string Intersection::str() const {
@@ -34,8 +34,8 @@ namespace liblevenshtein {
     }
 
     std::ostream &operator<<(std::ostream &out, const Intersection &intersection) {
-        if (intersection.parent != nullptr) {
-            out << *(intersection.parent) << intersection.label;
+        if (intersection._parent != nullptr) {
+            out << *(intersection._parent) << intersection._label;
         }
         return out;
     }
