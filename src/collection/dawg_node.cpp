@@ -68,13 +68,14 @@ namespace liblevenshtein {
 
     std::ostream &operator<<(std::ostream &out, const DawgNode &node) {
         out << "DawgNode{is_final=" << (node.is_final() ? "true" : "false") << ", edges={";
-        auto iter = node._edges.begin();
-        if (iter != node._edges.end()) {
-            out << "'" << iter->first << "':" << *(iter->second);
-            while ((++iter) != node._edges.end()) {
-                out << ", '" << iter->first << "':" << *(iter->second);
+        int index = 0;
+        node.for_each_edge([&](char label, DawgNode *target) {
+            if (index > 0) {
+                out << ", ";
             }
-        }
+            out << "'" << label << "':DawgNode{...}";
+            index += 1;
+        });
         out << "}}";
         return out;
     }
@@ -86,13 +87,13 @@ std::size_t std::hash<liblevenshtein::DawgNode>::operator()(const liblevenshtein
     uint64_t hash_code = 0xDEADBEEF;
     uint64_t key[1];
 
-    for (const auto& [label, target] : node._edges) {
+    node.for_each_edge([&](char label, liblevenshtein::DawgNode *target) {
         key[0] = label;
         hash_code = MurmurHash64A(key, 1, hash_code);
 
         key[0] = (*this)(*target);
         hash_code = MurmurHash64A(key, 1, hash_code);
-    }
+    });
 
     key[0] = node.is_final();
     return MurmurHash64A(key, 1, hash_code);

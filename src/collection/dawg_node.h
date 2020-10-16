@@ -25,9 +25,6 @@ namespace liblevenshtein {
         bool operator==(const DawgNode &other) const;
         bool operator!=(const DawgNode &other) const;
 
-        friend class std::hash<DawgNode>;
-        friend std::ostream &operator<<(std::ostream &out, const DawgNode &node);
-
     private:
         std::map<char, DawgNode *> _edges;
         bool _is_final = false;
