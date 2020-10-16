@@ -23,7 +23,7 @@ namespace liblevenshtein {
         Transducer(DawgNode *root);
         ~Transducer();
 
-        LazyIterator<Result> operator()(std::string& term, std::size_t max_distance=2);
+        LazyIterator<Result> operator()(const std::string& term, std::size_t max_distance=2);
     private:
         DawgNode *_root;
         State *_initial_state;

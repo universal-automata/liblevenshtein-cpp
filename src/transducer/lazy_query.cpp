@@ -6,7 +6,7 @@
 namespace liblevenshtein {
 
     template <class Result>
-    LazyQuery<Result>::LazyQuery(std::string& term,
+    LazyQuery<Result>::LazyQuery(const std::string& term,
                                  std::size_t max_distance,
                                  DawgNode *root,
                                  State *initial_state,
@@ -20,11 +20,19 @@ namespace liblevenshtein {
             ? (max_distance << 1) + 1
             : SIZE_MAX) {
         _pending.push(new Intersection('\0', root, initial_state));
+        if (root->is_final() && term.length() <= max_distance) { // special case
+            std::string candidate = "";
+            update_candidate(candidate, term.length());
+        }
+        else {
+            advance();
+        }
     }
 
     template <class Result>
-    LazyQuery<Result> &LazyQuery<Result>::operator++() {
+    void LazyQuery<Result>::advance() {
         if (!_edges.empty() || !_pending.empty()) {
+            _is_complete = true;
             do {
                 if (_edges.empty()) {
                     _intersection = _pending.front();
@@ -57,15 +65,17 @@ namespace liblevenshtein {
                             if (distance <= _max_distance) {
                                 std::string term = next_intersection->str();
                                 update_candidate(term, distance);
+                                _is_complete = false;
+                                break;
                             }
                         }
                     }
-                    else {
-                        // leaf node
-                        delete _intersection;
-                        _intersection = nullptr;
-                    }
-                    delete state;
+                    // else {
+                    //     // leaf node
+                    //     delete _intersection;
+                    //     _intersection = nullptr;
+                    // }
+                    // delete state;
                 }
             }
             while (!_edges.empty() || !_pending.empty());
@@ -73,6 +83,11 @@ namespace liblevenshtein {
         else {
             _is_complete = true;
         }
+    }
+
+    template <class Result>
+    LazyQuery<Result> &LazyQuery<Result>::operator++() {
+        advance();
         return *this;
     }
 
@@ -109,7 +124,7 @@ namespace liblevenshtein {
     }
 
     template <class Result>
-    LazyIterator<Result>::LazyIterator(std::string &term,
+    LazyIterator<Result>::LazyIterator(const std::string &term,
                                        std::size_t max_distance,
                                        DawgNode *root,
                                        State *initial_state,

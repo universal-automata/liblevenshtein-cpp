@@ -21,7 +21,7 @@ namespace liblevenshtein {
     template <class Result>
     class LazyQuery {
     public:
-        LazyQuery(std::string &term,
+        LazyQuery(const std::string &term,
                   std::size_t max_distance,
                   DawgNode *root,
                   State *initial_state,
@@ -51,6 +51,8 @@ namespace liblevenshtein {
         std::size_t _k;
         std::size_t _i;
 
+        void advance();
+
         void update_candidate(std::string &term, std::size_t distance);
 
         std::vector<bool> characteristic_vector(char x,
@@ -65,7 +67,7 @@ namespace liblevenshtein {
     template <class Result>
     class LazyIterator {
     public:
-        LazyIterator(std::string &term,
+        LazyIterator(const std::string &term,
                      std::size_t max_distance,
                      DawgNode *root,
                      State *initial_state,

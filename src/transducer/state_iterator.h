@@ -21,13 +21,15 @@ namespace liblevenshtein {
         StateIterator& operator++();
         Position* operator*() const;
         bool operator!=(const StateIterator &other) const;
+        bool operator==(const StateIterator &other) const;
 
       private:
         State* _state;
-        Position* _lookahead;
         Position* _next = nullptr;
         Position* _curr = nullptr;
         Position* _prev = nullptr;
+
+        void advance();
     };
 
 } // namespace liblevenshtein

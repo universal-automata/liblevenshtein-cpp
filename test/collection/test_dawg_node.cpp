@@ -79,7 +79,7 @@ RC_GTEST_PROP(DawgNode, has_equivalent_constructors, (const std::unordered_set<c
     delete rhs;
 }
 
-RC_GTEST_PROP(DawgNode, can_have_edges_added_and_cleared,
+RC_GTEST_PROP(DawgNode, can_have_edges_added,
               (const std::unordered_set<char> labels,
                const bool is_final)) {
 

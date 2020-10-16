@@ -31,7 +31,7 @@ namespace liblevenshtein {
                 continue;
             }
             merge(next_state, positions);
-            delete positions;
+            // delete positions;
         }
 
         unsubsume(next_state, query_length);
@@ -41,7 +41,7 @@ namespace liblevenshtein {
             return next_state;
         }
 
-        delete next_state;
+        // delete next_state;
         return nullptr;
     }
 

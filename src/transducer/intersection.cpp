@@ -10,15 +10,15 @@ namespace liblevenshtein {
           _label(label),
           _node(node),
           _state(state) {
-        if (parent != nullptr) {
-            parent->inc_refs();
-        }
+        // if (parent != nullptr) {
+        //     parent->inc_refs();
+        // }
     }
 
     Intersection::~Intersection() {
-        if (_parent != nullptr) {
-            _parent->dec_refs();
-        }
+        // if (_parent != nullptr) {
+        //     _parent->dec_refs();
+        // }
     }
 
     DawgNode *Intersection::node() const {
@@ -36,7 +36,7 @@ namespace liblevenshtein {
     void Intersection::dec_refs() {
         _num_refs -= 1;
         if (_num_refs == 0) {
-            delete this;
+            // delete this;
         }
     }
 

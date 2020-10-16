@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <initializer_list>
+#include <vector>
 
 #include "position.h"
 #include "state_iterator.h"
@@ -18,6 +19,7 @@ namespace liblevenshtein {
     public:
         State() = default;
         State(std::initializer_list<Position *> positions);
+        State(std::vector<Position *>& positions); // for testing
         ~State();
 
         State* head(Position *head);
@@ -30,11 +32,12 @@ namespace liblevenshtein {
         StateIterator begin();
         StateIterator end();
 
-      private:
+    private:
         Position* _head = nullptr;
 
         Position *merge_sort(Comparator compare, Position *lhs_head);
-        Position *merge(Comparator compare, Position *lhs_head, Position *rhs_head);
+        Position *merge(Comparator compare, Position *lhs_head,
+                        Position *rhs_head);
         Position *find_middle(Position *head);
     };
 

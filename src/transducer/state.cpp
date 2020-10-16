@@ -11,6 +11,15 @@ namespace liblevenshtein {
         }
     }
 
+    // testing constructor
+    State::State(std::vector<Position *>& positions) {
+        Position *prev = nullptr;
+        for (Position *curr : positions) {
+            insert_after(prev, curr);
+            prev = curr;
+        }
+    }
+
     State::~State() {
         if (_head != nullptr) {
             delete _head;
@@ -53,6 +62,7 @@ namespace liblevenshtein {
     }
 
     State* State::remove(Position *prev, Position *curr) {
+        // ASSUMPTION: prev->next() == curr
         Position* temp;
         if (prev != nullptr) {
             temp = prev->next();
@@ -62,6 +72,7 @@ namespace liblevenshtein {
             temp = _head;
             _head = _head->next();
         }
+        temp->next(nullptr);
         delete temp;
         return this;
     }
@@ -105,7 +116,7 @@ namespace liblevenshtein {
         }
 
         curr = next->next();
-        temp.next(nullptr); // so the transitions aren't deleted
+        temp.next(nullptr);
         return curr;
     }
 

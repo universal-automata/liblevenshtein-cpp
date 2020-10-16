@@ -22,7 +22,7 @@ namespace liblevenshtein {
         template <class IterType>
         friend SortedDawg* sorted_dawg(IterType iter, IterType end);
 
-      private:
+    private:
         std::stack<Transition>* unchecked_transitions = nullptr;
         std::unordered_map<DawgNode, DawgNode *>* minimized_nodes = nullptr;
         std::unordered_set<DawgNode *>* floating_nodes = nullptr;
