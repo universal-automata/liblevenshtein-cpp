@@ -118,4 +118,34 @@ namespace liblevenshtein {
         return intersection;
     }
 
+    template <class Result>
+    LazyIterator<Result>::LazyIterator(std::string &term,
+                                       std::size_t max_distance,
+                                       DawgNode *root,
+                                       State *initial_state,
+                                       TransitionFn transition,
+                                       DistanceFn min_distance)
+        : _term(term),
+          _max_distance(max_distance),
+          _root(root),
+          _initial_state(initial_state),
+          transition(transition),
+          min_distance(min_distance)
+    {}
+
+    template <class Result>
+    LazyQuery<Result> LazyIterator<Result>::begin() {
+        return LazyQuery<Result>(_term,
+                                 _max_distance,
+                                 _root,
+                                 _initial_state,
+                                 transition,
+                                 min_distance);
+    }
+
+    template <class Result>
+    LazyQuery<Result> LazyIterator<Result>::end() {
+        return LazyQuery<Result>();
+    }
+
 } // namespace liblevenshtein

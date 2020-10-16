@@ -13,6 +13,7 @@ set(MODULE_SOURCES
   "position_transition.cpp"
   "state_transition.cpp"
   "lazy_query.cpp"
+  "transducer.cpp"
   )
 
 file(GLOB MODULE_HEADERS "*.h")

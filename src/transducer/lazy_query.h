@@ -16,7 +16,6 @@
 namespace liblevenshtein {
 
     using TransitionFn = std::function<State *(State *, std::vector<bool> &)>;
-    using GetEdgesFn = std::function<std::queue<std::pair<char, DawgNode *>>(DawgNode *)>;
     using DistanceFn = std::function<std::size_t(State *,std::size_t)>;
 
     template <class Result>
@@ -28,6 +27,8 @@ namespace liblevenshtein {
                   State *initial_state,
                   TransitionFn transition,
                   DistanceFn min_distance);
+
+        LazyQuery() = default;
 
         ~LazyQuery();
 
@@ -68,6 +69,31 @@ namespace liblevenshtein {
 
     template class LazyQuery<std::string>;
     template class LazyQuery<std::pair<std::string, std::size_t>>;
+
+    template <class Result>
+    class LazyIterator {
+    public:
+        LazyIterator(std::string &term,
+                     std::size_t max_distance,
+                     DawgNode *root,
+                     State *initial_state,
+                     TransitionFn transition,
+                     DistanceFn min_distance);
+
+        LazyQuery<Result> begin();
+        LazyQuery<Result> end();
+
+      private:
+        std::string _term;
+        std::size_t _max_distance;
+        DawgNode* _root;
+        State* _initial_state;
+        TransitionFn transition;
+        DistanceFn min_distance;
+    };
+
+    template class LazyIterator<std::string>;
+    template class LazyIterator<std::pair<std::string, std::size_t>>;
 
 } // namespace liblevenshtein
 

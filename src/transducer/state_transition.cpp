@@ -4,7 +4,7 @@
 namespace liblevenshtein {
 
     StateTransition::StateTransition(
-        TransitionFn transition,
+        PositionTransitionFn transition,
         CompareFn compare,
         MergeFn merge,
         UnsubsumeFn unsubsume,

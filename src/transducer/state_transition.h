@@ -7,18 +7,21 @@
 
 #include "position.h"
 #include "state.h"
+#include "unsubsume.h"
 
 
 namespace liblevenshtein {
 
-    using TransitionFn = std::function<State*(std::size_t,Position *,std::vector<bool>&,std::size_t)>;
+    using PositionTransitionFn = std::function<State*(std::size_t,
+                                                      Position *,
+                                                      std::vector<bool>&,
+                                                      std::size_t)>;
     using CompareFn = std::function<int(Position *, Position *)>;
     using MergeFn = std::function<void(State *, State *)>;
-    using UnsubsumeFn = std::function<void(State *, std::size_t)>;
 
     class StateTransition {
     public:
-        StateTransition(TransitionFn transition,
+        StateTransition(PositionTransitionFn transition,
                         CompareFn compare,
                         MergeFn merge,
                         UnsubsumeFn unsubsume,
@@ -27,7 +30,7 @@ namespace liblevenshtein {
 
         State * operator()(State *curr_state, std::vector<bool> &characteristic_vector);
     private:
-        TransitionFn transition;
+        PositionTransitionFn transition;
         CompareFn compare;
         MergeFn merge;
         UnsubsumeFn unsubsume;
