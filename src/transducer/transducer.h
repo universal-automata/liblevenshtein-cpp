@@ -31,13 +31,11 @@ namespace liblevenshtein {
 
     template class Transducer<Algorithm::STANDARD, std::string>;
     template class Transducer<Algorithm::STANDARD, Candidate>;
-
     template class Transducer<Algorithm::TRANSPOSITION, std::string>;
     template class Transducer<Algorithm::TRANSPOSITION, Candidate>;
-
     template class Transducer<Algorithm::MERGE_AND_SPLIT, std::string>;
     template class Transducer<Algorithm::MERGE_AND_SPLIT, Candidate>;
 
-    } // namespace liblevenshtein
+} // namespace liblevenshtein
 
 #endif // __LIBLEVENSHTEIN__TRANSDUCER__TRANSDUCE_H__

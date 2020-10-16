@@ -30,14 +30,11 @@ namespace liblevenshtein {
 
         LazyQuery() = default;
 
-        ~LazyQuery();
-
         LazyQuery &operator++();
         const Result& operator*() const;
         bool operator!=(const LazyQuery &other) const;
 
     private:
-        std::vector<Intersection *> _intersections;
         std::queue<Intersection *> _pending;
         std::queue<std::pair<char, DawgNode *>> _edges;
 
@@ -60,11 +57,6 @@ namespace liblevenshtein {
                                                 std::string &term,
                                                 std::size_t k,
                                                 std::size_t i);
-
-        Intersection *build_intersection(Intersection *parent,
-                                         char label,
-                                         DawgNode *node,
-                                         State *state);
     };
 
     template class LazyQuery<std::string>;

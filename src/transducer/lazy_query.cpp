@@ -19,14 +19,7 @@ namespace liblevenshtein {
           _a(max_distance < (SIZE_MAX - 1) >> 1
             ? (max_distance << 1) + 1
             : SIZE_MAX) {
-        _pending.push(build_intersection(nullptr, '\0', root, initial_state));
-    }
-
-    template <class Result>
-    LazyQuery<Result>::~LazyQuery() {
-        for (Intersection *intersection : _intersections) {
-            delete intersection;
-        }
+        _pending.push(new Intersection('\0', root, initial_state));
     }
 
     template <class Result>
@@ -50,14 +43,14 @@ namespace liblevenshtein {
                     State *state = _intersection->state();
                     std::pair<char, DawgNode *> edge = _edges.front();
                     _edges.pop();
-                    char label = edge.first;
+                    char next_label = edge.first;
                     DawgNode *next_node = edge.second;
                     std::vector<bool> characteristic_vector =
-                        this->characteristic_vector(label, _term, _k, _i);
+                        this->characteristic_vector(next_label, _term, _k, _i);
                     State *next_state = transition(state, characteristic_vector);
                     if (next_state != nullptr) {
                         Intersection *next_intersection =
-                            build_intersection(_intersection, label, next_node, next_state);
+                            new Intersection(next_label, next_node, next_state, _intersection);
                         _pending.push(next_intersection);
                         if (next_node->is_final()) {
                             std::size_t distance = min_distance(next_state, _term.length());
@@ -66,6 +59,11 @@ namespace liblevenshtein {
                                 update_candidate(term, distance);
                             }
                         }
+                    }
+                    else {
+                        // leaf node
+                        delete _intersection;
+                        _intersection = nullptr;
                     }
                     delete state;
                 }
@@ -108,14 +106,6 @@ namespace liblevenshtein {
             characteristic_vector[j] = (x == term[i + j]);
         }
         return characteristic_vector;
-    }
-
-    template <class Result>
-    Intersection *LazyQuery<Result>::build_intersection(
-            Intersection *parent, char label, DawgNode *node, State *state) {
-        Intersection *intersection = new Intersection(parent, label, node, state);
-        _intersections.push_back(intersection);
-        return intersection;
     }
 
     template <class Result>

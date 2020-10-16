@@ -1,6 +1,7 @@
 #ifndef __LIBLEVENSHTEIN__TRANSDUCER__INTERSECTION_H__
 #define __LIBLEVENSHTEIN__TRANSDUCER__INTERSECTION_H__
 
+#include <cstddef>
 #include <iostream>
 #include <string>
 
@@ -12,22 +13,24 @@ namespace liblevenshtein {
 
     class Intersection {
     public:
-        Intersection(Intersection *parent, char label, DawgNode *node, State *state);
-
-        Intersection(char label, DawgNode *node, State *state);
+        Intersection(char label, DawgNode *node, State *state, Intersection *parent = nullptr);
+        ~Intersection();
 
         DawgNode *node() const;
         State *state() const;
 
-        std::string str() const;
+        void inc_refs();
+        void dec_refs();
 
+        std::string str() const;
         friend std::ostream &operator<<(std::ostream &out, const Intersection &intersection);
 
     private:
-        Intersection *_parent;
+        std::size_t _num_refs = 0;
         char _label;
         DawgNode *_node;
         State *_state;
+        Intersection *_parent;
     };
 
 } // namespace liblevenshtein
