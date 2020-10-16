@@ -91,7 +91,7 @@ namespace liblevenshtein {
     }
 
     template <class Result>
-    Result LazyQuery<Result>::operator*() const {
+    const Result& LazyQuery<Result>::operator*() const {
         return _candidate;
     }
 

@@ -33,7 +33,7 @@ namespace liblevenshtein {
         ~LazyQuery();
 
         LazyQuery &operator++();
-        Result operator*() const;
+        const Result& operator*() const;
         bool operator!=(const LazyQuery &other) const;
 
     private:
