@@ -41,19 +41,14 @@ namespace liblevenshtein {
             ? _root
             : unchecked_transitions->top().target();
 
-        for (int k = term.length() - 1; i < k; i += 1) {
+        for (int k = term.length(); i < k; i += 1) {
             DawgNode *target = new DawgNode();
             floating_nodes->insert(target);
             unchecked_transitions->push(Transition(term[i], source, target));
             source = target;
         }
 
-        if (i < term.length()) {
-            DawgNode *target = new DawgNode(true);
-            floating_nodes->insert(target);
-            unchecked_transitions->push(Transition(term[i], source, target));
-        }
-
+        source->is_final(true);
         _prev_term = term;
         _size += 1;
         return true;
