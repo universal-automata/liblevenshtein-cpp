@@ -183,10 +183,6 @@ RC_GTEST_PROP(State, iterates_over_positions,
                 RC_ASSERT(position == *iter);
 
                 ++iter;
-                if (triples.size() == 3) {
-                    RC_ASSERT(iter == iter_end);
-                }
-
                 for (int i = 3; i < triples.size(); i += 1) {
                     RC_ASSERT(positions[i] == *iter);
                     ++iter;

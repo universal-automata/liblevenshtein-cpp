@@ -4,6 +4,9 @@
 
 ### A library for generating Finite State Transducers based on Levenshtein Automata.
 
+NOTE: This library is pre-alpha, please do not use it yet unless you wish to
+help me make it work. I'll have it production ready as soon as possible.
+
 To make my life easier, this library takes advantage of C++17 features. If you
 need compatibility with an older standard, please either submit a pull request
 or create an issue stating the standard you need compatibility with and I'll get
@@ -19,6 +22,58 @@ cd build
 cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/usr/local ..
 make
 make install
+```
+
+#### Usage
+
+```c++
+#include <algorithm>
+#include <cstddef>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <liblevenshtein/collection/dawg.h>
+#include <liblevenshtein/collection/sorted_dawg.h>
+#include <liblevenshtein/transducer/algorithm.h>
+#include <liblevenshtein/transducer/transducer.h>
+
+namespace ll = liblevenshtein;
+
+int main(int argc, char *argv[]) {
+    std::vector<std::string> terms; // populate with your spelling candidates
+    std::sort(terms.begin(), terms.end()); // must be sorted for the current algorithm
+
+    // NOTE: If (dawg == nullptr) then the construction of the dictionary failed,
+    // probably because terms wasn't sorted lexicographically in ascending order.
+    ll::Dawg *dawg = ll::sorted_dawg(terms.begin(), terms.end());
+
+    /**
+     * Template arguments:
+     * 1. ll::Algorithm to use for searching (options: STANDARD, TRANSPOSITION, or MERGE_AND_SPLIT)
+     * 2. Return type for spelling candidates (options: std::string or std::pair<std::string, std::size_t>)
+     */
+    ll::Transducer<ll::Algorithm::TRANSPOSITION, std::pair<std::string, std::size_t>> transduce(dawg->root());
+
+    std::string query_term;        // assign the term whose spelling you wish to correct
+    std::size_t max_distance = 2;  // maximum number of operations allowed to transform query_term
+                                   // into the spelling candidate
+
+    // NOTE: ll:Candidate is an alias for std::pair<std::string, std::size_t>
+    for (const ll::Candidate& candidate : transduce(query_term, max_distance)) {
+        const std::string& term = candidate.first;       // spelling candidate for query_term
+        const std::size_t& distance = candidate.second;  // minimum number of operations required to transform query_term into term
+    }
+
+    /**
+     * If you had initialized the transducer as ll::Transducer<ll::Algorithm::TRANSPOSITION, std::string>
+     * then you'd iterate over the results as follows:
+     * for (const std::string& term : transduce(query_term, max_distance)) {
+     *     // do something with term, which requires no more than max_distance operations to transform
+     *     // it into the query_term.
+     * }
+     */
+}
 ```
 
 #### Testing

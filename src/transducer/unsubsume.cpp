@@ -17,7 +17,7 @@ namespace liblevenshtein {
 
             std::size_t outer_errors = outer->num_errors();
 
-            StateIterator inner_iter = outer_iter; // copy
+            StateIterator inner_iter(outer_iter); // copy at current position
             while (inner_iter != iter_end) {
                 Position *inner = *inner_iter;
                 if (outer_errors < inner->num_errors()) {

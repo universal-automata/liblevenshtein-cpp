@@ -1,7 +1,8 @@
 set(MODULE_NAME "transducer")
 
 set(TEST_SOURCES
-  "test_state.cpp"
+  # "test_state.cpp"
+  "test_merge.cpp"
   # "test_transducer.cpp"
   "test_module.cpp")
 
