@@ -1,5 +1,2 @@
-add_subdirectory(utils)
-add_subdirectory(collection)
-add_subdirectory(distance)
-add_subdirectory(transducer)
-add_subdirectory(serialization)
+set(SOURCE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+add_subdirectory(liblevenshtein)
