@@ -21,4 +21,4 @@
 !/test/**/*.h
 !/test/**/*.hpp
 !/test/**/CMakeLists.txt
-!/test/config/rapidcheck.yaml
+!/test/**/rapidcheck.yaml
