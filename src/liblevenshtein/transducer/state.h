@@ -18,15 +18,16 @@ namespace liblevenshtein {
     public:
         State() = default;
         State(std::initializer_list<Position *> positions);
-        State(std::vector<Position *>& positions); // for testing
+        State(std::vector<Position *> &positions);
         ~State();
 
-        State* head(Position *head);
+        void head(Position *head);
         Position* head() const;
-        State* add(Position *head);
-        State* insert_after(Position *curr, Position *next);
-        State* remove(Position *prev, Position *curr);
-        State* sort(Comparator compare);
+
+        void add(Position *head);
+        void insert_after(Position *curr, Position *next);
+        void remove(Position *prev, Position *curr);
+        void sort(Comparator compare);
 
         StateIterator begin();
         StateIterator end();

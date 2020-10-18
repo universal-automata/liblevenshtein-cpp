@@ -2,25 +2,12 @@
 
 namespace liblevenshtein {
 
-    StateIterator::StateIterator(State* state, Position* head)
-        : _state(state),
+    StateIterator::StateIterator(State* state, Position* head, StateIterator *parent)
+        : _parent(parent),
+          _state(state),
           _prev(nullptr),
           _curr(head),
           _next(head != nullptr ? head->next() : nullptr)
-    {}
-
-    StateIterator::StateIterator(const StateIterator &iter)
-        : _state(iter._state),
-          _next(iter._next),
-          _curr(iter._curr),
-          _prev(iter._prev)
-    {}
-
-    StateIterator::StateIterator(StateIterator &&iter) noexcept
-        : _state(iter._state),
-          _next(iter._next),
-          _curr(iter._curr),
-          _prev(iter._prev)
     {}
 
     StateIterator &StateIterator::operator++() {
@@ -52,6 +39,9 @@ namespace liblevenshtein {
 
     void StateIterator::remove() {
         if (_curr != nullptr) {
+            if (_parent != nullptr && _parent->_next == _curr) {
+                _parent->_next = _parent->_next->next();
+            }
             _state->remove(_prev, _curr);
             _curr = nullptr;
         }

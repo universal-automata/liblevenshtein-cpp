@@ -25,12 +25,7 @@ namespace liblevenshtein {
         std::size_t n = max_distance;
 
         for (Position *position : *curr_state) {
-            State *positions = transition(n, position, characteristic_vector, offset);
-            if (positions == nullptr) {
-                continue;
-            }
-            merge(next_state, positions);
-            // delete positions;
+            merge(next_state, transition(n, position, characteristic_vector, offset));
         }
 
         unsubsume(next_state, query_length);
@@ -40,7 +35,7 @@ namespace liblevenshtein {
             return next_state;
         }
 
-        // delete next_state;
+        delete next_state;
         return nullptr;
     }
 

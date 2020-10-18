@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "liblevenshtein/transducer/intersection.h"
+#include "liblevenshtein/transducer/position.h"
 
 namespace liblevenshtein {
 
@@ -8,16 +9,14 @@ namespace liblevenshtein {
         : _parent(parent),
           _label(label),
           _node(node),
-          _state(state) {
-        // if (parent != nullptr) {
-        //     parent->inc_refs();
-        // }
-    }
+          _state(state) {}
 
     Intersection::~Intersection() {
-        // if (_parent != nullptr) {
-        //     _parent->dec_refs();
-        // }
+        Position *head = _state->head();
+        if (head->term_index() > 0 || head->num_errors() > 0) {
+            // don't delete the initial state, it'll be deleted by the transducer
+            delete _state;
+        }
     }
 
     DawgNode *Intersection::node() const {
@@ -26,17 +25,6 @@ namespace liblevenshtein {
 
     State *Intersection::state() const {
         return _state;
-    }
-
-    void Intersection::inc_refs() {
-        _num_refs += 1;
-    }
-
-    void Intersection::dec_refs() {
-        _num_refs -= 1;
-        if (_num_refs == 0) {
-            // delete this;
-        }
     }
 
     std::string Intersection::str() const {

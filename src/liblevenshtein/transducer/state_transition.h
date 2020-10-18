@@ -11,12 +11,11 @@
 
 namespace liblevenshtein {
 
-    using PositionTransitionFn = std::function<State*(std::size_t,
-                                                      Position *,
-                                                      std::vector<bool>&,
-                                                      std::size_t)>;
+    using PositionTransitionFn =
+        std::function<std::vector<Position *>(std::size_t, Position *,
+                                              std::vector<bool>&, std::size_t)>;
     using CompareFn = std::function<int(Position *, Position *)>;
-    using MergeFn = std::function<void(State *, State *)>;
+    using MergeFn = std::function<void(State *, std::vector<Position *>)>;
 
     class StateTransition {
     public:

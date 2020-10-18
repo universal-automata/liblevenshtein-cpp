@@ -12,24 +12,13 @@
 #include "liblevenshtein/transducer/position.h"
 #include "liblevenshtein/transducer/state.h"
 #include "liblevenshtein/transducer/state_iterator.h"
+#include "liblevenshtein/transducer/test_helpers.h"
 
 namespace ll = liblevenshtein;
 
-using Triple = std::tuple<std::size_t, std::size_t, bool>;
 
-
-std::vector<ll::Position *> to_positions(std::vector<Triple> &triples) {
-    std::vector<ll::Position *> positions;
-    for (const Triple& triple : triples) {
-        positions.push_back(new ll::Position(
-            std::get<0>(triple), std::get<1>(triple), std::get<2>(triple)));
-    }
-    return positions;
-}
-
-
-RC_GTEST_PROP(State, initializes_positions_correctly, (std::vector<Triple> triples)) {
-    std::vector<ll::Position *> positions = to_positions(triples);
+RC_GTEST_PROP(State, initializes_positions_correctly, (std::vector<ll::Triple> triples)) {
+    std::vector<ll::Position *> positions = ll::to_positions(triples);
     ll::State *state = new ll::State(positions);
     ll::Position *actual = state->head();
 
@@ -42,10 +31,10 @@ RC_GTEST_PROP(State, initializes_positions_correctly, (std::vector<Triple> tripl
 }
 
 
-RC_GTEST_PROP(State, sorts_positions_correctly, (std::vector<Triple> triples)) {
+RC_GTEST_PROP(State, sorts_positions_correctly, (std::vector<ll::Triple> triples)) {
     RC_PRE(!triples.empty());
 
-    std::vector<ll::Position *> positions = to_positions(triples);
+    std::vector<ll::Position *> positions = ll::to_positions(triples);
     ll::State *state = new ll::State(positions);
 
     state->sort(ll::compare<ll::Algorithm::STANDARD>);
@@ -81,8 +70,8 @@ RC_GTEST_PROP(State, sorts_positions_correctly, (std::vector<Triple> triples)) {
     delete state;
 }
 
-RC_GTEST_PROP(State, adds_to_tail_of_positions, (std::vector<Triple> triples)) {
-    std::vector<ll::Position *> positions = to_positions(triples);
+RC_GTEST_PROP(State, adds_to_tail_of_positions, (std::vector<ll::Triple> triples)) {
+    std::vector<ll::Position *> positions = ll::to_positions(triples);
     ll::State *state = new ll::State();
     for (int i = 0; i < positions.size(); i += 1) {
         ll::Position *position = positions[i];
@@ -99,8 +88,8 @@ RC_GTEST_PROP(State, adds_to_tail_of_positions, (std::vector<Triple> triples)) {
 
 
 RC_GTEST_PROP(State, correctly_inserts_positions_after_others,
-              (std::vector<Triple> triples)) {
-  std::vector<ll::Position *> positions = to_positions(triples);
+              (std::vector<ll::Triple> triples)) {
+  std::vector<ll::Position *> positions = ll::to_positions(triples);
   ll::State *state = new ll::State();
   ll::Position *prev = nullptr;
   for (ll::Position *curr : positions) {
@@ -116,9 +105,9 @@ RC_GTEST_PROP(State, correctly_inserts_positions_after_others,
 }
 
 RC_GTEST_PROP(State, correctly_removes_positions,
-              (std::vector<Triple> triples)) {
+              (std::vector<ll::Triple> triples)) {
     RC_PRE(triples.size() > 2);
-    std::vector<ll::Position *> positions = to_positions(triples);
+    std::vector<ll::Position *> positions = ll::to_positions(triples);
     ll::State *state = new ll::State(positions);
 
     ll::Position *prev = nullptr;
@@ -142,8 +131,8 @@ RC_GTEST_PROP(State, correctly_removes_positions,
 }
 
 RC_GTEST_PROP(State, iterates_over_positions,
-              (std::vector<Triple> triples)) {
-    std::vector<ll::Position *> positions = to_positions(triples);
+              (std::vector<ll::Triple> triples)) {
+    std::vector<ll::Position *> positions = ll::to_positions(triples);
     ll::State *state = new ll::State(positions);
 
     ll::StateIterator iter = state->begin();

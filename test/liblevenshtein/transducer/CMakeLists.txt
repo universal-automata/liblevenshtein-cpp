@@ -1,9 +1,11 @@
 set(MODULE_NAME "transducer")
 
 set(TEST_SOURCES
-  # "test_state.cpp"
+  "test_helpers.cpp"
+  "test_comparator.cpp"
+  "test_state.cpp"
   "test_merge.cpp"
-  # "test_transducer.cpp"
+  "test_transducer.cpp"
   "test_module.cpp")
 
 add_executable(test-${MODULE_NAME} ${TEST_SOURCES})

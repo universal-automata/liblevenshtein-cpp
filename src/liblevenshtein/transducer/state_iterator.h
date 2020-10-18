@@ -10,11 +10,9 @@ namespace liblevenshtein {
 
     class StateIterator {
     public:
-        StateIterator(State* state, Position* head);
-        StateIterator(const StateIterator &iter);
-        StateIterator(StateIterator &&iter) noexcept;
+        StateIterator(State* state, Position* head, StateIterator *parent = nullptr);
 
-        void insert(Position* position);
+        void insert(Position *position);
         void remove();
 
         StateIterator& operator++();
@@ -23,6 +21,7 @@ namespace liblevenshtein {
         bool operator==(const StateIterator &other) const;
 
       private:
+        StateIterator* _parent = nullptr;
         State* _state;
         Position* _next = nullptr;
         Position* _curr = nullptr;

@@ -14,25 +14,28 @@ namespace liblevenshtein {
                          std::size_t k, std::size_t i);
 
     template <Algorithm Type>
-    State *position_transition(std::size_t n, Position *position,
-                               std::vector<bool> &characteristic_vector,
-                               std::size_t offset);
-
-    template <>
-    State *position_transition<Algorithm::STANDARD>(
+    std::vector<Position *> position_transition(
         std::size_t n, Position *position,
         std::vector<bool> &characteristic_vector,
         std::size_t offset);
 
     template <>
-    State *position_transition<Algorithm::TRANSPOSITION>(
+    std::vector<Position *> position_transition<Algorithm::STANDARD>(
         std::size_t n, Position *position,
-        std::vector<bool> &characteristic_vector, std::size_t offset);
+        std::vector<bool> &characteristic_vector,
+        std::size_t offset);
 
     template <>
-    State *position_transition<Algorithm::MERGE_AND_SPLIT>(
+    std::vector<Position *> position_transition<Algorithm::TRANSPOSITION>(
         std::size_t n, Position *position,
-        std::vector<bool> &characteristic_vector, std::size_t offset);
+        std::vector<bool> &characteristic_vector,
+        std::size_t offset);
+
+    template <>
+    std::vector<Position *> position_transition<Algorithm::MERGE_AND_SPLIT>(
+        std::size_t n, Position *position,
+        std::vector<bool> &characteristic_vector,
+        std::size_t offset);
 
 } // namespace liblevenshtein
 

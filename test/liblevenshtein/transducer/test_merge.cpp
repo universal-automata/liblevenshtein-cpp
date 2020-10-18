@@ -1,34 +1,23 @@
+#include <algorithm>
 #include <cstddef>
-#include <tuple>
 #include <vector>
 
 #include <gtest/gtest.h>
 
 #include <rapidcheck/gtest.h>
 
+#include "liblevenshtein/transducer/merge.h"
 #include "liblevenshtein/transducer/position.h"
 #include "liblevenshtein/transducer/state.h"
-#include "liblevenshtein/transducer/merge.h"
+#include "liblevenshtein/transducer/subsumes.h"
+#include "liblevenshtein/transducer/test_helpers.h"
 
 namespace ll = liblevenshtein;
 
 
-using Triple = std::tuple<std::size_t, std::size_t, bool>;
-
-
-std::vector<ll::Position *> to_positions(std::vector<Triple> &triples) {
-    std::vector<ll::Position *> positions;
-    for (const Triple &triple : triples) {
-        positions.push_back(new ll::Position(
-            std::get<0>(triple), std::get<1>(triple), std::get<2>(triple)));
-    }
-    return positions;
-}
-
-
 RC_GTEST_PROP(insert_after, inserts_positions_in_the_expected_location,
-              (std::vector<Triple> triples)) {
-    std::vector<ll::Position *> positions = to_positions(triples);
+              (std::vector<ll::Triple> triples)) {
+    std::vector<ll::Position *> positions = ll::to_positions(triples);
     ll::State *state = new ll::State();
     RC_ASSERT(state->head() == nullptr);
     ll::Position *curr = nullptr;

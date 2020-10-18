@@ -28,6 +28,7 @@ namespace liblevenshtein {
                   DistanceFn min_distance);
 
         LazyQuery() = default;
+        ~LazyQuery();
 
         LazyQuery &operator++();
         const Result& operator*() const;
@@ -36,6 +37,7 @@ namespace liblevenshtein {
     private:
         std::queue<Intersection *> _pending;
         std::queue<std::pair<char, DawgNode *>> _edges;
+        std::vector<Intersection *> _intersections;
 
         bool _is_complete = false;
         Intersection *_intersection = nullptr;
@@ -53,6 +55,9 @@ namespace liblevenshtein {
         void advance();
 
         void update_candidate(std::string &term, std::size_t distance);
+
+        Intersection *build_intersection(char label, DawgNode *node,
+                                         State *state, Intersection *parent);
 
         std::vector<bool> characteristic_vector(char x,
                                                 std::string &term,

@@ -10,8 +10,7 @@ namespace liblevenshtein {
         }
     }
 
-    // testing constructor
-    State::State(std::vector<Position *>& positions) {
+    State::State(std::vector<Position *> &positions) {
         Position *prev = nullptr;
         for (Position *curr : positions) {
             insert_after(prev, curr);
@@ -25,17 +24,16 @@ namespace liblevenshtein {
         }
     }
 
-    State* State::head(Position* head) {
+    void State::head(Position* head) {
         head->next(_head);
         _head = head;
-        return this;
     }
 
     Position *State::head() const {
         return _head;
     }
 
-    State* State::add(Position* next) {
+    void State::add(Position* next) {
         if (_head == nullptr) {
             _head = next;
         }
@@ -46,10 +44,9 @@ namespace liblevenshtein {
             }
             curr->next(next);
         }
-        return this;
     }
 
-    State* State::insert_after(Position *curr, Position *next) {
+    void State::insert_after(Position *curr, Position *next) {
         if (curr != nullptr) {
             next->next(curr->next());
             curr->next(next);
@@ -57,10 +54,9 @@ namespace liblevenshtein {
         else {
             add(next);
         }
-        return this;
     }
 
-    State* State::remove(Position *prev, Position *curr) {
+    void State::remove(Position *prev, Position *curr) {
         // ASSUMPTION: prev->next() == curr
         Position* temp;
         if (prev != nullptr) {
@@ -73,7 +69,6 @@ namespace liblevenshtein {
         }
         temp->next(nullptr);
         delete temp;
-        return this;
     }
 
     Position* State::merge_sort(Comparator compare, Position *lhs_head) {
@@ -131,9 +126,8 @@ namespace liblevenshtein {
         return slow;
     }
 
-    State* State::sort(Comparator compare) {
+    void State::sort(Comparator compare) {
         _head = merge_sort(compare, _head);
-        return this;
     }
 
     StateIterator State::begin() {

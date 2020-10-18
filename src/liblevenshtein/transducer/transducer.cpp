@@ -18,7 +18,7 @@ namespace liblevenshtein {
 
     template <Algorithm Type, class Result>
     Transducer<Type, Result>::~Transducer() {
-        // delete _initial_state;
+        delete _initial_state;
     }
 
     template <>

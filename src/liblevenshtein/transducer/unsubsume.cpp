@@ -12,11 +12,11 @@ namespace liblevenshtein {
         StateIterator iter_end = state->end();
         while (outer_iter != iter_end) {
             Position *outer = *outer_iter;
-            ++outer_iter;
-
             std::size_t outer_errors = outer->num_errors();
 
-            StateIterator inner_iter(outer_iter); // copy at current position
+            StateIterator inner_iter(state, outer, &outer_iter);
+            ++inner_iter;
+
             while (inner_iter != iter_end) {
                 Position *inner = *inner_iter;
                 if (outer_errors < inner->num_errors()) {
@@ -27,12 +27,13 @@ namespace liblevenshtein {
 
             while (inner_iter != iter_end) {
                 Position *inner = *inner_iter;
-                ++inner_iter;
-
                 if (subsumes(outer, inner, query_length)) {
                     inner_iter.remove();
                 }
+                ++inner_iter;
             }
+
+            ++outer_iter;
         }
     }
 }

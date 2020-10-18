@@ -18,13 +18,20 @@ namespace liblevenshtein {
           _a(max_distance < (SIZE_MAX - 1) >> 1
             ? (max_distance << 1) + 1
             : SIZE_MAX) {
-        _pending.push(new Intersection('\0', root, initial_state));
+        _pending.push(build_intersection('\0', root, initial_state, nullptr));
         if (root->is_final() && term.length() <= max_distance) { // special case
             std::string candidate = "";
             update_candidate(candidate, term.length());
         }
         else {
             advance();
+        }
+    }
+
+    template <class Result>
+    LazyQuery<Result>::~LazyQuery() {
+        for (Intersection *intersection : _intersections) {
+            delete intersection;
         }
     }
 
@@ -57,7 +64,7 @@ namespace liblevenshtein {
                     State *next_state = transition(state, characteristic_vector);
                     if (next_state != nullptr) {
                         Intersection *next_intersection =
-                            new Intersection(next_label, next_node, next_state, _intersection);
+                            build_intersection(next_label, next_node, next_state, _intersection);
                         _pending.push(next_intersection);
                         if (next_node->is_final()) {
                             std::size_t distance = min_distance(next_state, _term.length());
@@ -69,12 +76,6 @@ namespace liblevenshtein {
                             }
                         }
                     }
-                    // else {
-                    //     // leaf node
-                    //     delete _intersection;
-                    //     _intersection = nullptr;
-                    // }
-                    // delete state;
                 }
             }
             while (!_edges.empty() || !_pending.empty());
@@ -82,6 +83,13 @@ namespace liblevenshtein {
         else {
             _is_complete = true;
         }
+    }
+
+    template <class Result>
+    Intersection* LazyQuery<Result>::build_intersection(char label, DawgNode *node, State *state, Intersection *parent) {
+        Intersection *intersection = new Intersection(label, node, state, parent);
+        _intersections.push_back(intersection);
+        return intersection;
     }
 
     template <class Result>
