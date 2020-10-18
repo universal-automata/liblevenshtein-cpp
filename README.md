@@ -107,6 +107,8 @@ int main(int argc, char *argv[]) {
      *     // than max_distance operations to transform it into the query_term.
      * }
      */
+
+     delete dawg;
 }
 ```
 
