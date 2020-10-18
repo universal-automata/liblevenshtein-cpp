@@ -1,4 +1,4 @@
-#include "liblevenshtein/collection/symmetric_pair.h"
+#include "liblevenshtein/distance/symmetric_pair.h"
 #include "liblevenshtein/utils/MurmurHash2.h"
 
 

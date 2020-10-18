@@ -32,7 +32,26 @@ add the CMake option `BUILD_TESTS=OFF`, as described below:
 
 ```shell
 # ...
-cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_TESTS=OFF ..
+cmake -D CMAKE_BUILD_TYPE=Debug \
+      -D CMAKE_INSTALL_PREFIX=/usr/local \
+      -D BUILD_TESTS=OFF \
+      ..
+# ...
+```
+
+##### Disabling baseline metrics
+
+If you want to disable the baseline metrics used for validation, you need to
+disable both tests and the metrics. If you disable the metrics but enable tests
+then they will be built anyway because they are required for the tests.
+
+```shell
+# ...
+cmake -D CMAKE_BUILD_TYPE=Debug \
+      -D CMAKE_INSTALL_PREFIX=/usr/local \
+      -D BUILD_BASELINE_METRICS=OFF \
+      -D BUILD_TESTS=OFF \
+      ..
 # ...
 ```
 

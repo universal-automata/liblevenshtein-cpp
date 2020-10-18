@@ -14,7 +14,13 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include(GNUInstallDirs)
 
-option(BUILD_TESTS "Build testing suite for each module" ON)
+option(BUILD_BASELINE_METRICS "Builds baseline distance metrics for validation" ON)
+option(BUILD_TESTS "Build liblevenshtein testing suite" ON)
+
+if(NOT BUILD_BASELINE_METRICS AND BUILD_TESTS)
+  message(WARNING "Building baseline metrics because they are required by the tests.")
+  SET(BUILD_BASELINE_METRICS ON)
+endif()
 
 add_subdirectory(src)
 

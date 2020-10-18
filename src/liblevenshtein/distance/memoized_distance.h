@@ -6,8 +6,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "liblevenshtein/collection/symmetric_pair.h"
 #include "liblevenshtein/distance/distance.h"
+#include "liblevenshtein/distance/symmetric_pair.h"
 
 namespace liblevenshtein {
 

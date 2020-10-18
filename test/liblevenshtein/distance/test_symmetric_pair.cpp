@@ -4,7 +4,7 @@
 
 #include <rapidcheck/gtest.h>
 
-#include "liblevenshtein/collection/symmetric_pair.h"
+#include "liblevenshtein/distance/symmetric_pair.h"
 
 RC_GTEST_PROP(SymmetricPair, is_comparable, (const std::string &foo,
                                              const std::string &bar,

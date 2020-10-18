@@ -1,5 +1,9 @@
 add_subdirectory(utils)
 add_subdirectory(collection)
-add_subdirectory(distance)
+
+if(BUILD_TESTS)
+  add_subdirectory(distance)
+endif()
+
 add_subdirectory(transducer)
 add_subdirectory(serialization)

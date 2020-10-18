@@ -1,6 +1,7 @@
 set(MODULE_NAME "distance")
 
 set(MODULE_SOURCES
+  "symmetric_pair.cpp"
   "memoized_distance.cpp"
   "standard_distance.cpp"
   "transposition_distance.cpp"

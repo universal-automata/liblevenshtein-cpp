@@ -1,5 +1,5 @@
+#include "liblevenshtein/distance/symmetric_pair.h"
 #include "liblevenshtein/distance/transposition_distance.h"
-#include "liblevenshtein/collection/symmetric_pair.h"
 
 
 namespace liblevenshtein {

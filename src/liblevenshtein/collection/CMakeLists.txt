@@ -1,7 +1,6 @@
 set(MODULE_NAME "collection")
 
 set(MODULE_SOURCES
-  "symmetric_pair.cpp"
   "dawg_node.cpp"
   "prefix.cpp"
   "transition.cpp"
