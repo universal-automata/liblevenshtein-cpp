@@ -31,7 +31,7 @@ namespace liblevenshtein {
     }
 
     bool Position::is_special() const {
-      return _is_special;
+        return _is_special;
     }
 
 } // namespace liblevenshtein

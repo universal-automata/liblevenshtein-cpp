@@ -26,9 +26,9 @@ static ll::MergeAndSplitDistance merge_and_split_distance;
 
 
 RC_GTEST_PROP(StandardTransducer, contains_expected_terms,
-                (std::set<std::string, ll::std_str_cmp> dictionary_terms,
-                std::set<std::string, ll::std_str_cmp> query_terms,
-                std::size_t max_distance)) {
+              (std::set<std::string, ll::std_str_cmp> dictionary_terms,
+               std::set<std::string, ll::std_str_cmp> query_terms,
+               std::size_t max_distance)) {
 
     std::unordered_map<std::string, std::unordered_set<std::string>> expected_candidates;
     for (const std::string &query_term : query_terms) {

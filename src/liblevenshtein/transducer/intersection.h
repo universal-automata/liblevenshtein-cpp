@@ -22,7 +22,6 @@ namespace liblevenshtein {
         friend std::ostream &operator<<(std::ostream &out, const Intersection &intersection);
 
     private:
-        std::size_t _num_refs = 0;
         char _label;
         DawgNode *_node;
         State *_state;
