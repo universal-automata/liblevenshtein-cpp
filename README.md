@@ -89,11 +89,14 @@ int main(int argc, char *argv[]) {
     ll::Transducer<ll::Algorithm::TRANSPOSITION, ll::Candidate> transduce(dawg->root());
 
     std::string query_term;        // assign the term whose spelling you wish to correct
-    std::size_t max_distance = 2;  // maximum edit distance from query_term
+
+    std::size_t max_distance = 2;  // maximum number of operations allowed to transform
+                                   // a spelling candidate into query_term (edit distance)
 
     // NOTE: ll:Candidate is an alias for std::pair<std::string, std::size_t>
     for (const ll::Candidate& candidate : transduce(query_term, max_distance)) {
         const std::string& term = candidate.first;       // spelling candidate for query_term
+
         const std::size_t& distance = candidate.second;  // minimum number of operations required
                                                          // to transform query_term into term
     }
