@@ -25,6 +25,17 @@ make
 make install
 ```
 
+##### Disabling tests
+
+If you want to build the library without tests, use the same instructions but
+add the CMake option `BUILD_TESTS=OFF`, as described below:
+
+```shell
+# ...
+cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_TESTS=OFF ..
+# ...
+```
+
 #### Usage
 
 ```c++
@@ -79,7 +90,14 @@ int main(int argc, char *argv[]) {
 
 #### Testing
 
-#### Dependencies
+```shell
+# Within the build directory
+for MODULE in collection distance transducer; do
+  ./test/liblevenshtein/${MODULE}/test-${MODULE}
+done
+```
+
+##### Dependencies
 1. [Google Test](https://github.com/google/googletest)
 2. [RapidCheck](https://github.com/emil-e/rapidcheck)
 3. [yaml-cpp](https://github.com/jbeder/yaml-cpp)

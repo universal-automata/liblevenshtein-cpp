@@ -14,5 +14,10 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include(GNUInstallDirs)
 
+option(BUILD_TESTS "Build testing suite for each module" ON)
+
 add_subdirectory(src)
-add_subdirectory(test)
+
+if(BUILD_TESTS)
+  add_subdirectory(test)
+endif()
