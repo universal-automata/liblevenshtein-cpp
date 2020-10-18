@@ -7,8 +7,7 @@ namespace liblevenshtein {
     template <class Result>
     LazyQuery<Result>::LazyQuery(const std::string& term,
                                  std::size_t max_distance,
-                                 DawgNode *root,
-                                 State *initial_state,
+                                 Intersection *intersection,
                                  TransitionFn transition,
                                  DistanceFn min_distance)
         : _term(term),
@@ -18,7 +17,8 @@ namespace liblevenshtein {
           _a(max_distance < (SIZE_MAX - 1) >> 1
             ? (max_distance << 1) + 1
             : SIZE_MAX) {
-        _pending.push(build_intersection('\0', root, initial_state, nullptr));
+        DawgNode *root = intersection->node();
+        _pending.push(intersection);
         if (root->is_final() && term.length() <= max_distance) { // special case
             std::string candidate = "";
             update_candidate(candidate, term.length());
@@ -133,14 +133,12 @@ namespace liblevenshtein {
     template <class Result>
     LazyIterator<Result>::LazyIterator(const std::string &term,
                                        std::size_t max_distance,
-                                       DawgNode *root,
-                                       State *initial_state,
+                                       Intersection *intersection,
                                        TransitionFn transition,
                                        DistanceFn min_distance)
         : _term(term),
           _max_distance(max_distance),
-          _root(root),
-          _initial_state(initial_state),
+          _intersection(intersection),
           transition(transition),
           min_distance(min_distance)
     {}
@@ -149,8 +147,7 @@ namespace liblevenshtein {
     LazyQuery<Result> LazyIterator<Result>::begin() {
         return LazyQuery<Result>(_term,
                                  _max_distance,
-                                 _root,
-                                 _initial_state,
+                                 _intersection,
                                  transition,
                                  min_distance);
     }

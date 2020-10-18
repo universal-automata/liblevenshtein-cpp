@@ -18,9 +18,6 @@ namespace liblevenshtein {
         DawgNode *node() const;
         State *state() const;
 
-        void inc_refs();
-        void dec_refs();
-
         std::string str() const;
         friend std::ostream &operator<<(std::ostream &out, const Intersection &intersection);
 

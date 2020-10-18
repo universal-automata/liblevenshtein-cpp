@@ -22,8 +22,7 @@ namespace liblevenshtein {
     public:
         LazyQuery(const std::string &term,
                   std::size_t max_distance,
-                  DawgNode *root,
-                  State *initial_state,
+                  Intersection *intersection,
                   TransitionFn transition,
                   DistanceFn min_distance);
 
@@ -73,8 +72,7 @@ namespace liblevenshtein {
     public:
         LazyIterator(const std::string &term,
                      std::size_t max_distance,
-                     DawgNode *root,
-                     State *initial_state,
+                     Intersection *intersection,
                      TransitionFn transition,
                      DistanceFn min_distance);
 
@@ -84,8 +82,7 @@ namespace liblevenshtein {
       private:
         std::string _term;
         std::size_t _max_distance;
-        DawgNode* _root;
-        State* _initial_state;
+        Intersection *_intersection;
         TransitionFn transition;
         DistanceFn min_distance;
     };

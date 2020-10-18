@@ -11,14 +11,15 @@
 namespace liblevenshtein {
 
     template <Algorithm Type, class Result>
-    Transducer<Type, Result>::Transducer(DawgNode *root)
-        : _root(root),
-          _initial_state(new State({new Position(0, 0)}))
-    {}
+    Transducer<Type, Result>::Transducer(DawgNode *root) {
+        Position *position = new Position(0, 0);
+        State *initial_state = new State({position});
+        _intersection = new Intersection('\0', root, initial_state);
+    }
 
     template <Algorithm Type, class Result>
     Transducer<Type, Result>::~Transducer() {
-        delete _initial_state;
+        delete _intersection;
     }
 
     template <>
@@ -26,7 +27,7 @@ namespace liblevenshtein {
     Transducer<Algorithm::STANDARD, std::string>::operator()(
         const std::string &term, std::size_t max_distance) {
         return LazyIterator<std::string>(
-            term, max_distance, _root, _initial_state,
+            term, max_distance, _intersection,
             StateTransition(position_transition<Algorithm::STANDARD>,
                             compare<Algorithm::STANDARD>,
                             merge<Algorithm::STANDARD>,
@@ -40,7 +41,7 @@ namespace liblevenshtein {
     Transducer<Algorithm::STANDARD, Candidate>::operator()(
         const std::string &term, std::size_t max_distance) {
         return LazyIterator<Candidate>(
-            term, max_distance, _root, _initial_state,
+            term, max_distance, _intersection,
             StateTransition(position_transition<Algorithm::STANDARD>,
                             compare<Algorithm::STANDARD>,
                             merge<Algorithm::STANDARD>,
@@ -54,7 +55,7 @@ namespace liblevenshtein {
     Transducer<Algorithm::TRANSPOSITION, std::string>::operator()(
         const std::string &term, std::size_t max_distance) {
         return LazyIterator<std::string>(
-            term, max_distance, _root, _initial_state,
+            term, max_distance, _intersection,
             StateTransition(position_transition<Algorithm::TRANSPOSITION>,
                             compare<Algorithm::TRANSPOSITION>,
                             merge<Algorithm::TRANSPOSITION>,
@@ -68,7 +69,7 @@ namespace liblevenshtein {
     Transducer<Algorithm::TRANSPOSITION, Candidate>::operator()(
         const std::string &term, std::size_t max_distance) {
         return LazyIterator<Candidate>(
-            term, max_distance, _root, _initial_state,
+            term, max_distance, _intersection,
             StateTransition(position_transition<Algorithm::TRANSPOSITION>,
                             compare<Algorithm::TRANSPOSITION>,
                             merge<Algorithm::TRANSPOSITION>,
@@ -82,7 +83,7 @@ namespace liblevenshtein {
     Transducer<Algorithm::MERGE_AND_SPLIT, std::string>::operator()(
         const std::string &term, std::size_t max_distance) {
         return LazyIterator<std::string>(
-            term, max_distance, _root, _initial_state,
+            term, max_distance, _intersection,
             StateTransition(position_transition<Algorithm::MERGE_AND_SPLIT>,
                             compare<Algorithm::MERGE_AND_SPLIT>,
                             merge<Algorithm::MERGE_AND_SPLIT>,
@@ -96,7 +97,7 @@ namespace liblevenshtein {
     Transducer<Algorithm::MERGE_AND_SPLIT, Candidate>::operator()(
         const std::string &term, std::size_t max_distance) {
         return LazyIterator<Candidate>(
-            term, max_distance, _root, _initial_state,
+            term, max_distance, _intersection,
             StateTransition(position_transition<Algorithm::MERGE_AND_SPLIT>,
                             compare<Algorithm::MERGE_AND_SPLIT>,
                             merge<Algorithm::MERGE_AND_SPLIT>,

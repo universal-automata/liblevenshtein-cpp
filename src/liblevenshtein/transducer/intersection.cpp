@@ -12,11 +12,7 @@ namespace liblevenshtein {
           _state(state) {}
 
     Intersection::~Intersection() {
-        Position *head = _state->head();
-        if (head->term_index() > 0 || head->num_errors() > 0) {
-            // don't delete the initial state, it'll be deleted by the transducer
-            delete _state;
-        }
+        delete _state;
     }
 
     DawgNode *Intersection::node() const {
