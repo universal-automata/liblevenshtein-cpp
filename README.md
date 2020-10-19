@@ -25,6 +25,53 @@ make
 make install
 ```
 
+The files will be installed to the following locations:
+
+```
+$ tree "${CMAKE_INSTALL_PREFIX}"
+${CMAKE_INSTALL_PREFIX}
+├── include
+│   └── liblevenshtein
+│       ├── collection
+│       │   ├── dawg.h
+│       │   ├── dawg_iterator.h
+│       │   ├── dawg_node.h
+│       │   ├── prefix.h
+│       │   ├── sorted_dawg.h
+│       │   └── transition.h
+│       ├── distance
+│       │   ├── distance.h
+│       │   ├── memoized_distance.h
+│       │   ├── merge_and_split_distance.h
+│       │   ├── standard_distance.h
+│       │   ├── symmetric_pair.h
+│       │   └── transposition_distance.h
+│       ├── transducer
+│       │   ├── algorithm.h
+│       │   ├── comparator.h
+│       │   ├── distance.h
+│       │   ├── intersection.h
+│       │   ├── lazy_query.h
+│       │   ├── merge.h
+│       │   ├── position.h
+│       │   ├── position_transition.h
+│       │   ├── state.h
+│       │   ├── state_iterator.h
+│       │   ├── state_transition.h
+│       │   ├── subsumes.h
+│       │   ├── transducer.h
+│       │   └── unsubsume.h
+│       └── utils
+│           ├── MurmurHash2.h
+│           └── MurmurHash3.h
+└── lib
+    ├── liblevenshtein.so -> liblevenshtein.so.4.0
+    ├── liblevenshtein.so.4.0 -> liblevenshtein.so.4.0.0
+    └── liblevenshtein.so.4.0.0
+
+7 directories, 31 files
+```
+
 ##### Disabling tests
 
 If you want to build the library without tests, use the same instructions but
@@ -119,9 +166,7 @@ int main(int argc, char *argv[]) {
 
 ```shell
 # Within the build directory
-for MODULE in collection distance transducer; do
-  ./test/liblevenshtein/${MODULE}/test-${MODULE}
-done
+./test/test-liblevenshtein
 ```
 
 ##### Dependencies

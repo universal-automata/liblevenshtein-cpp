@@ -1,23 +1,6 @@
-# set(MODULE_NAME "utils")
+# file(RELATIVE_PATH MODULE_INCLUDE_DIR "${TEST_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+# file(GLOB MODULE_HEADERS "*.h" "*.hpp")
 
-# set(TEST_SOURCES
-#   "test_module.cpp")
-
-# add_executable(test-${MODULE_NAME} ${TEST_SOURCES})
-# add_test(NAME test-${MODULE_NAME} COMMAND test-${MODULE_NAME})
-# target_link_libraries(test-${MODULE_NAME} PUBLIC
-#   levenshtein-rapidcheck-parser
-#   levenshtein-${MODULE_NAME}
-#   gtest)
-
-# target_include_directories(test-${MODULE_NAME} PUBLIC
-#   "${SOURCE_ROOT}"
-#   "${TEST_ROOT}")
-
-# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rapidcheck.yaml")
-#   file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/rapidcheck.yaml"
-#     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-# else()
-#   file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/../config/rapidcheck.yaml"
-#     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-# endif()
+# target_sources(test-${PROJECT_NAME} PUBLIC
+#   ${MODULE_HEADERS}
+#   )
