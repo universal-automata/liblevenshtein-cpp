@@ -22,88 +22,18 @@ namespace liblevenshtein {
         delete _intersection;
     }
 
-    template <>
-    LazyIterator<std::string>
-    Transducer<Algorithm::STANDARD, std::string>::operator()(
-        const std::string &term, std::size_t max_distance) {
-        return LazyIterator<std::string>(
+    template <Algorithm Type, class Result>
+    LazyIterator<Result>
+    Transducer<Type, Result>::operator()(const std::string &term,
+                                         std::size_t max_distance) {
+        return LazyIterator<Result>(
             term, max_distance, _intersection,
-            StateTransition(position_transition<Algorithm::STANDARD>,
-                            compare<Algorithm::STANDARD>,
-                            merge<Algorithm::STANDARD>,
-                            UnsubsumeFn(subsumes<Algorithm::STANDARD>),
+            StateTransition(position_transition<Type>,
+                            compare<Type>,
+                            merge<Type>,
+                            UnsubsumeFn(subsumes<Type>),
                             max_distance, term.length()),
-            distance<Algorithm::STANDARD>);
-    }
-
-    template <>
-    LazyIterator<Candidate>
-    Transducer<Algorithm::STANDARD, Candidate>::operator()(
-        const std::string &term, std::size_t max_distance) {
-        return LazyIterator<Candidate>(
-            term, max_distance, _intersection,
-            StateTransition(position_transition<Algorithm::STANDARD>,
-                            compare<Algorithm::STANDARD>,
-                            merge<Algorithm::STANDARD>,
-                            UnsubsumeFn(subsumes<Algorithm::STANDARD>),
-                            max_distance, term.length()),
-            distance<Algorithm::STANDARD>);
-    }
-
-    template <>
-    LazyIterator<std::string>
-    Transducer<Algorithm::TRANSPOSITION, std::string>::operator()(
-        const std::string &term, std::size_t max_distance) {
-        return LazyIterator<std::string>(
-            term, max_distance, _intersection,
-            StateTransition(position_transition<Algorithm::TRANSPOSITION>,
-                            compare<Algorithm::TRANSPOSITION>,
-                            merge<Algorithm::TRANSPOSITION>,
-                            UnsubsumeFn(subsumes<Algorithm::TRANSPOSITION>),
-                            max_distance, term.length()),
-            distance<Algorithm::TRANSPOSITION>);
-    }
-
-    template <>
-    LazyIterator<Candidate>
-    Transducer<Algorithm::TRANSPOSITION, Candidate>::operator()(
-        const std::string &term, std::size_t max_distance) {
-        return LazyIterator<Candidate>(
-            term, max_distance, _intersection,
-            StateTransition(position_transition<Algorithm::TRANSPOSITION>,
-                            compare<Algorithm::TRANSPOSITION>,
-                            merge<Algorithm::TRANSPOSITION>,
-                            UnsubsumeFn(subsumes<Algorithm::TRANSPOSITION>),
-                            max_distance, term.length()),
-            distance<Algorithm::TRANSPOSITION>);
-    }
-
-    template <>
-    LazyIterator<std::string>
-    Transducer<Algorithm::MERGE_AND_SPLIT, std::string>::operator()(
-        const std::string &term, std::size_t max_distance) {
-        return LazyIterator<std::string>(
-            term, max_distance, _intersection,
-            StateTransition(position_transition<Algorithm::MERGE_AND_SPLIT>,
-                            compare<Algorithm::MERGE_AND_SPLIT>,
-                            merge<Algorithm::MERGE_AND_SPLIT>,
-                            UnsubsumeFn(subsumes<Algorithm::MERGE_AND_SPLIT>),
-                            max_distance, term.length()),
-            distance<Algorithm::MERGE_AND_SPLIT>);
-    }
-
-    template <>
-    LazyIterator<Candidate>
-    Transducer<Algorithm::MERGE_AND_SPLIT, Candidate>::operator()(
-        const std::string &term, std::size_t max_distance) {
-        return LazyIterator<Candidate>(
-            term, max_distance, _intersection,
-            StateTransition(position_transition<Algorithm::MERGE_AND_SPLIT>,
-                            compare<Algorithm::MERGE_AND_SPLIT>,
-                            merge<Algorithm::MERGE_AND_SPLIT>,
-                            UnsubsumeFn(subsumes<Algorithm::MERGE_AND_SPLIT>),
-                            max_distance, term.length()),
-            distance<Algorithm::MERGE_AND_SPLIT>);
+            distance<Type>);
     }
 
 } // namespace liblevenshtein
