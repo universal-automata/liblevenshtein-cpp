@@ -1,7 +1,7 @@
 list(APPEND CMAKE_MODULE_PATH
   /usr/lib/cmake/GTest
   /usr/share/rapidcheck/cmake
-  /usr/lib/cmake/yaml-cpp)
+  /usr/share/cmake/yaml-cpp)
 
 include(GTestConfig)
 include(rapidcheckConfig)

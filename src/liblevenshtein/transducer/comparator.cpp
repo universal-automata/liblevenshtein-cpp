@@ -5,7 +5,8 @@ namespace liblevenshtein {
 // We have to be careful because term_index and num_errors are unsigned integer
 // types, so subtracting may result in an underflow.
 
-    template <> int compare<Algorithm::STANDARD>(Position *lhs, Position *rhs) {
+    template <>
+    int compare<Algorithm::STANDARD>(Position *lhs, Position *rhs) {
         if (lhs->term_index() < rhs->term_index()) {
             return -1;
         }

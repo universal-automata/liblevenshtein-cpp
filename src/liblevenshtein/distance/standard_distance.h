@@ -11,6 +11,7 @@ namespace liblevenshtein {
     public:
         int between(std::string v, std::string w);
     };
+
 } // namespace liblevenshtein
 
 #endif // __LIBLEVENSHTEIN__DISTANCE__STANDARD_DISTANCE_H__

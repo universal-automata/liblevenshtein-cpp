@@ -24,7 +24,7 @@ namespace liblevenshtein {
         std::unordered_map<SymmetricPair, int> memo;
         mutable std::shared_mutex mutex;
     };
-} // namespace liblevenshtein
 
+} // namespace liblevenshtein
 
 #endif // __LIBLEVENSHTEIN__DISTANCE__MEMOIZED_DISTANCE_H__

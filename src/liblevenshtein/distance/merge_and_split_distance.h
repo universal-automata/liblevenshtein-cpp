@@ -11,6 +11,7 @@ namespace liblevenshtein {
     public:
         int between(std::string v, std::string w);
     };
+
 } // namespace liblevenshtein
 
 #endif // __LIBLEVENSHTEIN__DISTANCE__MERGE_AND_SPLIT_DISTANCE_H__

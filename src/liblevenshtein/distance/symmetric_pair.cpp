@@ -1,7 +1,6 @@
 #include "liblevenshtein/distance/symmetric_pair.h"
 #include "liblevenshtein/utils/MurmurHash2.h"
 
-
 namespace liblevenshtein {
 
     SymmetricPair::SymmetricPair(const std::string &first, const std::string &second) {
@@ -30,8 +29,8 @@ namespace liblevenshtein {
         out << "SymmetricPair{first=\"" << pair.first << "\", second=\"" << pair.second << "\"}";
         return out;
     }
-} // namespace liblevenshtein
 
+} // namespace liblevenshtein
 
 std::size_t std::hash<liblevenshtein::SymmetricPair>::operator()(const liblevenshtein::SymmetricPair &pair) const {
     std::uint64_t hash_code = 0xDEADBEEF;

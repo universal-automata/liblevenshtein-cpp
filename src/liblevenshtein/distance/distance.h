@@ -3,7 +3,6 @@
 
 #include <string>
 
-
 namespace liblevenshtein {
 
     class Distance {
@@ -13,6 +12,5 @@ namespace liblevenshtein {
     };
 
 } // namespace liblevenshtein
-
 
 #endif // __LIBLEVENSHTEIN__DISTANCE__DISTANCE_H__

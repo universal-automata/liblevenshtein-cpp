@@ -1,0 +1,4 @@
+max_success: 256
+max_size: 32
+verbose_progress: 1
+verbose_shrinking: 1

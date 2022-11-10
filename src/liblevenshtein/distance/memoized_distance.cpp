@@ -30,4 +30,5 @@ namespace liblevenshtein {
         }
         return "";
     }
+
 } // namespace liblevenshtein
