@@ -104,6 +104,58 @@ cmake -D CMAKE_BUILD_TYPE=Debug \
 
 #### Usage
 
+##### Algorithms
+
+`liblevenshtein` supports three variations of Levenshtein distance, where each
+variation is defined by the elementary operations it supports. An elementary
+operation is an edit operation that errs in a penalty of 1 unit.
+
+1. `liblevenshtein::STANDARD`
+  * Standard Levenshtein distance including the traditional elementary
+    operations of `insert`, `delete`, and `substitute`.
+2. `liblevenshtein::TRANSPOSITION`
+  * Standard Levenshtein distance extended with `transpose` as an elementary
+    operation.
+  * The elementary operations supported by this algorithm follow: `insert`,
+    `delete`, `substitute`, and `transpose`.
+  * A transposition reorders the characters `ab` as `ba`, erring with a penalty
+    of 1 unit instead of 2.
+      * The standard algorithm treats transpositions as either a sequence of
+        `delete+insert`, `insert+delete`, or `substitute+substitute`, each of
+        which errs in a penalty of 2 units.
+  * This algorithm is preferred for correcting typographical errors, where the
+    majority of misspellings in English are within 2 units of error from the
+    intended spelling with many errors being transpositions.
+3. `liblevenshtein::MERGE_AND_SPLIT`
+  * Standard Levenshtein distance extended with two additional elementary
+    operations: `merge` and `split`.
+  * The elementary operations supported by this algorithm follow: `insert`,
+    `delete`, `substitute`, `merge`, and `split`.
+  * This algorithm does not include `transpose` as an elementary operation.
+  * A `merge` collapses characters `cl` as a single character `d`.
+  * A `split` expands character `d` as two characters `cl`.
+  * This algorithm is preferred for correcting OCR (Optical Character
+    Recognition) errors, where an OCR model may incorrectly read the sequence of
+    characters `cl` as `d` or the character `d` as the sequence `cl`. Of course,
+    these operations consider all combinations of characters from your
+    dictionary and not just the obvious ones.
+
+##### Results
+
+`liblevenshtein` supports returning results in two formats:
+
+1. `std::string`
+  * Spelling candidates are returned as strings without including their edit
+    distances from the query term.
+  * This is likely what you want for production.
+2. `liblevenshtein::Candidate`
+  * Spelling candidates are returned as instances of `std::pair<std::string,
+    std::size_t>`, where each pair includes the spelling candidate and its edit
+    distance from the query term.
+  * This is likely what you want for development.
+
+##### Example
+
 ```c++
 #include <algorithm>
 #include <cstddef>
