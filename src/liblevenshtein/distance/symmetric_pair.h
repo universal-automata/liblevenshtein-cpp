@@ -28,7 +28,7 @@ namespace liblevenshtein {
 namespace std {
 
     template <>
-    struct hash<liblevenshtein::SymmetricPair> : unary_function<liblevenshtein::SymmetricPair, size_t> {
+    struct hash<liblevenshtein::SymmetricPair> {
         size_t operator()(const liblevenshtein::SymmetricPair &pair) const;
     };
 } // namespace std

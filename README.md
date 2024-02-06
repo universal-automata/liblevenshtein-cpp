@@ -1,8 +1,6 @@
-# liblevenshtein
+# liblevenshtein-cpp
 
-## C++
-
-### A library for generating Finite State Transducers based on Levenshtein Automata.
+A library for generating Finite State Transducers based on Levenshtein Automata.
 
 NOTE: This library is currently in beta phase. I'll have it production ready as
 soon as possible. Currently, the top-level components have decent test coverage
@@ -13,11 +11,65 @@ need compatibility with an older standard, please either submit a pull request
 or create an issue stating the standard you need compatibility with and I'll get
 around to adding its support when I get time.
 
-#### Building and Installation
+## Initialization
+
+To ease dependency management during development,
+[Anaconda](https://www.anaconda.com/) is used. If you do not have a working
+installation, I recommend the
+[Mamba](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html)
+variant:
+
+```shell
+# For Linux (x86_64)
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh -b
+```
+
+```shell
+# For OS X (arm64)
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+bash Miniforge3-MacOSX-arm64.sh -b
+```
+
+Initialize the `base` environment:
+
+```bash
+__conda_setup="$("$HOME/miniforge3/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0  ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh"  ]; then
+        source "$HOME/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/miniforge3/bin:$PATH"
+    fi
+fi
+```
+
+Clone [liblevenshtein-cpp](https://github.com/universal-automata/liblevenshtein-cpp):
 
 ```shell
 git clone https://github.com/universal-automata/liblevenshtein-cpp.git
 cd liblevenshtein-cpp
+```
+
+Initialize the conda environment:
+
+```shell
+# For Linux
+mamba env create --force -f environment_linux.yml
+conda activate ll-cpp
+```
+
+```shell
+# For OS X
+mamba env create --force -f environment_osx.yml
+conda activate ll-cpp
+```
+
+## Building and Installation
+
+```shell
 mkdir build
 cd build
 cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/usr/local ..
@@ -72,7 +124,7 @@ ${CMAKE_INSTALL_PREFIX}
 7 directories, 31 files
 ```
 
-##### Disabling tests
+### Disabling tests
 
 If you want to build the library without tests, use the same instructions but
 add the CMake option `BUILD_TESTS=OFF`, as described below:
@@ -86,7 +138,7 @@ cmake -D CMAKE_BUILD_TYPE=Debug \
 # ...
 ```
 
-##### Disabling baseline metrics
+### Disabling baseline metrics
 
 If you want to disable the baseline metrics used for validation, you need to
 disable both tests and the metrics. If you disable the metrics but enable tests
@@ -102,9 +154,9 @@ cmake -D CMAKE_BUILD_TYPE=Debug \
 # ...
 ```
 
-#### Usage
+## Usage
 
-##### Algorithms
+### Algorithms
 
 `liblevenshtein` supports three variations of Levenshtein distance, where each
 variation is defined by the elementary operations it supports. An elementary
@@ -140,7 +192,7 @@ operation is an edit operation that errs in a penalty of 1 unit.
     these operations consider all combinations of characters from your
     dictionary and not just the obvious ones.
 
-##### Results
+### Results
 
 `liblevenshtein` supports returning results in two formats:
 
@@ -154,7 +206,7 @@ operation is an edit operation that errs in a penalty of 1 unit.
     distance from the query term.
   * This is likely what you want for development.
 
-##### Example
+### Example
 
 ```c++
 #include <algorithm>
@@ -214,14 +266,14 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-#### Testing
+## Testing
 
 ```shell
 # Within the build directory
 ./test/test-liblevenshtein
 ```
 
-##### Dependencies
+### Dependencies
 1. [Google Test](https://github.com/google/googletest)
 2. [RapidCheck](https://github.com/emil-e/rapidcheck)
 3. [yaml-cpp](https://github.com/jbeder/yaml-cpp)

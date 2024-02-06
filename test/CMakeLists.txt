@@ -1,11 +1,7 @@
-list(APPEND CMAKE_MODULE_PATH
-  /usr/lib/cmake/GTest
-  /usr/share/rapidcheck/cmake
-  /usr/share/cmake/yaml-cpp)
-
-include(GTestConfig)
-include(rapidcheckConfig)
-include(yaml-cpp-config)
+enable_testing()
+find_package(GTest REQUIRED)
+find_package(rapidcheck REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 set(TEST_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 

@@ -43,7 +43,7 @@ namespace liblevenshtein {
 namespace std {
 
     template <>
-    struct hash<liblevenshtein::Dawg> : unary_function<liblevenshtein::Dawg, size_t> {
+    struct hash<liblevenshtein::Dawg> {
         size_t operator()(const liblevenshtein::Dawg &dawg) const;
     };
 } // namespace std
