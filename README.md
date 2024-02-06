@@ -56,14 +56,7 @@ cd liblevenshtein-cpp
 Initialize the conda environment:
 
 ```shell
-# For Linux
-mamba env create --force -f environment_linux.yml
-conda activate ll-cpp
-```
-
-```shell
-# For OS X
-mamba env create --force -f environment_osx.yml
+mamba env create --force -f environment.yml
 conda activate ll-cpp
 ```
 
