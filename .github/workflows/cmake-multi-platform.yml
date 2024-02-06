@@ -33,24 +33,18 @@ jobs:
           use-mamba: true
           channels: conda-forge
 
-      - name: Set reusable strings
-        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
-        id: strings
-        shell: bash
-        run: echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-
       - name: Configure CMake
         shell: bash -el {0}
         run: >
           cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -B ${{ steps.strings.outputs.build-output-dir }}
+          -B ${{ github.workspace }}/build
           -S ${{ github.workspace }}
 
       - name: Build
         shell: bash -el {0}
-        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+        run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.build_type }}
 
       - name: Test
         shell: bash -el {0}
-        working-directory: ${{ steps.strings.outputs.build-output-dir }}/test
+        working-directory: ${{ github.workspace }}/build/test
         run: ./test-liblevenshtein
