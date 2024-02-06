@@ -35,16 +35,12 @@ jobs:
 
       - name: Configure CMake
         shell: bash -el {0}
-        run: >
-          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -B ${{ github.workspace }}/build
-          -S ${{ github.workspace }}
+        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build
         shell: bash -el {0}
-        run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.build_type }}
+        run: cmake --build build --config ${{ matrix.build_type }}
 
       - name: Test
         shell: bash -el {0}
-        working-directory: ${{ github.workspace }}/build/test
-        run: ./test-liblevenshtein
+        run: ./build/test/test-liblevenshtein
