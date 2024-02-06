@@ -40,9 +40,7 @@ jobs:
         with:
           environment-file: environment.yml
           activate-environment: ll-cpp
-          miniforge-variant: Mambaforge
           miniforge-version: latest
-          use-mamba: true
 
       - name: Set reusable strings
         # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -55,7 +53,7 @@ jobs:
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
         run: >
           cmake
-            -DCMAKE_CPP_COMPILER="~/miniforge3/bin/${{ matrix.cpp-compiler }}"
+            -DCMAKE_CPP_COMPILER="/home/runner/miniforge3/bin/${{ matrix.cpp-compiler }}"
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
             -B ${{ steps.strings.outputs.build-output-dir }}
             -S ${{ github.workspace }}
