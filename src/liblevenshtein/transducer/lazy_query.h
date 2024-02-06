@@ -64,9 +64,6 @@ namespace liblevenshtein {
                                                 std::size_t i);
     };
 
-    template class LazyQuery<std::string>;
-    template class LazyQuery<std::pair<std::string, std::size_t>>;
-
     template <class Result>
     class LazyIterator {
     public:
@@ -86,9 +83,6 @@ namespace liblevenshtein {
         TransitionFn transition;
         DistanceFn min_distance;
     };
-
-    template class LazyIterator<std::string>;
-    template class LazyIterator<std::pair<std::string, std::size_t>>;
 
 } // namespace liblevenshtein
 

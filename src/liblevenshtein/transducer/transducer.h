@@ -1,5 +1,5 @@
-#ifndef __LIBLEVENSHTEIN__TRANSDUCER__TRANSDUCE_H__
-#define __LIBLEVENSHTEIN__TRANSDUCER__TRANSDUCE_H__
+#ifndef __LIBLEVENSHTEIN__TRANSDUCER__TRANSDUCER_H__
+#define __LIBLEVENSHTEIN__TRANSDUCER__TRANSDUCER_H__
 
 #include <cstddef>
 #include <string>
@@ -28,13 +28,6 @@ namespace liblevenshtein {
         Intersection *_intersection;
     };
 
-    template class Transducer<Algorithm::STANDARD, std::string>;
-    template class Transducer<Algorithm::STANDARD, Candidate>;
-    template class Transducer<Algorithm::TRANSPOSITION, std::string>;
-    template class Transducer<Algorithm::TRANSPOSITION, Candidate>;
-    template class Transducer<Algorithm::MERGE_AND_SPLIT, std::string>;
-    template class Transducer<Algorithm::MERGE_AND_SPLIT, Candidate>;
-
 } // namespace liblevenshtein
 
-#endif // __LIBLEVENSHTEIN__TRANSDUCER__TRANSDUCE_H__
+#endif // __LIBLEVENSHTEIN__TRANSDUCER__TRANSDUCER_H__

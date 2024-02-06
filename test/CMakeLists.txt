@@ -12,9 +12,9 @@ add_test(NAME test-${PROJECT_NAME} COMMAND test-${PROJECT_NAME})
 
 target_link_libraries(test-${PROJECT_NAME} PUBLIC
   levenshtein
-  gtest
+  GTest::gtest_main
   rapidcheck_gtest
-  yaml-cpp)
+  yaml-cpp::yaml-cpp)
 
 target_include_directories(test-${PROJECT_NAME} PUBLIC
   "${SOURCE_DIR}"

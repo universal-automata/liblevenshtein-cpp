@@ -130,6 +130,9 @@ namespace liblevenshtein {
         return characteristic_vector;
     }
 
+    template class LazyQuery<std::string>;
+    template class LazyQuery<std::pair<std::string, std::size_t>>;
+
     template <class Result>
     LazyIterator<Result>::LazyIterator(const std::string &term,
                                        std::size_t max_distance,
@@ -156,5 +159,8 @@ namespace liblevenshtein {
     LazyQuery<Result> LazyIterator<Result>::end() {
         return LazyQuery<Result>();
     }
+
+    template class LazyIterator<std::string>;
+    template class LazyIterator<std::pair<std::string, std::size_t>>;
 
 } // namespace liblevenshtein

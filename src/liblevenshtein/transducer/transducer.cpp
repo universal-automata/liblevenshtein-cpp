@@ -28,12 +28,17 @@ namespace liblevenshtein {
                                          std::size_t max_distance) {
         return LazyIterator<Result>(
             term, max_distance, _intersection,
-            StateTransition(position_transition<Type>,
-                            compare<Type>,
-                            merge<Type>,
-                            UnsubsumeFn(subsumes<Type>),
+            StateTransition(position_transition<Type>, compare<Type>,
+                            merge<Type>, UnsubsumeFn(subsumes<Type>),
                             max_distance, term.length()),
             distance<Type>);
     }
+
+    template class Transducer<Algorithm::STANDARD, std::string>;
+    template class Transducer<Algorithm::STANDARD, Candidate>;
+    template class Transducer<Algorithm::TRANSPOSITION, std::string>;
+    template class Transducer<Algorithm::TRANSPOSITION, Candidate>;
+    template class Transducer<Algorithm::MERGE_AND_SPLIT, std::string>;
+    template class Transducer<Algorithm::MERGE_AND_SPLIT, Candidate>;
 
 } // namespace liblevenshtein
