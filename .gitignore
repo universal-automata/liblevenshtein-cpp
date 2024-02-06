@@ -10,6 +10,7 @@
 !/CMakeLists.txt
 !/LICENSE.txt
 !/README.md
+!/environment_*.yml
 
 !/src/**/CMakeLists.txt
 !/src/**/*.h

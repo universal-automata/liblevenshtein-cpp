@@ -1,0 +1,10 @@
+name: ll-cpp
+channels:
+  - conda-forge
+dependencies:
+  - cmake
+  - gtest
+  - make
+  - clangxx
+  - rapidcheck
+  - yaml-cpp
