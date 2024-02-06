@@ -57,7 +57,7 @@ jobs:
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
         run: >
           cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DCMAKE_CPP_COMPILER="/home/runner/miniconda3/envs/ll-cpp/bin/${{ matrix.cpp-compiler }}"
+          -DCMAKE_CXX_COMPILER="/home/runner/miniconda3/envs/ll-cpp/bin/${{ matrix.cpp-compiler }}"
           -B ${{ steps.strings.outputs.build-output-dir }}
           -S ${{ github.workspace }}
 
