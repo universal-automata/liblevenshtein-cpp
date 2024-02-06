@@ -24,11 +24,8 @@ jobs:
         build_type: [Debug, Release]
         include:
           - os: ubuntu-latest
-            cpp-compiler: g++
           - os: macos-latest
-            cpp-compiler: clang++
           #- os: windows-latest
-          #  miniforge-filename: Miniforge3--x86_64.exe
 
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +48,6 @@ jobs:
         shell: bash -el {0}
         run: >
           cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DCMAKE_CXX_COMPILER="/home/runner/miniconda3/envs/ll-cpp/bin/${{ matrix.cpp-compiler }}"
           -B ${{ steps.strings.outputs.build-output-dir }}
           -S ${{ github.workspace }}
 
