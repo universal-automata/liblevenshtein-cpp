@@ -79,9 +79,11 @@ void collect_edges(DawgNode *source,
     uint64_t source_id = reinterpret_cast<uint64_t>(source);
     source->for_each_edge([&](char label, DawgNode *target) {
         std::pair<uint64_t, char> key = std::make_pair(source_id, label);
-        uint64_t target_id = reinterpret_cast<uint64_t>(target);
-        edges[key] = target_id;
-        collect_edges(target, edges);
+        if (!edges.contains(key)) {
+            uint64_t target_id = reinterpret_cast<uint64_t>(target);
+            edges[key] = target_id;
+            collect_edges(target, edges);
+        }
     });
 }
 
