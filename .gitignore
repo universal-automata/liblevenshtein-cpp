@@ -27,5 +27,7 @@
 !/test/**/CMakeLists.txt
 !/test/**/rapidcheck.yaml
 
+!/.github/**/*.yml
+
 # Ignore all build artifacts
 /build
