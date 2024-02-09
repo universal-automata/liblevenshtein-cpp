@@ -28,8 +28,11 @@ namespace liblevenshtein {
         DawgIterator begin() const;
         DawgIterator end() const;
 
+        bool operator==(const Dawg &other) const;
+        bool operator!=(const Dawg &other) const;
+
         friend class std::hash<Dawg>;
-        friend std::ostream& operator<<(std::ostream& out, const Dawg& dawg);
+        friend std::ostream &operator<<(std::ostream &out, const Dawg &dawg);
 
       protected:
         DawgNode* _root;

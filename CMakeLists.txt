@@ -6,7 +6,7 @@ project(liblevenshtein
   HOMEPAGE_URL "https://github.com/universal-automata/liblevenshtein-cpp"
   LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -24,7 +24,18 @@ if(NOT BUILD_BASELINE_METRICS AND BUILD_TESTS)
   SET(BUILD_BASELINE_METRICS ON)
 endif()
 
+add_subdirectory(proto)
 add_subdirectory(src)
+
+set_target_properties(levenshtein PROPERTIES
+  VERSION ${PROJECT_VERSION}
+  SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+
+install(TARGETS levenshtein
+  EXPORT "${PROJECT_NAME}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
 if(BUILD_TESTS)
   add_subdirectory(test)

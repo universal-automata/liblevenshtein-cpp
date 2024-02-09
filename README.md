@@ -208,20 +208,35 @@ operation is an edit operation that errs in a penalty of 1 unit.
 #include <utility>
 #include <vector>
 
+#include <google/protobuf/stubs/common.h>
+
 #include <liblevenshtein/collection/dawg.h>
 #include <liblevenshtein/collection/sorted_dawg.h>
 #include <liblevenshtein/transducer/algorithm.h>
 #include <liblevenshtein/transducer/transducer.h>
+#include <liblevenshtein/serialization/serializer.h>
 
 namespace ll = liblevenshtein;
 
 int main(int argc, char *argv[]) {
-    std::vector<std::string> terms; // populate with your spelling candidates
-    std::sort(terms.begin(), terms.end()); // must be sorted for the current algorithm
+    // Verify that the version of the library that we linked against is
+    // compatible with the version of the headers we compiled against.
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    // NOTE: If (dawg == nullptr) then the construction of the dictionary failed,
-    // probably because terms wasn't sorted lexicographically in ascending order.
-    ll::Dawg *dawg = ll::sorted_dawg(terms.begin(), terms.end());
+    // path to file containing serialized dictionary
+    std::string serialization_path;
+
+    ll::Dawg *dawg = deserialize_protobuf(serialization_path);
+
+    if (dawg == nullptr) {
+        std::vector<std::string> terms; // populate with your spelling candidates
+        std::sort(terms.begin(), terms.end()); // must be sorted for now
+
+        // NOTE: If (dawg == nullptr) then the construction of the dictionary
+        // failed, probably because terms wasn't sorted lexicographically in
+        // ascending order.
+        dawg = ll::sorted_dawg(terms.begin(), terms.end());
+    }
 
     /**
      * Template arguments:
@@ -255,7 +270,15 @@ int main(int argc, char *argv[]) {
      * }
      */
 
-     delete dawg;
+    // save the dictionary for reuse
+    serialize_protobuf(dawg, serialization_path);
+
+    delete dawg;
+
+    // Optional:  Delete all global objects allocated by libprotobuf.
+    google::protobuf::ShutdownProtobufLibrary();
+
+    return 0;
 }
 ```
 

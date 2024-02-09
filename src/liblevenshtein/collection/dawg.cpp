@@ -66,6 +66,15 @@ namespace liblevenshtein {
         out << "Dawg{size=" << dawg._size << ", root=" << dawg._root << "}";
         return out;
     }
+
+    bool Dawg::operator==(const Dawg &other) const {
+        return size() == other.size() && *root() == *other.root();
+    }
+
+    bool Dawg::operator!=(const Dawg &other) const {
+        return !(*this == other);
+    }
+
 } // namespace liblevenshtein
 
 

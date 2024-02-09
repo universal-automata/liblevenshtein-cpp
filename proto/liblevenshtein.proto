@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package liblevenshtein.proto;
+
+option java_package = "com.github.liblevenshtein.proto";
+option java_outer_classname = "LibLevenshteinProtos";
+
+message Dictionary {
+    message Node {
+        uint64 id = 1;
+        bool is_final = 2;
+    }
+    message Edge {
+        uint64 source_id = 1;
+        uint32 label = 2;
+        uint64 target_id = 3;
+    }
+    repeated Node node = 1;
+    repeated Edge edge = 2;
+    uint64 root_id = 3;
+    uint64 size = 4;
+}
