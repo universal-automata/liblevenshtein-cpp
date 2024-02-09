@@ -91,6 +91,10 @@ ${CMAKE_INSTALL_PREFIX}
 │       │   ├── standard_distance.h
 │       │   ├── symmetric_pair.h
 │       │   └── transposition_distance.h
+│       ├── proto
+│       │   └── liblevenshtein.pb.h
+│       ├── serialization
+│       │   └── serializer.h
 │       ├── transducer
 │       │   ├── algorithm.h
 │       │   ├── comparator.h
@@ -114,7 +118,7 @@ ${CMAKE_INSTALL_PREFIX}
     ├── liblevenshtein.so.4.0 -> liblevenshtein.so.4.0.0
     └── liblevenshtein.so.4.0.0
 
-7 directories, 31 files
+10 directories, 33 files
 ```
 
 ### Disabling tests
