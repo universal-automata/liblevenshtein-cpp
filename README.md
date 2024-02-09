@@ -1,5 +1,9 @@
 # liblevenshtein-cpp
 
+[![Ubuntu](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-ubuntu.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-ubuntu.yml)
+[![MacOS](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-macos.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-macos.yml)
+[![Windows](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-windows.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-windows.yml)
+
 A library for generating Finite State Transducers based on Levenshtein Automata.
 
 NOTE: This library is currently in beta phase. I'll have it production ready as
