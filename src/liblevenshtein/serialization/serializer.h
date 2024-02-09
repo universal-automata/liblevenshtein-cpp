@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <iostream>
 #include <map>
+#include <set>
 #include <utility>
 
 #include "liblevenshtein/collection/dawg.h"
@@ -27,7 +28,8 @@ Dawg *deserialize_protobuf(const std::string &path);
 Dawg *deserialize_protobuf(const char *path);
 Dawg *deserialize_protobuf(std::istream &input);
 
-void collect_nodes(DawgNode *dawg_node, std::map<uint64_t, bool> &nodes);
+void collect_nodes(DawgNode *dawg_node, std::set<uint64_t> &node_ids,
+                   std::set<uint64_t> &final_node_ids);
 void collect_edges(DawgNode *dawg_node, std::map<std::pair<uint64_t, char>, uint64_t> &edges);
 
 llp::Dictionary *to_protobuf(Dawg *dawg);

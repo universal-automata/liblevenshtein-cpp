@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <set>
 #include <utility>
 
 #include "liblevenshtein/collection/dawg.h"
@@ -64,12 +65,16 @@ Dawg *deserialize_protobuf(std::istream &input) {
     return dawg;
 }
 
-void collect_nodes(DawgNode *source, std::map<uint64_t, bool> &nodes) {
+void collect_nodes(DawgNode *source, std::set<uint64_t> &node_ids,
+                   std::set<uint64_t> &final_node_ids) {
     uint64_t source_id = reinterpret_cast<uint64_t>(source);
-    if (!nodes.contains(source_id)) {
-        nodes[source_id] = source->is_final();
+    if (!node_ids.contains(source_id)) {
+        node_ids.insert(source_id);
+        if (source->is_final()) {
+            final_node_ids.insert(source_id);
+        }
         source->for_each_edge([&](char label, DawgNode *target) {
-            collect_nodes(target, nodes);
+            collect_nodes(target, node_ids, final_node_ids);
         });
     }
 }
@@ -91,12 +96,14 @@ llp::Dictionary *to_protobuf(Dawg *dawg){
     llp::Dictionary *dict_proto = new llp::Dictionary();
     DawgNode *root = dawg->root();
 
-    std::map<uint64_t, bool> nodes;
-    collect_nodes(root, nodes);
-    for (const auto &node : nodes) {
-        llp::Dictionary_Node *node_proto = dict_proto->add_node();
-        node_proto->set_id(node.first);
-        node_proto->set_is_final(node.second);
+    std::set<uint64_t> node_ids;
+    std::set<uint64_t> final_node_ids;
+    collect_nodes(root, node_ids, final_node_ids);
+    for (const uint64_t &node_id : node_ids) {
+        dict_proto->add_node_id(node_id);
+    }
+    for (const uint64_t &final_node_id : final_node_ids) {
+        dict_proto->add_final_node_id(final_node_id);
     }
 
     std::map<std::pair<uint64_t, char>, uint64_t> edges;
@@ -119,12 +126,18 @@ llp::Dictionary *to_protobuf(Dawg *dawg){
 }
 
 Dawg *from_protobuf(const llp::Dictionary &dict_proto) {
+    std::set<uint64_t> final_node_ids;
+    for (int index = 0; index < dict_proto.final_node_id_size(); index += 1) {
+        uint64_t final_node_id = dict_proto.final_node_id(index);
+        final_node_ids.insert(final_node_id);
+    }
+
     std::map<uint64_t, DawgNode*> nodes;
-    for (int index = 0; index < dict_proto.node_size(); index += 1) {
-        const llp::Dictionary_Node &node_proto = dict_proto.node(index);
-        uint64_t node_id = node_proto.id();
+    for (int index = 0; index < dict_proto.node_id_size(); index += 1) {
+        uint64_t node_id = dict_proto.node_id(index);
         if (!nodes.contains(node_id)) {
-            DawgNode *node = new DawgNode(node_proto.is_final());
+            bool is_final = final_node_ids.contains(node_id);
+            DawgNode *node = new DawgNode(is_final);
             nodes[node_id] = node;
         }
     }
