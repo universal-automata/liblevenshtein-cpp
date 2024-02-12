@@ -32,6 +32,7 @@ if(ENABLE_TEST_COVERAGE)
 
   set(LCOV_EXCLUDES
     "${CMAKE_SOURCE_DIR}/src/liblevenshtein/utils/MurmurHash*"
+    "${CMAKE_SOURCE_DIR}/test/*"
     "${CMAKE_BINARY_DIR}/generated/liblevenshtein/proto/*"
     "${CMAKE_CXX_COMPILER_VERSION}/*"
   )
