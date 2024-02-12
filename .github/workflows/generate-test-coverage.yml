@@ -46,6 +46,7 @@ jobs:
         run: cmake --build build --config ${{ matrix.build_type }}
 
       - name: Generate Test Coverage
+        working-directory: build
         shell: bash -el {0}
         run: make coverage
 
