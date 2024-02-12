@@ -41,13 +41,7 @@ if(ENABLE_TEST_COVERAGE)
     list(APPEND COVERAGE_EXCLUDES "$ENV{CONDA_PREFIX}/*")
   endif()
 
-  # setup_target_for_coverage_lcov(
-  #   NAME coverage
-  #   BASE_DIRECTORY test
-  #   EXECUTABLE test-liblevenshtein)
-
   setup_target_for_coverage_gcovr_coveralls(
     NAME coverage
-    BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/src"
     EXECUTABLE test-liblevenshtein)
 endif()
