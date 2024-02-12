@@ -52,3 +52,5 @@ jobs:
 
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.2.3
+        with:
+          file: build/coverage.json
