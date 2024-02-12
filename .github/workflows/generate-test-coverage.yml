@@ -51,5 +51,4 @@ jobs:
         run: make coverage
 
       - name: Coveralls GitHub Action
-        working-directory: build
         uses: coverallsapp/github-action@v2.2.3
