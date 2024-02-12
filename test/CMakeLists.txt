@@ -30,7 +30,7 @@ if(ENABLE_TEST_COVERAGE)
   append_coverage_compiler_flags_to_target(levenshtein)
   append_coverage_compiler_flags_to_target(test-${PROJECT_NAME})
 
-  set(LCOV_EXCLUDES
+  set(COVERAGE_EXCLUDES
     "${CMAKE_SOURCE_DIR}/src/liblevenshtein/utils/MurmurHash*"
     "${CMAKE_SOURCE_DIR}/test/*"
     "${CMAKE_BINARY_DIR}/generated/liblevenshtein/proto/*"
@@ -38,12 +38,16 @@ if(ENABLE_TEST_COVERAGE)
   )
 
   if(DEFINED ENV{CONDA_PREFIX})
-    list(APPEND LCOV_EXCLUDES "$ENV{CONDA_PREFIX}/*")
+    list(APPEND COVERAGE_EXCLUDES "$ENV{CONDA_PREFIX}/*")
   endif()
 
-  setup_target_for_coverage_lcov(
+  # setup_target_for_coverage_lcov(
+  #   NAME coverage
+  #   BASE_DIRECTORY test
+  #   EXECUTABLE test-liblevenshtein)
+
+  setup_target_for_coverage_gcovr_coveralls(
     NAME coverage
-    BASE_DIRECTORY test
-    EXECUTABLE test-liblevenshtein
-    EXCLUDE ${LCOV_EXCLUDES})
+    BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/src"
+    EXECUTABLE test-liblevenshtein)
 endif()
