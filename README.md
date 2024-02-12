@@ -4,6 +4,7 @@
 [![Test MacOS](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-macos.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-macos.yml)
 [![Test Windows](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-windows.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-windows.yml)
 [![CodeQL](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/codeql.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/codeql.yml)
+[![Coverage Status](https://coveralls.io/repos/github/universal-automata/liblevenshtein-cpp/badge.svg?branch=master)](https://coveralls.io/github/universal-automata/liblevenshtein-cpp?branch=master)
 
 A library for generating Finite State Transducers based on Levenshtein Automata.
 
