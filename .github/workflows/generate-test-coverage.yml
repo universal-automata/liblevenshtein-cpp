@@ -1,0 +1,53 @@
+name: Generate Test Coverage
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      # Set fail-fast to false to ensure that feedback is delivered for all
+      # matrix combinations. Consider changing this to true when your workflow
+      # is stable.
+      fail-fast: false
+
+      matrix:
+        os: [ubuntu-latest]
+        build_type: [Debug]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3.0.1
+        with:
+          auto-activate-base: false
+          environment-file: environment.yml
+          activate-environment: ll-cpp
+          miniforge-version: latest
+          use-mamba: true
+          channels: conda-forge
+
+      - name: Configure CMake
+        shell: bash -el {0}
+        run: >
+          cmake -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DENABLE_TEST_COVERAGE=ON
+
+      - name: Build
+        shell: bash -el {0}
+        run: cmake --build build --config ${{ matrix.build_type }}
+
+      - name: Generate Test Coverage
+        shell: bash -el {0}
+        run: make coverage
+
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2.2.3
