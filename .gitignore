@@ -12,6 +12,8 @@
 !/README.md
 !/environment*.yml
 
+!/cmake/**/*.cmake
+
 !/proto/CMakeLists.txt
 !/proto/*.proto
 
