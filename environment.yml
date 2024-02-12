@@ -5,6 +5,7 @@ dependencies:
   - cmake >=3.20
   - cxx-compiler
   - gtest >=1.14.0
+  - lcov >=1.16
   - make
   - protobuf >=4.25.2
   - rapidcheck >=2023.4.13

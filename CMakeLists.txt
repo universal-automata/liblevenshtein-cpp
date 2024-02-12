@@ -6,9 +6,14 @@ project(liblevenshtein
   HOMEPAGE_URL "https://github.com/universal-automata/liblevenshtein-cpp"
   LANGUAGES CXX)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+SET(CMAKE_C_FLAGS_DEBUG "-g -O0")
 
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
@@ -18,6 +23,7 @@ include(GNUInstallDirs)
 
 option(BUILD_BASELINE_METRICS "Builds baseline distance metrics for validation" ON)
 option(BUILD_TESTS "Build liblevenshtein testing suite" ON)
+option(ENABLE_TEST_COVERAGE "Generate test coverage report" OFF)
 
 if(NOT BUILD_BASELINE_METRICS AND BUILD_TESTS)
   message(WARNING "Building baseline metrics because they are required by the tests.")

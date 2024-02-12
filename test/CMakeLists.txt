@@ -24,3 +24,25 @@ add_subdirectory(liblevenshtein)
 
 file(COPY "${TEST_DIR}/${PROJECT_NAME}/config/rapidcheck.yaml"
   DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+
+if(ENABLE_TEST_COVERAGE)
+  include(CodeCoverage)
+  append_coverage_compiler_flags_to_target(levenshtein)
+  append_coverage_compiler_flags_to_target(test-${PROJECT_NAME})
+
+  set(LCOV_EXCLUDES
+    "${CMAKE_SOURCE_DIR}/src/liblevenshtein/utils/MurmurHash*"
+    "${CMAKE_BINARY_DIR}/generated/liblevenshtein/proto/*"
+    "${CMAKE_CXX_COMPILER_VERSION}/*"
+  )
+
+  if(DEFINED ENV{CONDA_PREFIX})
+    list(APPEND LCOV_EXCLUDES "$ENV{CONDA_PREFIX}/*")
+  endif()
+
+  setup_target_for_coverage_lcov(
+    NAME coverage
+    BASE_DIRECTORY test
+    EXECUTABLE test-liblevenshtein
+    EXCLUDE ${LCOV_EXCLUDES})
+endif()
