@@ -1,0 +1,18 @@
+Checks: 'bugprone-*,-bugprone-easily-swappable-parameters,readability-*,-readability-identifier-length,-readability-magic-numbers,modernize-*,concurrency-*,performance-*'
+WarningsAsErrors: '*'
+HeaderFileExtensions:
+  - h
+  - hh
+  - hpp
+  - hxx
+ImplementationFileExtensions:
+  - c
+  - cc
+  - cpp
+  - cxx
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+FormatStyle: none
+User: dylon
+SystemHeaders: false
+UseColor: true

@@ -6,7 +6,7 @@
 
 # Whitelist specific file patterns
 !/**/.gitkeep
-!/.clang-tidy
+!/**/.clang-tidy
 !/.gitignore
 !/CMakeLists.txt
 !/LICENSE.txt
