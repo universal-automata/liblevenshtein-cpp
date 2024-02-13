@@ -1,7 +1,6 @@
-#ifndef __LIBLEVENSHTEIN__DISTANCE__MEMOIZED_DISTANCE_H__
-#define __LIBLEVENSHTEIN__DISTANCE__MEMOIZED_DISTANCE_H__
+#ifndef LIBLEVENSHTEIN_DISTANCE_MEMOIZED_DISTANCE_H
+#define LIBLEVENSHTEIN_DISTANCE_MEMOIZED_DISTANCE_H
 
-#include <mutex>
 #include <shared_mutex>
 #include <string>
 #include <unordered_map>
@@ -11,20 +10,21 @@
 
 namespace liblevenshtein {
 
-    class MemoizedDistance : public Distance {
-    public:
-        int operator()(std::string v, std::string w);
+  class MemoizedDistance : public Distance {
+  public:
+    auto operator()(const std::string &v, const std::string &w) -> std::size_t override;
 
-    protected:
-        int get_distance(const SymmetricPair &key);
-        int set_distance(const SymmetricPair &key, int const distance);
-        std::string f(std::string& u, int t) const;
+  protected:
+    auto get(const SymmetricPair &key, std::size_t &distance) -> bool;
+    auto set(const SymmetricPair &key, const std::size_t &distance)
+        -> std::size_t;
+    static auto f(const std::string &u, std::size_t t) -> std::string;
 
-    private:
-        std::unordered_map<SymmetricPair, int> memo;
-        mutable std::shared_mutex mutex;
-    };
+  private:
+    std::unordered_map<SymmetricPair, std::size_t> memo;
+    mutable std::shared_mutex mutex;
+  };
 
 } // namespace liblevenshtein
 
-#endif // __LIBLEVENSHTEIN__DISTANCE__MEMOIZED_DISTANCE_H__
+#endif // LIBLEVENSHTEIN_DISTANCE_MEMOIZED_DISTANCE_H

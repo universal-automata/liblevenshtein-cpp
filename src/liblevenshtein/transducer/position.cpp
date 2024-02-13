@@ -2,36 +2,35 @@
 
 namespace liblevenshtein {
 
-    Position::Position(std::size_t term_index, std::size_t num_errors, bool is_special)
-        : _term_index(term_index),
-          _num_errors(num_errors),
-          _is_special(is_special)
-    {}
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+Position::Position(std::size_t term_index, std::size_t num_errors, bool is_special)
+  : _term_index(term_index),
+    _num_errors(num_errors),
+    _is_special(is_special)
+{}
 
-    Position::~Position() {
-        if (_next != nullptr) {
-            delete _next;
-        }
-    }
+Position::~Position() {
+  delete _next;
+}
 
-    void Position::next(Position *next) {
-        _next = next;
-    }
+void Position::next(Position *next) {
+  _next = next;
+}
 
-    Position *Position::next() const {
-        return _next;
-    }
+auto Position::next() const -> Position * {
+  return _next;
+}
 
-    std::size_t Position::term_index() const {
-        return _term_index;
-    }
+auto Position::term_index() const -> std::size_t {
+  return _term_index;
+}
 
-    std::size_t Position::num_errors() const {
-        return _num_errors;
-    }
+auto Position::num_errors() const -> std::size_t {
+  return _num_errors;
+}
 
-    bool Position::is_special() const {
-        return _is_special;
-    }
+auto Position::is_special() const -> bool {
+  return _is_special;
+}
 
 } // namespace liblevenshtein

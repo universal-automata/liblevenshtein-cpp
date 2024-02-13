@@ -8,9 +8,10 @@ namespace fs = std::filesystem;
 
 namespace liblevenshtein::test {
 
-std::string gen_rand_str(const size_t &length);
+auto gen_rand_str(const size_t &length) -> std::string;
 
-fs::path gen_temp_path(const std::string &prefix, const std::string &ext);
+auto gen_temp_path(const std::string &prefix, const std::string &ext)
+    -> fs::path;
 
 } // namespace liblevenshtein::test
 

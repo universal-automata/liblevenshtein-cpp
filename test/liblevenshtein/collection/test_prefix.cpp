@@ -10,43 +10,42 @@
 
 namespace ll = liblevenshtein;
 
+RC_GTEST_PROP(Prefix, returns_original_string, (const std::string &term)) {
+  std::vector<ll::DawgNode *> nodes;
+  std::vector<ll::Prefix *> prefixes;
 
-RC_GTEST_PROP(Prefix, returns_original_string, (const std::string term)) {
-    std::vector<ll::DawgNode *> nodes;
-    std::vector<ll::Prefix *> prefixes;
+  auto *node = new ll::DawgNode(term.empty());
+  nodes.push_back(node);
 
-    ll::DawgNode* node = new ll::DawgNode(term.empty());
+  auto *prefix = new ll::Prefix(node);
+  prefixes.push_back(prefix);
+  RC_ASSERT(*node == *(prefix->node()));
+
+  for (int i = 0; i + 1 < term.length(); i += 1) {
+    node = new ll::DawgNode();
     nodes.push_back(node);
-
-    ll::Prefix* prefix = new ll::Prefix(node);
+    prefix = new ll::Prefix(node, prefix, term[i]);
     prefixes.push_back(prefix);
     RC_ASSERT(*node == *(prefix->node()));
+    RC_ASSERT(term[i] == prefix->label());
+  }
 
-    for (int i = 0; i + 1 < term.length(); i += 1) {
-        node = new ll::DawgNode();
-        nodes.push_back(node);
-        prefix = new ll::Prefix(node, prefix, term[i]);
-        prefixes.push_back(prefix);
-        RC_ASSERT(*node == *(prefix->node()));
-        RC_ASSERT(term[i] == prefix->label());
-    }
+  if (!term.empty()) {
+    node = new ll::DawgNode(true);
+    nodes.push_back(node);
+    prefix = new ll::Prefix(node, prefix, term[term.length() - 1]);
+    prefixes.push_back(prefix);
+    RC_ASSERT(*node == *(prefix->node()));
+    RC_ASSERT(term[term.length() - 1] == prefix->label());
+  }
 
-    if (!term.empty()) {
-        node = new ll::DawgNode(true);
-        nodes.push_back(node);
-        prefix = new ll::Prefix(node, prefix, term[term.length() - 1]);
-        prefixes.push_back(prefix);
-        RC_ASSERT(*node == *(prefix->node()));
-        RC_ASSERT(term[term.length() - 1] == prefix->label());
-    }
+  RC_ASSERT(term == prefix->str());
 
-    RC_ASSERT(term == prefix->str());
+  for (ll::Prefix *prefix : prefixes) {
+    delete prefix;
+  }
 
-    for (ll::Prefix* prefix : prefixes) {
-        delete prefix;
-    }
-
-    for (ll::DawgNode* node : nodes) {
-        delete node;
-    }
+  for (ll::DawgNode *node : nodes) {
+    delete node;
+  }
 }

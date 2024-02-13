@@ -1,5 +1,5 @@
-#ifndef __LIBLEVENSHTEIN__COLLECTION__SORTED_DAWG_H__
-#define __LIBLEVENSHTEIN__COLLECTION__SORTED_DAWG_H__
+#ifndef LIBLEVENSHTEIN_COLLECTION_SORTED_DAWG_H
+#define LIBLEVENSHTEIN_COLLECTION_SORTED_DAWG_H
 
 #include <stack>
 #include <unordered_map>
@@ -11,33 +11,30 @@
 
 namespace liblevenshtein {
 
-    class SortedDawg : public Dawg {
-    public:
-        using Dawg::Dawg;
-        ~SortedDawg();
+  class SortedDawg : public Dawg {
+  public:
+    using Dawg::Dawg;
+    ~SortedDawg() override;
 
-        bool add(const std::string& term) override;
-        bool remove(const std::string &term) override;
+    auto add(const std::string &term) -> bool override;
+    auto remove(const std::string &term) -> bool override;
 
-        template <class IterType>
-        friend SortedDawg* sorted_dawg(IterType iter, IterType end);
+    void init();
+    void clean_up();
 
-    private:
-        std::stack<Transition>* unchecked_transitions = nullptr;
-        std::unordered_map<DawgNode, DawgNode *>* minimized_nodes = nullptr;
-        std::unordered_set<DawgNode *>* floating_nodes = nullptr;
-        std::string _prev_term;
+    void finish();
+    void minimize(std::size_t lower_bound);
+    auto minimized_node(DawgNode *key) const -> DawgNode *;
 
-        void init();
-        void clean_up();
+  private:
+    std::stack<Transition> *unchecked_transitions = nullptr;
+    std::unordered_map<DawgNode, DawgNode *> *minimized_nodes = nullptr;
+    std::unordered_set<DawgNode *> *floating_nodes = nullptr;
+    std::string _prev_term;
+  };
 
-        void finish();
-        void minimize(int lower_bound);
-        DawgNode* minimized_node(DawgNode* key) const;
-    };
-
-    template <class IterType>
-    SortedDawg* sorted_dawg(IterType iter, IterType end);
+  template <class IterType>
+  auto sorted_dawg(IterType iter, IterType end) -> SortedDawg *;
 } // namespace liblevenshtein
 
-#endif // __LIBLEVENSHTEIN__COLLECTION__SORTED_DAWG_H__
+#endif // LIBLEVENSHTEIN_COLLECTION_SORTED_DAWG_H

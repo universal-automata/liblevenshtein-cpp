@@ -1,36 +1,35 @@
-#ifndef __LIBLEVENSHTEIN__TRANSDUCER__STATE_ITERATOR_H__
-#define __LIBLEVENSHTEIN__TRANSDUCER__STATE_ITERATOR_H__
+#ifndef LIBLEVENSHTEIN_TRANSDUCER_STATE_ITERATOR_H
+#define LIBLEVENSHTEIN_TRANSDUCER_STATE_ITERATOR_H
 
 #include "liblevenshtein/transducer/position.h"
-#include "liblevenshtein/transducer/state.h"
 
 namespace liblevenshtein {
 
-    class State;
+  class State;
 
-    class StateIterator {
-    public:
-        StateIterator(State* state, Position* head, StateIterator *parent = nullptr);
+  class StateIterator {
+  public:
+    StateIterator(State* state, Position* head, StateIterator *parent = nullptr);
 
-        void insert(Position *position);
-        void remove();
+    void insert(Position *position);
+    void remove();
 
-        StateIterator& operator++();
-        Position* operator*() const;
-        bool operator!=(const StateIterator &other) const;
-        bool operator==(const StateIterator &other) const;
+    auto operator++() -> StateIterator &;
+    auto operator*() const -> Position *;
+    auto operator!=(const StateIterator &other) const -> bool;
+    auto operator==(const StateIterator &other) const -> bool;
 
-      private:
-        StateIterator* _parent = nullptr;
-        State* _state;
-        Position* _next = nullptr;
-        Position* _curr = nullptr;
-        Position* _prev = nullptr;
+  private:
+    StateIterator* _parent = nullptr;
+    State* _state = nullptr;
+    Position* _next = nullptr;
+    Position* _curr = nullptr;
+    Position* _prev = nullptr;
 
-        void advance();
-    };
+    void advance();
+  };
 
 } // namespace liblevenshtein
 
 
-#endif // __LIBLEVENSHTEIN__TRANSDUCER__STATE_ITERATOR_H__
+#endif // LIBLEVENSHTEIN_TRANSDUCER_STATE_ITERATOR_H

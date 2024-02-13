@@ -1,5 +1,5 @@
-#ifndef __LIBLEVENSHTEIN__DISTANCE__STANDARD_DISTANCE_H__
-#define __LIBLEVENSHTEIN__DISTANCE__STANDARD_DISTANCE_H__
+#ifndef LIBLEVENSHTEIN_DISTANCE_STANDARD_DISTANCE_H
+#define LIBLEVENSHTEIN_DISTANCE_STANDARD_DISTANCE_H
 
 #include <string>
 
@@ -7,11 +7,11 @@
 
 namespace liblevenshtein {
 
-    class StandardDistance : public MemoizedDistance {
-    public:
-        int between(std::string v, std::string w);
-    };
+  class StandardDistance : public MemoizedDistance {
+  public:
+    auto between(std::string v, std::string w) -> std::size_t override;
+  };
 
 } // namespace liblevenshtein
 
-#endif // __LIBLEVENSHTEIN__DISTANCE__STANDARD_DISTANCE_H__
+#endif // LIBLEVENSHTEIN_DISTANCE_STANDARD_DISTANCE_H

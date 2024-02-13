@@ -31,7 +31,7 @@ if(ENABLE_TEST_COVERAGE)
   append_coverage_compiler_flags_to_target(test-${PROJECT_NAME})
 
   set(COVERAGE_EXCLUDES
-    "${CMAKE_SOURCE_DIR}/src/liblevenshtein/utils/MurmurHash*"
+    "${CMAKE_SOURCE_DIR}/third-party/*"
     "${CMAKE_SOURCE_DIR}/test/*"
     "${CMAKE_BINARY_DIR}/generated/liblevenshtein/proto/*"
     "${CMAKE_CXX_COMPILER_VERSION}/*"

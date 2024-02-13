@@ -1,6 +1,9 @@
-file(RELATIVE_PATH MODULE_INCLUDE_DIR "${TEST_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
 file(GLOB MODULE_HEADERS "*.h" "*.hpp")
 
 target_sources(test-${PROJECT_NAME} PUBLIC
   ${MODULE_HEADERS}
-  "file_utils.cpp")
+  "comparators.cpp"
+  "file_utils.cpp"
+  "position_utils.cpp"
+  "test_comparators.cpp"
+  )

@@ -6,19 +6,19 @@
 
 namespace fs = std::filesystem;
 
-
 namespace liblevenshtein {
 
-    class RapidCheckParser {
-    public:
-        RapidCheckParser(const fs::path &config_path);
-        std::string parse();
-    private:
-        const fs::path config_path;
-    };
+class RapidCheckParser {
+public:
+  RapidCheckParser(const fs::path &config_path);
+  auto parse() -> std::string;
 
-    void init_rapidcheck(char* executable);
+private:
+  const fs::path config_path;
+};
+
+void init_rapidcheck(const char* executable);
+
 } // namespace liblevenshtein
-
 
 #endif // __LIBLEVENSHTEIN__TEST__RAPIDCHECK_PARSER_H__

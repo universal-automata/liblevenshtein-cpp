@@ -3,8 +3,6 @@ file(GLOB MODULE_HEADERS "*.h" "*.hpp")
 
 target_sources(test-${PROJECT_NAME} PUBLIC
   ${MODULE_HEADERS}
-  "test_helpers.cpp"
-  "test_comparator.cpp"
   "test_state.cpp"
   "test_merge.cpp"
   "test_transducer.cpp"

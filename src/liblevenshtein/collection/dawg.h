@@ -1,55 +1,55 @@
-#ifndef __LIBLEVENSHTEIN__COLLECTION__DAWG_H__
-#define __LIBLEVENSHTEIN__COLLECTION__DAWG_H__
+#ifndef LIBLEVENSHTEIN_COLLECTION_DAWG_H
+#define LIBLEVENSHTEIN_COLLECTION_DAWG_H
 
 #include <iostream>
 #include <string>
 #include <unordered_set>
-#include <vector>
 
 #include "liblevenshtein/collection/dawg_iterator.h"
 #include "liblevenshtein/collection/dawg_node.h"
 
 namespace liblevenshtein {
 
-    class Dawg {
-    public:
-        Dawg(DawgNode* root, std::size_t size);
-        Dawg();
-        virtual ~Dawg();
+  class Dawg {
+  public:
+    Dawg(DawgNode* root, std::size_t size);
+    Dawg();
+    virtual ~Dawg();
 
-        virtual bool add(const std::string& term) = 0;
-        virtual bool remove(const std::string& term) = 0;
+    virtual auto add(const std::string &term) -> bool = 0;
+    virtual auto remove(const std::string &term) -> bool = 0;
 
-        bool contains(const std::string& term) const;
+    [[nodiscard]] auto contains(const std::string &term) const -> bool;
 
-        DawgNode* root() const;
-        std::size_t size() const;
+    [[nodiscard]] auto root() const -> DawgNode *;
+    [[nodiscard]] auto size() const -> size_t;
 
-        DawgIterator begin() const;
-        DawgIterator end() const;
+    [[nodiscard]] auto begin() const -> DawgIterator;
+    [[nodiscard]] auto end() const -> DawgIterator;
 
-        bool operator==(const Dawg &other) const;
-        bool operator!=(const Dawg &other) const;
+    auto operator==(const Dawg &other) const -> bool;
+    auto operator!=(const Dawg &other) const -> bool;
 
-        friend class std::hash<Dawg>;
-        friend std::ostream &operator<<(std::ostream &out, const Dawg &dawg);
+    friend class std::hash<Dawg>;
+    friend auto operator<<(std::ostream &out, const Dawg &dawg)
+        -> std::ostream &;
 
-      protected:
-        DawgNode* _root;
-        std::size_t _size;
+  protected:
+    DawgNode* _root;
+    std::size_t _size;
 
-        std::unordered_set<DawgNode *> all_nodes() const;
-    };
+    [[nodiscard]] auto all_nodes() const -> std::unordered_set<DawgNode *>;
+  };
 } // namespace liblevenshtein
 
 
 namespace std {
 
-    template <>
-    struct hash<liblevenshtein::Dawg> {
-        size_t operator()(const liblevenshtein::Dawg &dawg) const;
-    };
+  template <>
+  struct hash<liblevenshtein::Dawg> {
+    auto operator()(const liblevenshtein::Dawg &dawg) const -> size_t;
+  };
 } // namespace std
 
 
-#endif // __LIBLEVENSHTEIN__COLLECTION__DAWG_H__
+#endif // LIBLEVENSHTEIN_COLLECTION_DAWG_H

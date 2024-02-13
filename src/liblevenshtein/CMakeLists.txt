@@ -1,4 +1,3 @@
-add_subdirectory(utils)
 add_subdirectory(collection)
 
 if(BUILD_BASELINE_METRICS)

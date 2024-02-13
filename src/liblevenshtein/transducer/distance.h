@@ -1,5 +1,5 @@
-#ifndef __LIBLEVENSHTEIN__TRANSDUCER__DISTANCE_H__
-#define __LIBLEVENSHTEIN__TRANSDUCER__DISTANCE_H__
+#ifndef LIBLEVENSHTEIN_TRANSDUCER_DISTANCE_H
+#define LIBLEVENSHTEIN_TRANSDUCER_DISTANCE_H
 
 #include <cstddef>
 
@@ -26,4 +26,4 @@ namespace liblevenshtein {
 } // namespace liblevenshtein
 
 
-#endif // __LIBLEVENSHTEIN__TRANSDUCER__DISTANCE_H__
+#endif // LIBLEVENSHTEIN_TRANSDUCER_DISTANCE_H

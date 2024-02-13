@@ -1,48 +1,41 @@
-#include <utility>
-
 #include "liblevenshtein/collection/transition.h"
 
 
 namespace liblevenshtein {
 
-    Transition::Transition(char label, DawgNode* source, DawgNode* target)
-        : _label(label),
-          _source(source),
-          _target(target)
-    {}
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+Transition::Transition(char label, DawgNode* source, DawgNode* target)
+  : _label(label),
+    _source(source),
+    _target(target)
+{}
 
-    Transition::Transition(const Transition &transition)
-        : _label(transition._label),
-          _source(transition._source),
-          _target(transition._target)
-    {}
+Transition::Transition(Transition &&transition) noexcept
+  : _label(transition._label),
+    _source(transition._source),
+    _target(transition._target)
+{}
 
-    Transition::Transition(Transition &&transition) noexcept
-        : _label(transition._label),
-          _source(transition._source),
-          _target(transition._target)
-    {}
+auto Transition::label() const -> char {
+  return _label;
+}
 
-    char Transition::label() const {
-        return _label;
-    }
+auto Transition::source() const -> DawgNode * {
+  return _source;
+}
 
-    DawgNode* Transition::source() const {
-        return _source;
-    }
+auto Transition::target() const -> DawgNode * {
+  return _target;
+}
 
-    DawgNode* Transition::target() const {
-        return _target;
-    }
+auto Transition::operator==(const Transition &other) const -> bool {
+  return _label == other._label
+    && *_source == *(other._source)
+    && *_target == *(other._target);
+}
 
-    bool Transition::operator==(const Transition &other) const {
-        return _label == other._label
-            && *_source == *(other._source)
-            && *_target == *(other._target);
-    }
-
-    bool Transition::operator!=(const Transition &other) const {
-        return !(*this == other);
-    }
+auto Transition::operator!=(const Transition &other) const -> bool {
+  return !(*this == other);
+}
 
 } // namespace liblevenshtein

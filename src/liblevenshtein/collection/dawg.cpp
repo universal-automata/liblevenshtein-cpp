@@ -1,93 +1,94 @@
+#include <array>
 #include <queue>
-#include <set>
 
-#include "liblevenshtein/utils/MurmurHash2.h"
+#include "MurmurHash2.h"
+
 #include "liblevenshtein/collection/dawg.h"
 
 
 namespace liblevenshtein {
 
-    Dawg::Dawg(DawgNode* root, std::size_t size)
-        : _root(root),
-          _size(size)
-    {}
+Dawg::Dawg(DawgNode* root, std::size_t size)
+  : _root(root),
+    _size(size)
+{}
 
-    Dawg::Dawg()
-        : _root(new DawgNode()),
-          _size(0)
-    {}
+Dawg::Dawg()
+  : _root(new DawgNode()),
+    _size(0)
+{}
 
-    Dawg::~Dawg() {
-        for (DawgNode* node : all_nodes()) {
-            delete node;
-        }
-    }
+Dawg::~Dawg() {
+  for (DawgNode* node : all_nodes()) {
+    delete node;
+  }
+}
 
-    std::unordered_set<DawgNode *> Dawg::all_nodes() const {
-        std::unordered_set<DawgNode *> nodes;
-        std::queue<DawgNode *> pending;
-        pending.push(_root);
-        while (!pending.empty()) {
-            DawgNode *node = pending.front();
-            pending.pop();
-            nodes.insert(node);
-            node->for_each_edge([&](char label, DawgNode *target) {
-                pending.push(target);
-            });
-        }
-        return nodes;
-    }
+auto Dawg::all_nodes() const -> std::unordered_set<DawgNode *> {
+  std::unordered_set<DawgNode *> nodes;
+  std::queue<DawgNode *> pending;
+  pending.push(_root);
+  while (!pending.empty()) {
+    DawgNode *node = pending.front();
+    pending.pop();
+    nodes.insert(node);
+    node->for_each_edge([&](char label, DawgNode *target) {
+      pending.push(target);
+    });
+  }
+  return nodes;
+}
 
-    bool Dawg::contains(const std::string& term) const {
-        DawgNode* node = _root;
-        for (int i = 0; i < term.length() && node != nullptr; i += 1) {
-            node = node->transition(term[i]);
-        }
-        return node != nullptr && node->is_final();
-    }
+auto Dawg::contains(const std::string &term) const -> bool {
+  DawgNode* node = _root;
+  for (int i = 0; i < term.length() && node != nullptr; i += 1) {
+    node = node->transition(term[i]);
+  }
+  return node != nullptr && node->is_final();
+}
 
-    DawgNode* Dawg::root() const {
-        return _root;
-    }
+auto Dawg::root() const -> DawgNode * {
+  return _root;
+}
 
-    std::size_t Dawg::size() const {
-        return _size;
-    }
+auto Dawg::size() const -> std::size_t {
+  return _size;
+}
 
-    DawgIterator Dawg::begin() const {
-        return DawgIterator(_root);
-    }
+auto Dawg::begin() const -> DawgIterator {
+  return {_root};
+}
 
-    DawgIterator Dawg::end() const {
-        return DawgIterator(_size);
-    }
+auto Dawg::end() const -> DawgIterator {
+  return {_size};
+}
 
-    std::ostream& operator<<(std::ostream& out, const Dawg& dawg) {
-        out << "Dawg{size=" << dawg._size << ", root=" << dawg._root << "}";
-        return out;
-    }
+auto operator<<(std::ostream &out, const Dawg &dawg) -> std::ostream & {
+  out << "Dawg{size=" << dawg._size << ", root=" << dawg._root << "}";
+  return out;
+}
 
-    bool Dawg::operator==(const Dawg &other) const {
-        return size() == other.size() && *root() == *other.root();
-    }
+auto Dawg::operator==(const Dawg &other) const -> bool {
+  return size() == other.size() && *root() == *other.root();
+}
 
-    bool Dawg::operator!=(const Dawg &other) const {
-        return !(*this == other);
-    }
+auto Dawg::operator!=(const Dawg &other) const -> bool {
+  return !(*this == other);
+}
 
 } // namespace liblevenshtein
 
 
 static std::hash<liblevenshtein::DawgNode> node_hash_code;
 
+auto std::hash<liblevenshtein::Dawg>::operator()(
+    const liblevenshtein::Dawg &dawg) const -> std::size_t {
 
-std::size_t std::hash<liblevenshtein::Dawg>::operator()(const liblevenshtein::Dawg &dawg) const {
-    uint64_t hash_code = 0xDEADBEEF;
-    uint64_t key[1];
+  uint64_t hash_code = 0xDEADBEEF;
 
-    key[0] = dawg._size;
-    hash_code = MurmurHash64A(key, 1, hash_code);
+  std::array<uint64_t, 1> key = {dawg._size};
+  hash_code = MurmurHash64A(key.data(), 1, hash_code);
 
-    key[0] = node_hash_code(*(dawg._root));
-    return MurmurHash64A(key, 1, hash_code);
+  key[0] = node_hash_code(*(dawg._root));
+  return MurmurHash64A(key.data(), 1, hash_code);
 }

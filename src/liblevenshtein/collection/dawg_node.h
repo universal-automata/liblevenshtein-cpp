@@ -1,42 +1,40 @@
-#ifndef __LIBLEVENSHTEIN__COLLECTION__DAWG_NODE_H__
-#define __LIBLEVENSHTEIN__COLLECTION__DAWG_NODE_H__
+#ifndef LIBLEVENSHTEIN_COLLECTION_DAWG_NODE_H
+#define LIBLEVENSHTEIN_COLLECTION_DAWG_NODE_H
 
 #include <functional>
-#include <iostream>
 #include <map>
-#include <vector>
 
 
 namespace liblevenshtein {
 
-    class DawgNode {
-    public:
-        DawgNode(bool is_final = false);
-        DawgNode(std::map<char, DawgNode *>& edges, bool is_final=false);
+  class DawgNode {
+  public:
+    DawgNode(bool is_final = false);
+    DawgNode(std::map<char, DawgNode *>& edges, bool is_final=false);
 
-        void is_final(bool is_final);
-        bool is_final() const;
+    void is_final(bool is_final);
+    [[nodiscard]] auto is_final() const -> bool;
 
-        void for_each_edge(std::function<void(char, DawgNode *)> fn) const;
+    void for_each_edge(const std::function<void(char, DawgNode *)> &fn) const;
 
-        DawgNode* transition(char label) const;
-        DawgNode* add_edge(char label, DawgNode* target);
+    [[nodiscard]] auto transition(char label) const -> DawgNode *;
+    auto add_edge(char label, DawgNode *target) -> DawgNode *;
 
-        bool operator==(const DawgNode &other) const;
-        bool operator!=(const DawgNode &other) const;
+    auto operator==(const DawgNode &other) const -> bool;
+    auto operator!=(const DawgNode &other) const -> bool;
 
-    private:
-        std::map<char, DawgNode *> _edges;
-        bool _is_final = false;
-    };
+  private:
+    std::map<char, DawgNode *> _edges;
+    bool _is_final = false;
+  };
 }
 
 namespace std {
 
-    template <>
-    struct hash<liblevenshtein::DawgNode> {
-        size_t operator()(const liblevenshtein::DawgNode &node) const;
-    };
+  template <>
+  struct hash<liblevenshtein::DawgNode> {
+    auto operator()(const liblevenshtein::DawgNode &node) const -> size_t;
+  };
 } // namespace std
 
-#endif // __LIBLEVENSHTEIN__COLLECTION__DAWG_NODE_H__
+#endif // LIBLEVENSHTEIN_COLLECTION_DAWG_NODE_H

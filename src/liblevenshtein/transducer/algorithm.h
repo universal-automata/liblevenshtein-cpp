@@ -1,5 +1,5 @@
-#ifndef __LIBLEVENSHTEIN__TRANSDUCER__ALGORITHM_H__
-#define __LIBLEVENSHTEIN__TRANSDUCER__ALGORITHM_H__
+#ifndef LIBLEVENSHTEIN_TRANSDUCER_ALGORITHM_H
+#define LIBLEVENSHTEIN_TRANSDUCER_ALGORITHM_H
 
 
 namespace liblevenshtein {
@@ -13,4 +13,4 @@ namespace liblevenshtein {
 } // namespace liblevenshtein
 
 
-#endif // __LIBLEVENSHTEIN__TRANSDUCER__ALGORITHM_H__
+#endif // LIBLEVENSHTEIN_TRANSDUCER_ALGORITHM_H

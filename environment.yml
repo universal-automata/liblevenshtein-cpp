@@ -2,6 +2,8 @@ name: ll-cpp
 channels:
   - conda-forge
 dependencies:
+  - clang-tools >=17.0.6
+  - clangxx >=17.0.6
   - cmake >=3.20
   - cxx-compiler
   - gcovr >=5.2

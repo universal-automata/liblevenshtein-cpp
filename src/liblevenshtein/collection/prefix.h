@@ -1,5 +1,5 @@
-#ifndef __LIBLEVENSHTEIN__COLLECTION__PREFIX_H__
-#define __LIBLEVENSHTEIN__COLLECTION__PREFIX_H__
+#ifndef LIBLEVENSHTEIN_COLLECTION_PREFIX_H
+#define LIBLEVENSHTEIN_COLLECTION_PREFIX_H
 
 #include <iostream>
 #include <string>
@@ -9,26 +9,27 @@
 
 namespace liblevenshtein {
 
-    class Prefix {
-    public:
-        Prefix(DawgNode* node, Prefix* parent, char label);
-        Prefix(DawgNode* root);
-        Prefix(const Prefix &prefix);
-        Prefix(Prefix &&prefix) noexcept;
+  class Prefix {
+  public:
+    Prefix(DawgNode* node, Prefix* parent, char label);
+    Prefix(DawgNode* root);
+    Prefix(const Prefix &prefix) = default;
+    Prefix(Prefix &&prefix) noexcept;
 
-        DawgNode* node() const;
-        char label() const;
-        std::string str() const;
+    [[nodiscard]] auto node() const -> DawgNode *;
+    [[nodiscard]] auto label() const -> char;
+    [[nodiscard]] auto str() const -> std::string;
 
-        friend std::ostream &operator<<(std::ostream &out, const Prefix &prefix);
+    friend auto operator<<(std::ostream &out, const Prefix &prefix)
+        -> std::ostream &;
 
-    private:
-        DawgNode* _node;
-        Prefix* _parent;
-        char _label;
-    };
+  private:
+    DawgNode* _node;
+    Prefix* _parent;
+    char _label;
+  };
 
 } // namespace liblevenshtein
 
 
-#endif // __LIBLEVENSHTEIN__COLLECTION__PREFIX_H__
+#endif // LIBLEVENSHTEIN_COLLECTION_PREFIX_H

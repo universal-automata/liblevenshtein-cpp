@@ -1,8 +1,6 @@
-#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <utility>
 
 #include <gtest/gtest.h>
 
@@ -15,31 +13,36 @@
 #include "liblevenshtein/distance/standard_distance.h"
 #include "liblevenshtein/distance/transposition_distance.h"
 #include "liblevenshtein/transducer/algorithm.h"
-#include "liblevenshtein/transducer/test_helpers.h"
 #include "liblevenshtein/transducer/transducer.h"
 
+#include "liblevenshtein/test/utils/comparators.h"
+
 namespace ll = liblevenshtein;
+namespace llt = liblevenshtein::test;
 
 static ll::StandardDistance standard_distance;
 static ll::TranspositionDistance transposition_distance;
 static ll::MergeAndSplitDistance merge_and_split_distance;
 
 template <ll::Algorithm Type>
-void test_transducer(std::set<std::string, ll::std_str_cmp> dictionary_terms,
-                     std::set<std::string, ll::std_str_cmp> query_terms,
+// NOLINTBEGIN(bugprone-easily-swappable-parameters)
+void test_transducer(const std::set<std::string, llt::std_str_cmp> &dictionary_terms,
+                     const std::set<std::string, llt::std_str_cmp> &query_terms,
                      std::size_t max_distance, ll::Distance &d) {
+  // NOLINTEND(bugprone-easily-swappable-parameters)
 
-    std::unordered_map<std::string, std::unordered_set<std::string>> expected_candidates;
-    for (const std::string &query_term : query_terms) {
-        std::unordered_set<std::string> spelling_candidates;
-        for (const std::string &dictionary_term : dictionary_terms) {
-            std::size_t distance = d(dictionary_term, query_term);
-            if (distance <= max_distance) {
-                spelling_candidates.insert(dictionary_term);
-            }
-        }
-        expected_candidates[query_term] = spelling_candidates;
+  std::unordered_map<std::string, std::unordered_set<std::string>>
+      expected_candidates;
+  for (const std::string &query_term : query_terms) {
+    std::unordered_set<std::string> spelling_candidates;
+    for (const std::string &dictionary_term : dictionary_terms) {
+      std::size_t distance = d(dictionary_term, query_term);
+      if (distance <= max_distance) {
+        spelling_candidates.insert(dictionary_term);
+      }
     }
+    expected_candidates[query_term] = spelling_candidates;
+  }
 
     ll::Dawg *dawg = ll::sorted_dawg(dictionary_terms.begin(), dictionary_terms.end());
 
@@ -70,24 +73,24 @@ void test_transducer(std::set<std::string, ll::std_str_cmp> dictionary_terms,
 }
 
 RC_GTEST_PROP(StandardTransducer, contains_expected_terms,
-              (std::set<std::string, ll::std_str_cmp> dictionary_terms,
-               std::set<std::string, ll::std_str_cmp> query_terms,
+              (const std::set<std::string, llt::std_str_cmp> &dictionary_terms,
+               const std::set<std::string, llt::std_str_cmp> &query_terms,
                std::size_t max_distance)) {
     test_transducer<ll::Algorithm::STANDARD>(dictionary_terms, query_terms,
                                              max_distance, standard_distance);
 }
 
 RC_GTEST_PROP(TranspositionTransducer, contains_expected_terms,
-              (std::set<std::string, ll::std_str_cmp> dictionary_terms,
-               std::set<std::string, ll::std_str_cmp> query_terms,
+              (const std::set<std::string, llt::std_str_cmp> &dictionary_terms,
+               const std::set<std::string, llt::std_str_cmp> &query_terms,
                std::size_t max_distance)) {
   test_transducer<ll::Algorithm::TRANSPOSITION>(dictionary_terms, query_terms,
                                                 max_distance, transposition_distance);
 }
 
 RC_GTEST_PROP(MergeAndSplitTransducer, contains_expected_terms,
-              (std::set<std::string, ll::std_str_cmp> dictionary_terms,
-               std::set<std::string, ll::std_str_cmp> query_terms,
+              (const std::set<std::string, llt::std_str_cmp> &dictionary_terms,
+               const std::set<std::string, llt::std_str_cmp> &query_terms,
                std::size_t max_distance)) {
   test_transducer<ll::Algorithm::MERGE_AND_SPLIT>(dictionary_terms, query_terms,
                                                   max_distance, merge_and_split_distance);

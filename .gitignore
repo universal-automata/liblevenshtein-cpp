@@ -6,6 +6,7 @@
 
 # Whitelist specific file patterns
 !/**/.gitkeep
+!/.clang-tidy
 !/.gitignore
 !/CMakeLists.txt
 !/LICENSE.txt
@@ -22,6 +23,12 @@
 !/src/**/*.hpp
 !/src/**/*.cpp
 !/src/**/*.pxd
+
+!/third-party/**/CMakeLists.txt
+!/third-party/**/*.h
+!/third-party/**/*.hpp
+!/third-party/**/*.cpp
+!/third-party/**/*.pxd
 
 !/test/**/*.cpp
 !/test/**/*.h

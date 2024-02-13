@@ -1,39 +1,39 @@
 #include <sstream>
 
 #include "liblevenshtein/transducer/intersection.h"
-#include "liblevenshtein/transducer/position.h"
 
 namespace liblevenshtein {
 
-    Intersection::Intersection(char label, DawgNode *node, State *state, Intersection *parent)
-        : _parent(parent),
-          _label(label),
-          _node(node),
-          _state(state) {}
+Intersection::Intersection(char label, DawgNode *node, State *state, Intersection *parent)
+  : _parent(parent),
+    _label(label),
+    _node(node),
+    _state(state) {}
 
-    Intersection::~Intersection() {
-        delete _state;
-    }
+Intersection::~Intersection() {
+  delete _state;
+}
 
-    DawgNode *Intersection::node() const {
-        return _node;
-    }
+auto Intersection::node() const -> DawgNode * {
+  return _node;
+}
 
-    State *Intersection::state() const {
-        return _state;
-    }
+auto Intersection::state() const -> State * {
+  return _state;
+}
 
-    std::string Intersection::str() const {
-        std::stringstream ss;
-        ss << *this;
-        return ss.str();
-    }
+auto Intersection::str() const -> std::string {
+  std::stringstream ss;
+  ss << *this;
+  return ss.str();
+}
 
-    std::ostream &operator<<(std::ostream &out, const Intersection &intersection) {
-        if (intersection._parent != nullptr) {
-            out << *(intersection._parent) << intersection._label;
-        }
-        return out;
-    }
+auto operator<<(std::ostream &out, const Intersection &intersection)
+    -> std::ostream & {
+  if (intersection._parent != nullptr) {
+    out << *(intersection._parent) << intersection._label;
+  }
+  return out;
+}
 
 } // namespace liblevenshtein

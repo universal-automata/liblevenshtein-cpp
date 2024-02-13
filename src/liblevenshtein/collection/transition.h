@@ -1,30 +1,31 @@
-#ifndef __LIBLEVENSHTEIN__COLLECTION__TRANSITION_H__
-#define __LIBLEVENSHTEIN__COLLECTION__TRANSITION_H__
+#ifndef LIBLEVENSHTEIN_COLLECTION_TRANSITION_H
+#define LIBLEVENSHTEIN_COLLECTION_TRANSITION_H
 
 #include "liblevenshtein/collection/dawg_node.h"
 
 
 namespace liblevenshtein {
 
-    class Transition {
-    public:
-        Transition(char label, DawgNode* source, DawgNode* target);
-        Transition(const Transition& transition);
-        Transition(Transition&& transition) noexcept;
+  class Transition {
+  public:
+    Transition(char label, DawgNode* source, DawgNode* target);
+    Transition(const Transition& transition) = default;
+    Transition(Transition&& transition) noexcept;
 
-        char label() const;
-        DawgNode* source() const;
-        DawgNode* target() const;
+    [[nodiscard]] auto label() const -> char;
 
-        bool operator==(const Transition &other) const;
-        bool operator!=(const Transition &other) const;
+    [[nodiscard]] auto source() const -> DawgNode *;
 
-      private:
-        char _label;
-        DawgNode* _source;
-        DawgNode* _target;
-    };
+    [[nodiscard]] auto target() const -> DawgNode *;
+
+    auto operator==(const Transition &other) const -> bool;
+    auto operator!=(const Transition &other) const -> bool;
+
+  private:
+    char _label;
+    DawgNode *_source;
+    DawgNode *_target;
+  };
 } // namespace liblevenshtein
 
-
-#endif // __LIBLEVENSHTEIN__COLLECTION__TRANSITION_H__
+#endif // LIBLEVENSHTEIN_COLLECTION_TRANSITION_H

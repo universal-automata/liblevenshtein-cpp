@@ -24,6 +24,15 @@ include(GNUInstallDirs)
 option(BUILD_BASELINE_METRICS "Builds baseline distance metrics for validation" ON)
 option(BUILD_TESTS "Build liblevenshtein testing suite" ON)
 option(ENABLE_TEST_COVERAGE "Generate test coverage report" OFF)
+option(ENABLE_LINTING "Enables the source code linter" OFF)
+
+if(ENABLE_LINTING)
+  find_program(CLANGXX_PATH clang++)
+  find_program(CLANG_TIDY_PATH clang-tidy)
+  set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+  set(CMAKE_CXX_COMPILER "${CLANGXX_PATH}")
+  set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_PATH}")
+endif()
 
 if(NOT BUILD_BASELINE_METRICS AND BUILD_TESTS)
   message(WARNING "Building baseline metrics because they are required by the tests.")
@@ -31,6 +40,7 @@ if(NOT BUILD_BASELINE_METRICS AND BUILD_TESTS)
 endif()
 
 add_subdirectory(proto)
+add_subdirectory(third-party)
 add_subdirectory(src)
 
 set_target_properties(levenshtein PROPERTIES

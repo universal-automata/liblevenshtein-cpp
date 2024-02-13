@@ -1,5 +1,3 @@
-#include <algorithm>
-#include <cstddef>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -9,16 +7,18 @@
 #include "liblevenshtein/transducer/merge.h"
 #include "liblevenshtein/transducer/position.h"
 #include "liblevenshtein/transducer/state.h"
-#include "liblevenshtein/transducer/subsumes.h"
-#include "liblevenshtein/transducer/test_helpers.h"
+
+#include "liblevenshtein/test/utils/position_utils.h"
+#include "liblevenshtein/test/types.h"
 
 namespace ll = liblevenshtein;
+namespace llt = liblevenshtein::test;
 
 
 RC_GTEST_PROP(insert_after, inserts_positions_in_the_expected_location,
-              (std::vector<ll::Triple> triples)) {
-    std::vector<ll::Position *> positions = ll::to_positions(triples);
-    ll::State *state = new ll::State();
+              (const std::vector<llt::Triple> &triples)) {
+    std::vector<ll::Position *> positions = llt::to_positions(triples);
+    auto *state = new ll::State();
     RC_ASSERT(state->head() == nullptr);
     ll::Position *curr = nullptr;
     for (ll::Position *next : positions) {
