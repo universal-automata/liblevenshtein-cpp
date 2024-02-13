@@ -28,8 +28,8 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3.0.1
         with:
           auto-activate-base: false
-          environment-file: environment.yml
-          activate-environment: ll-cpp
+          environment-file: environment-coverage.yml
+          activate-environment: ll-cpp-coverage
           miniforge-version: latest
           use-mamba: true
           channels: conda-forge
