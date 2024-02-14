@@ -22,11 +22,11 @@ namespace ll = liblevenshtein;
 namespace demo = liblevenshtein::demo;
 
 template <ll::Algorithm Type>
-void query(ll::Dawg *dawg, const std::string &query_term, const demo::CommandLine &cli) {
+void query(ll::Dawg *dawg, const std::string &query_term, std::size_t max_distance) {
   ll::Transducer<Type, ll::Candidate> transduce(dawg->root());
 
   // NOTE: ll:Candidate is an alias for std::pair<std::string, std::size_t>
-  for (const ll::Candidate& candidate : transduce(query_term, cli.max_distance())) {
+  for (const ll::Candidate& candidate : transduce(query_term, max_distance)) {
     // spelling candidate for query_term
     const std::string& term = candidate.first;
 
@@ -84,13 +84,14 @@ auto main(int argc, char *argv[]) -> int {
   while (prompt(query_term) != "") {
     switch (cli.algorithm()) {
     case ll::Algorithm::STANDARD:
-      query<ll::Algorithm::STANDARD>(dawg, query_term, cli);
+      query<ll::Algorithm::STANDARD>(dawg, query_term, cli.max_distance());
       break;
     case ll::Algorithm::TRANSPOSITION:
-      query<ll::Algorithm::TRANSPOSITION>(dawg, query_term, cli);
+      query<ll::Algorithm::TRANSPOSITION>(dawg, query_term, cli.max_distance());
       break;
     case ll::Algorithm::MERGE_AND_SPLIT:
-      query<ll::Algorithm::MERGE_AND_SPLIT>(dawg, query_term, cli);
+      query<ll::Algorithm::MERGE_AND_SPLIT>(dawg, query_term,
+                                            cli.max_distance());
       break;
     }
   }
