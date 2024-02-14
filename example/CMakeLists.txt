@@ -17,8 +17,6 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-include(GNUInstallDirs)
-
 find_package(Protobuf REQUIRED)
 find_package(liblevenshtein REQUIRED)
 

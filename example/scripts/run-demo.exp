@@ -1,0 +1,5 @@
+#!/usr/bin/env expect
+spawn {*}$argv
+expect -ex "query> " {send "jvaa\n"}
+expect -ex "query> " {send "\n"}
+expect eof

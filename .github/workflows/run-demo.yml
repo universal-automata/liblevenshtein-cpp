@@ -1,0 +1,68 @@
+name: Run Demo
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      # Set fail-fast to false to ensure that feedback is delivered for all
+      # matrix combinations. Consider changing this to true when your workflow
+      # is stable.
+      fail-fast: false
+
+      matrix:
+        os: [ubuntu-latest]
+        build_type: [Debug, Release]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-activate-base: false
+          environment-file: environment.yml
+          activate-environment: ll-cpp
+          miniforge-version: latest
+          use-mamba: true
+          channels: conda-forge
+
+      - name: Configure liblevenshtein-cpp
+        shell: bash -el {0}
+        run: >
+          cmake -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
+
+      - name: Build liblevenshtein-cpp
+        shell: bash -el {0}
+        run: cmake --build build --config ${{ matrix.build_type }}
+
+      - name: Install liblevenshtein-cpp
+        shell: bash -el {0
+        run: cmake --install build --config ${{ matrix.build_type }}
+
+      - name: Configure liblevenshtein-demo
+        working-directory: example
+        shell: bash -el {0}
+        run: >
+          cmake -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
+
+      - name: Build liblevenshtein-demo
+        working-directory: example
+        shell: bash -el {0}
+        run: cmake --build build --config ${{ matrix.build_type }}
+
+      - name: Run liblevenshtein-demo
+        working-directory: example
+        shell: bash -el {0
+        run: >
+          ./scripts/run-demo.exp ./build/liblevenshtein-demo
+          --dictionary-path programming-languages.txt
+          --serialization-path build/programming-languages.pb
