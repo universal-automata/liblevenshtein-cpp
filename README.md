@@ -353,18 +353,3 @@ int main(int argc, char *argv[]) {
 
 For the most up-to-date list of dependencies, please reference
 [environment.yml](environment.yml).
-
-1. [CMake](https://cmake.org/)
-2. [Make](https://www.gnu.org/software/make/)
-3. C++ Compiler:
-    - Linux:
-        - [g++](https://gcc.gnu.org/)
-        - [clang++](https://clang.llvm.org/)
-    - MacOS:
-        - [clang++](https://clang.llvm.org/)
-    - Windows:
-        - [vc++](https://visualstudio.microsoft.com/)
-4. [Protocol Buffers](https://protobuf.dev/)
-5. [Google Test](https://github.com/google/googletest)
-6. [RapidCheck](https://github.com/emil-e/rapidcheck)
-7. [yaml-cpp](https://github.com/jbeder/yaml-cpp)
