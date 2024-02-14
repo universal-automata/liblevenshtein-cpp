@@ -22,7 +22,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 include(GNUInstallDirs)
 
 option(BUILD_BASELINE_METRICS "Builds baseline distance metrics for validation" ON)
-option(BUILD_TESTS "Build liblevenshtein testing suite" ON)
+option(BUILD_TESTS "Build liblevenshtein testing suite" OFF)
 option(ENABLE_TEST_COVERAGE "Generate test coverage report" OFF)
 option(ENABLE_LINTING "Enables the source code linter" OFF)
 
@@ -48,10 +48,32 @@ set_target_properties(levenshtein PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
 
 install(TARGETS levenshtein
-  EXPORT "${PROJECT_NAME}"
+  EXPORT "${PROJECT_NAME}-targets"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+
+install(EXPORT "${PROJECT_NAME}-targets"
+  FILE "${PROJECT_NAME}-targets.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+  NO_SET_AND_CHECK_MACRO
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
+  VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+  COMPATIBILITY AnyNewerVersion)
+
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
 if(BUILD_TESTS)
   add_subdirectory(test)

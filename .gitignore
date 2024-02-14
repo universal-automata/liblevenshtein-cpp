@@ -5,13 +5,21 @@
 !*/
 
 # Whitelist specific file patterns
-!/**/.gitkeep
 !/**/.clang-tidy
+!/**/.gitkeep
 !/.gitignore
 !/CMakeLists.txt
+!/Config.cmake.in
 !/LICENSE.txt
 !/README.md
 !/environment*.yml
+
+!/example/*.cpp
+!/example/*.h
+!/example/CMakeLists.txt
+!/example/README.md
+!/example/environment*.yml
+!/example/programming-languages.txt
 
 !/cmake/**/*.cmake
 

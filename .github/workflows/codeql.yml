@@ -74,7 +74,7 @@ jobs:
 
       - name: Build
         shell: bash -el {0}
-        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTS=ON
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun

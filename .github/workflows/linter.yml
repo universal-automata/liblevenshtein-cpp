@@ -39,6 +39,7 @@ jobs:
         run: >
           cmake -B build
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DBUILD_TESTS=ON
           -DENABLE_LINTING=ON
 
       - name: Build

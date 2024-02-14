@@ -12,20 +12,20 @@
 
 namespace liblevenshtein {
 
-  using Candidate = std::pair<std::string, std::size_t>;
+using Candidate = std::pair<std::string, std::size_t>;
 
-  template <Algorithm Type, class Result>
-  class Transducer {
-  public:
-    Transducer(DawgNode *root);
-    ~Transducer();
+template <Algorithm Type, class Result>
+class Transducer {
+public:
+  Transducer(DawgNode *root);
+  ~Transducer();
 
-    auto operator()(const std::string &term, std::size_t max_distance = 2)
-      -> LazyIterator<Result>;
+  auto operator()(const std::string &term, std::size_t max_distance = 2)
+    -> LazyIterator<Result>;
 
-  private:
-    Intersection *_intersection;
-  };
+private:
+  Intersection *_intersection;
+};
 
 } // namespace liblevenshtein
 

@@ -237,7 +237,7 @@ int main(int argc, char *argv[]) {
     // path to file containing serialized dictionary
     std::string serialization_path;
 
-    ll::Dawg *dawg = deserialize_protobuf(serialization_path);
+    ll::Dawg *dawg = ll::deserialize_protobuf(serialization_path);
 
     if (dawg == nullptr) {
         std::vector<std::string> terms; // populate with your spelling candidates

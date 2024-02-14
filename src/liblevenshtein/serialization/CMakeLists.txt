@@ -1,15 +1,9 @@
 file(RELATIVE_PATH MODULE_INCLUDE_DIR "${SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
 file(GLOB MODULE_HEADERS "*.h" "*.hpp")
 
-find_package(absl REQUIRED)
-
-target_link_libraries(levenshtein PUBLIC
-  absl::log_internal_check_op)
-
-target_sources(levenshtein PUBLIC
-  ${MODULE_HEADERS}
-  "serializer.cpp"
-  )
+target_sources(levenshtein
+  PRIVATE
+    "serializer.cpp")
 
 install(FILES ${MODULE_HEADERS}
   DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${MODULE_INCLUDE_DIR}")

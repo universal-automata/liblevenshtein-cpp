@@ -1,4 +1,5 @@
 #include <array>
+#include <memory>
 #include <queue>
 
 #include "MurmurHash2.h"
