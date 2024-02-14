@@ -36,6 +36,19 @@ void query(ll::Dawg *dawg, const std::string &query_term, std::size_t max_distan
     std::cout << "d(\"" << query_term << "\", \"" << term << "\") = "
               << distance << std::endl;
   }
+
+  /**
+   * NOTE: If you had initialized the transducer as
+   *
+   *   ll::Transducer<Type, std::string> transduce(dawg->root());
+   *
+   * , you would iterate over the results as follows:
+   *
+   *   for (const std::string& term : transduce(query_term, max_distance)) {
+   *     // do something with term, which is guaranteed to require no more
+   *     // than max_distance operations to transform it into the query_term.
+   *   }
+   */
 }
 
 std::string &prompt(std::string &query_term) {
@@ -98,16 +111,6 @@ auto main(int argc, char *argv[]) -> int {
 
   std::cout << std::endl;
   std::cout << "Exiting ..." << std::endl;
-
-  /**
-   * If you had initialized the transducer as
-   * ll::Transducer<ll::Algorithm::TRANSPOSITION, std::string>, you'd iterate
-   * over the results as follows:
-   * for (const std::string& term : transduce(query_term, max_distance)) {
-   *     // do something with term, which is guaranteed to require no more
-   *     // than max_distance operations to transform it into the query_term.
-   * }
-   */
 
   // save the dictionary for reuse
   serialize_protobuf(dawg, cli.serialization_path());
