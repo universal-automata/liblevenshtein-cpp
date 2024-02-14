@@ -7,3 +7,4 @@
 !/scripts/*.sh
 !/src/**/*.cpp
 !/src/**/*.h
+!/src/**/CMakeLists.txt
