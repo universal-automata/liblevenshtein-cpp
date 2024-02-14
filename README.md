@@ -9,14 +9,16 @@
 
 A library for generating Finite State Transducers based on Levenshtein Automata.
 
-NOTE: This library is currently in beta phase. I'll have it production ready as
-soon as possible. Currently, the top-level components have decent test coverage
+NOTE: This library is currently in rc phase. I'll have it production ready as
+soon as possible. Currently, the top-level components have >90% test coverage
 and the library is usable as described below.
 
 To make my life easier, this library takes advantage of C++20 features. If you
 need compatibility with an older standard, please either submit a pull request
 or create an issue stating the standard you need compatibility with and I'll get
 around to adding its support when I get time.
+
+For a demonstration, please reference the [example app](example/).
 
 ## Initialization
 
