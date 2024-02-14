@@ -3,3 +3,5 @@ spawn {*}$argv
 expect -ex "query> " {send "jvaa\n"}
 expect -ex "query> " {send "\n"}
 expect eof
+catch wait result
+exit [lindex $result 3]
