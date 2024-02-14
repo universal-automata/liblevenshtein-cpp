@@ -43,7 +43,7 @@ jobs:
         run: cmake --build build --config ${{ matrix.build_type }}
 
       - name: Install liblevenshtein-cpp
-        shell: bash -el {0
+        shell: bash -el {0}
         run: cmake --install build --config ${{ matrix.build_type }}
 
       - name: Configure liblevenshtein-demo
