@@ -1,0 +1,12 @@
+name: ll-cpp-demo
+channels:
+  - conda-forge
+dependencies:
+  - cmake >=3.20
+  - cxx-compiler
+  - expect
+  - gtest >=1.14.0
+  - make
+  - protobuf >=4.25.2
+  - rapidcheck >=2023.4.13
+  - yaml-cpp >=0.8.0

@@ -25,8 +25,8 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: false
-          environment-file: environment.yml
-          activate-environment: ll-cpp
+          environment-file: environment-demo.yml
+          activate-environment: ll-cpp-demo
           miniforge-version: latest
           use-mamba: true
           channels: conda-forge
