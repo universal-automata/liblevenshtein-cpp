@@ -25,14 +25,10 @@ template <ll::Algorithm Type>
 void query(ll::Dawg *dawg, const std::string &query_term, std::size_t max_distance) {
   ll::Transducer<Type, ll::Candidate> transduce(dawg->root());
 
-  // NOTE: ll:Candidate is an alias for std::pair<std::string, std::size_t>
-  for (const ll::Candidate& candidate : transduce(query_term, max_distance)) {
-    // spelling candidate for query_term
-    const std::string& term = candidate.first;
-
-    // minimum number of operations required to transform query_term into term
-    const std::size_t& distance = candidate.second;
-
+  // NOTE: transduce(query_term, max_distance) returns an iterator over
+  // ll:Candidate instances. ll:Candidate is an alias for
+  // std::pair<std::string, std::size_t>.
+  for (const auto &[term, distance] : transduce(query_term, max_distance)) {
     std::cout << "d(\"" << query_term << "\", \"" << term << "\") = "
               << distance << std::endl;
   }
@@ -44,7 +40,7 @@ void query(ll::Dawg *dawg, const std::string &query_term, std::size_t max_distan
    *
    * , you would iterate over the results as follows:
    *
-   *   for (const std::string& term : transduce(query_term, max_distance)) {
+   *   for (const std::string &term : transduce(query_term, max_distance)) {
    *     // do something with term, which is guaranteed to require no more
    *     // than max_distance operations to transform it into the query_term.
    *   }
