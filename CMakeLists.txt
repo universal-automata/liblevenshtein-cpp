@@ -21,7 +21,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include(GNUInstallDirs)
 
-option(BUILD_BASELINE_METRICS "Builds baseline distance metrics for validation" ON)
+option(BUILD_BASELINE_METRICS "Builds baseline distance metrics for validation" OFF)
 option(BUILD_TESTS "Build liblevenshtein testing suite" OFF)
 option(ENABLE_TEST_COVERAGE "Generate test coverage report" OFF)
 option(ENABLE_LINTING "Enables the source code linter" OFF)

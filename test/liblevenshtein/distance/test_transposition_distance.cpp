@@ -4,8 +4,9 @@
 
 #include "liblevenshtein/distance/transposition_distance.h"
 
+namespace lld = liblevenshtein::distance;
 
-static liblevenshtein::TranspositionDistance d;
+static lld::TranspositionDistance d;
 
 RC_GTEST_PROP(TranspositionDistance, satisfies_non_negativity,
               (const std::string &x, const std::string &y)) {

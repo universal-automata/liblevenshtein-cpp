@@ -6,14 +6,16 @@
 
 #include "liblevenshtein/distance/symmetric_pair.h"
 
+namespace lld = liblevenshtein::distance;
+
 RC_GTEST_PROP(SymmetricPair, is_comparable,
               (const std::string &foo, const std::string &bar,
                const std::string &baz)) {
-  std::hash<liblevenshtein::SymmetricPair> hash;
+  std::hash<lld::SymmetricPair> hash;
 
-  liblevenshtein::SymmetricPair pair1(foo, bar);
-  liblevenshtein::SymmetricPair pair2(bar, foo);
-  liblevenshtein::SymmetricPair pair3(foo, baz);
+  lld::SymmetricPair pair1(foo, bar);
+  lld::SymmetricPair pair2(bar, foo);
+  lld::SymmetricPair pair3(foo, baz);
 
   RC_ASSERT(pair1 == pair1);
   RC_ASSERT(pair2 == pair2);

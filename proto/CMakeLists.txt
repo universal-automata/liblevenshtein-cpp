@@ -12,20 +12,14 @@ target_sources(levenshtein
 
 find_package(Protobuf REQUIRED)
 
-find_package(absl REQUIRED) # workaround for protobuf linking bug
-
 target_include_directories(levenshtein PUBLIC
   "${Protobuf_INCLUDE_DIRS}"
   $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
-  $<INSTALL_INTERFACE:include>
-)
+  $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(levenshtein
   PUBLIC
-    protobuf::libprotobuf
-  PRIVATE
-    absl::log_internal_check_op # workaround for protobuf linking bug
-)
+    protobuf::libprotobuf)
 
 protobuf_generate(
   TARGET levenshtein

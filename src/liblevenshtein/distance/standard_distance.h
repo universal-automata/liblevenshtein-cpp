@@ -5,13 +5,13 @@
 
 #include "liblevenshtein/distance/memoized_distance.h"
 
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
-  class StandardDistance : public MemoizedDistance {
-  public:
-    auto between(std::string v, std::string w) -> std::size_t override;
-  };
+class StandardDistance : public MemoizedDistance {
+public:
+  auto between(std::string v, std::string w) -> std::size_t override;
+};
 
-} // namespace liblevenshtein
+} // namespace liblevenshtein::distance
 
 #endif // LIBLEVENSHTEIN_DISTANCE_STANDARD_DISTANCE_H

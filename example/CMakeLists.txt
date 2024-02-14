@@ -19,7 +19,6 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include(GNUInstallDirs)
 
-find_package(absl REQUIRED) # workaround for protobuf linking bug
 find_package(Protobuf REQUIRED)
 find_package(liblevenshtein REQUIRED)
 
@@ -29,6 +28,5 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
-    absl::log_internal_check_op # workaround for protobuf linking bug
     protobuf::libprotobuf
     levenshtein)

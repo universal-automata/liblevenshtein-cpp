@@ -4,8 +4,7 @@
 
 using namespace std::literals;
 
-
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
 auto MemoizedDistance::operator()(const std::string &v, const std::string &w)
     -> std::size_t {
@@ -36,4 +35,4 @@ auto MemoizedDistance::f(const std::string &u, std::size_t const t) -> std::stri
   return "";
 }
 
-} // namespace liblevenshtein
+} // namespace liblevenshtein::distance

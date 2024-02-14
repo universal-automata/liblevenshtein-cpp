@@ -1,7 +1,7 @@
 #include "liblevenshtein/distance/standard_distance.h"
 #include "liblevenshtein/distance/symmetric_pair.h"
 
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
 auto StandardDistance::between(std::string v, std::string w) -> std::size_t {
   const SymmetricPair key(v, w);
@@ -64,4 +64,4 @@ auto StandardDistance::between(std::string v, std::string w) -> std::size_t {
   return set(key, 1 + min_distance);
 }
 
-} // namespace liblevenshtein
+} // namespace liblevenshtein::distance

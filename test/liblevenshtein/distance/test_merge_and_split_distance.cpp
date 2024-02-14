@@ -4,8 +4,9 @@
 
 #include "liblevenshtein/distance/merge_and_split_distance.h"
 
+namespace lld = liblevenshtein::distance;
 
-static liblevenshtein::MergeAndSplitDistance d;
+static lld::MergeAndSplitDistance d;
 
 RC_GTEST_PROP(MergeAndSplitDistance, satisfies_non_negativity,
               (const std::string &x, const std::string &y)) {

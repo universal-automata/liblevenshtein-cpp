@@ -10,21 +10,22 @@
 A library for generating Finite State Transducers based on Levenshtein Automata.
 
 NOTE: This library is currently in rc phase. I'll have it production ready as
-soon as possible. Currently, the top-level components have >90% test coverage
-and the library is usable as described below.
+soon as possible. Currently, there is >90% test coverage over the sources and
+the library is usable as described below.
 
-To make my life easier, this library takes advantage of C++20 features. If you
-need compatibility with an older standard, please either submit a pull request
-or create an issue stating the standard you need compatibility with and I'll get
-around to adding its support when I get time.
+Due to limited resources on my part, this library requires C++20 features (or
+whichever is the latest standard). If you need compatibility with an older
+standard, please either submit a pull request (preferably) or create an issue
+stating the standard you need compatibility with and I will comply if I can.
 
 For a demonstration, please reference the [example app](example/).
 
 ## Initialization
 
 To ease dependency management during development,
-[Anaconda](https://www.anaconda.com/) is used. If you do not have a working
-installation, I recommend the
+[Anaconda](https://www.anaconda.com/) is used but should not be required if you
+have the necessary libraries installed. If you do not have a working
+[Anaconda](https://www.anaconda.com/) installation, I recommend the
 [Mamba](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html)
 variant:
 
@@ -39,6 +40,8 @@ bash Miniforge3-Linux-x86_64.sh -b
 wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
 bash Miniforge3-MacOSX-arm64.sh -b
 ```
+
+TODO: Add instructions for Windows.
 
 Initialize the `base` environment:
 
@@ -74,7 +77,7 @@ conda activate ll-cpp
 ```shell
 mkdir build
 cd build
-cmake -D CMAKE_BUILD_TYPE=Debug -D CMAKE_INSTALL_PREFIX=/usr/local ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX ..
 make
 make install
 ```
@@ -135,35 +138,35 @@ ${CMAKE_INSTALL_PREFIX}
 11 directories, 37 files
 ```
 
-### Disabling tests
+### Enabling tests
 
-If you want to build the library without tests, use the same instructions but
-add the CMake option `BUILD_TESTS=OFF`, as described below:
-
-```shell
-# ...
-cmake -D CMAKE_BUILD_TYPE=Debug \
-      -D CMAKE_INSTALL_PREFIX=/usr/local \
-      -D BUILD_TESTS=OFF \
-      ..
-# ...
-```
-
-### Disabling baseline metrics
-
-If you want to disable the baseline metrics used for validation, you need to
-disable both tests and the metrics. If you disable the metrics but enable tests
-then they will be built anyway because they are required for the tests.
+If you want to build the library with tests, use the same instructions but
+add the CMake option `BUILD_TESTS=ON`, as described below:
 
 ```shell
-# ...
-cmake -D CMAKE_BUILD_TYPE=Debug \
-      -D CMAKE_INSTALL_PREFIX=/usr/local \
-      -D BUILD_BASELINE_METRICS=OFF \
-      -D BUILD_TESTS=OFF \
+cmake -DCMAKE_BUILD_TYPE=Debug \
+      -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+      -DBUILD_TESTS=ON \
       ..
-# ...
 ```
+
+### Enabling baseline metrics
+
+If you want to enable the baseline metrics for validation, you must pass
+`-DBUILD_BASELINE_METRICS=ON` to CMake:
+
+```shell
+cmake -DCMAKE_BUILD_TYPE=Debug \
+      -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+      -DBUILD_BASELINE_METRICS=ON \
+      ..
+```
+
+The baseline metrics are intended for validation of the search results but might
+be useful if you need to compute edit distances among individual pairs of terms.
+
+NOTE: The baseline metrics are required for the tests and will be implicitly
+enabled for them if the baseline metrics are not explicitly enabled.
 
 ## Usage
 
@@ -219,7 +222,47 @@ operation is an edit operation that errs in a penalty of 1 unit.
 
 ### Example
 
+```cmake
+# file: CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
+
+project(liblevenshtein-demo
+  VERSION 1.0.0
+  DESCRIPTION "Demonstrates how to use liblevenshtein-cpp."
+  HOMEPAGE_URL "https://github.com/universal-automata/liblevenshtein-cpp"
+  LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+SET(CMAKE_C_FLAGS_DEBUG "-g -O0")
+
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+include(GNUInstallDirs)
+
+find_package(Protobuf REQUIRED)
+find_package(liblevenshtein REQUIRED)
+
+add_executable(${PROJECT_NAME}
+  "command_line.cpp"
+  "main.cpp")
+
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE
+    protobuf::libprotobuf
+    levenshtein)
+
+```
+
 ```c++
+// file: main.cpp
+
 #include <algorithm>
 #include <cstddef>
 #include <string>
@@ -289,7 +332,7 @@ int main(int argc, char *argv[]) {
      */
 
     // save the dictionary for reuse
-    serialize_protobuf(dawg, serialization_path);
+    ll::serialize_protobuf(dawg, serialization_path);
 
     delete dawg;
 
@@ -308,6 +351,17 @@ int main(int argc, char *argv[]) {
 ```
 
 ### Dependencies
-1. [Google Test](https://github.com/google/googletest)
-2. [RapidCheck](https://github.com/emil-e/rapidcheck)
-3. [yaml-cpp](https://github.com/jbeder/yaml-cpp)
+1. [CMake](https://cmake.org/)
+2. [Make](https://www.gnu.org/software/make/)
+3. C++ Compiler
+  - Linux
+    - [g++](https://gcc.gnu.org/)
+    - [clang++](https://clang.llvm.org/)
+  - MacOS
+    - [clang++](https://clang.llvm.org/)
+  - Windows
+    - [vc++](https://visualstudio.microsoft.com/)
+4. [Protocol Buffers](https://protobuf.dev/)
+5. [Google Test](https://github.com/google/googletest)
+6. [RapidCheck](https://github.com/emil-e/rapidcheck)
+7. [yaml-cpp](https://github.com/jbeder/yaml-cpp)

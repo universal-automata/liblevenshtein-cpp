@@ -4,8 +4,9 @@
 
 #include "liblevenshtein/distance/standard_distance.h"
 
+namespace lld = liblevenshtein::distance;
 
-static liblevenshtein::StandardDistance d;
+static lld::StandardDistance d;
 
 RC_GTEST_PROP(StandardDistance, satisfies_non_negativity,
               (const std::string &x, const std::string &y)) {

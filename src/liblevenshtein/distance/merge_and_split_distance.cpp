@@ -1,7 +1,7 @@
 #include "liblevenshtein/distance/merge_and_split_distance.h"
 #include "liblevenshtein/distance/symmetric_pair.h"
 
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
 auto MergeAndSplitDistance::between(std::string v, std::string w)
     -> std::size_t {
@@ -95,4 +95,4 @@ auto MergeAndSplitDistance::between(std::string v, std::string w)
   return set(key, 1 + min_distance);
 }
 
-} // namespace liblevenshtein
+} // namespace liblevenshtein::distance

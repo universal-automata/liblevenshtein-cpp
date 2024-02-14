@@ -18,17 +18,18 @@
 #include "liblevenshtein/test/utils/comparators.h"
 
 namespace ll = liblevenshtein;
+namespace lld = liblevenshtein::distance;
 namespace llt = liblevenshtein::test;
 
-static ll::StandardDistance standard_distance;
-static ll::TranspositionDistance transposition_distance;
-static ll::MergeAndSplitDistance merge_and_split_distance;
+static lld::StandardDistance standard_distance;
+static lld::TranspositionDistance transposition_distance;
+static lld::MergeAndSplitDistance merge_and_split_distance;
 
 template <ll::Algorithm Type>
 // NOLINTBEGIN(bugprone-easily-swappable-parameters)
 void test_transducer(const std::set<std::string, llt::std_str_cmp> &dictionary_terms,
                      const std::set<std::string, llt::std_str_cmp> &query_terms,
-                     std::size_t max_distance, ll::Distance &d) {
+                     std::size_t max_distance, lld::Distance &d) {
   // NOLINTEND(bugprone-easily-swappable-parameters)
 
   std::unordered_map<std::string, std::unordered_set<std::string>>

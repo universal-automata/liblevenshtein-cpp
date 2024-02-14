@@ -1,8 +1,7 @@
 #include "liblevenshtein/distance/symmetric_pair.h"
 #include "liblevenshtein/distance/transposition_distance.h"
 
-
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
 auto TranspositionDistance::between(std::string v, std::string w)
     -> std::size_t {
@@ -82,4 +81,4 @@ auto TranspositionDistance::between(std::string v, std::string w)
   return set(key, 1 + min_distance);
 }
 
-} // namespace liblevenshtein
+} // namespace liblevenshtein::distance

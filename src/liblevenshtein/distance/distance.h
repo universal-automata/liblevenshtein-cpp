@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
   class Distance {
   public:

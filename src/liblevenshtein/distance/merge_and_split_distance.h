@@ -5,13 +5,13 @@
 
 #include "liblevenshtein/distance/memoized_distance.h"
 
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
-  class MergeAndSplitDistance : public MemoizedDistance {
-  public:
-    auto between(std::string v, std::string w) -> std::size_t override;
-  };
+class MergeAndSplitDistance : public MemoizedDistance {
+public:
+  auto between(std::string v, std::string w) -> std::size_t override;
+};
 
-} // namespace liblevenshtein
+} // namespace liblevenshtein::distance
 
 #endif // LIBLEVENSHTEIN_DISTANCE_MERGE_AND_SPLIT_DISTANCE_H

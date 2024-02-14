@@ -4,7 +4,7 @@
 
 #include "liblevenshtein/distance/symmetric_pair.h"
 
-namespace liblevenshtein {
+namespace liblevenshtein::distance {
 
 SymmetricPair::SymmetricPair(const std::string &first, const std::string &second) {
   if (first.compare(second) < 0) {
@@ -30,10 +30,10 @@ auto operator<<(std::ostream &out, const SymmetricPair &pair)
   return out;
 }
 
-} // namespace liblevenshtein
+} // namespace liblevenshtein::distance
 
-auto std::hash<liblevenshtein::SymmetricPair>::operator()(
-    const liblevenshtein::SymmetricPair &pair) const -> std::size_t {
+auto std::hash<liblevenshtein::distance::SymmetricPair>::operator()(
+    const liblevenshtein::distance::SymmetricPair &pair) const -> std::size_t {
   std::uint64_t hash_code = 0xDEADBEEF;
   hash_code = MurmurHash64A(pair.first.c_str(), (int) pair.first.length(), hash_code);
   return MurmurHash64A(pair.second.c_str(), (int) pair.second.length(), hash_code);
