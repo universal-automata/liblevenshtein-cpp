@@ -1,8 +1,0 @@
-name: ll-cpp-demo
-channels:
-  - conda-forge
-dependencies:
-  - cmake >=3.20
-  - cxx-compiler
-  - make
-  - protobuf >=4.25.2

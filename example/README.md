@@ -32,8 +32,6 @@ popd
 
 ```shell
 cd example
-mamba env create --force -f environment.yml
-conda activate ll-cpp-demo
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
