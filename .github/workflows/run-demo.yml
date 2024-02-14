@@ -64,5 +64,5 @@ jobs:
         shell: bash -el {0}
         run: >
           ./scripts/run-demo.exp ./build/liblevenshtein-demo
-          --dictionary-path programming-languages.txt
+          --dictionary-path resources/programming-languages.txt
           --serialization-path build/programming-languages.pb

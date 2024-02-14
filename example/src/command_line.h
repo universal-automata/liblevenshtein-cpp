@@ -42,7 +42,7 @@ private:
   auto next_path(fs::path &path, int &i) -> bool;
 
   ReturnCode _return_code = ReturnCode::RETURN_DEFAULT;
-  fs::path _dictionary_path = "../programming-languages.txt";
+  fs::path _dictionary_path = "../resources/programming-languages.txt";
   fs::path _serialization_path = "programming-languages.pb";
   ll::Algorithm _algorithm = ll::Algorithm::TRANSPOSITION;
   std::size_t _max_distance = 2;

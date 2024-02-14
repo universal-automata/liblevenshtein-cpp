@@ -14,16 +14,6 @@
 !/README.md
 !/environment*.yml
 
-!/example/*.cpp
-!/example/*.h
-!/example/CMakeLists.txt
-!/example/README.md
-!/example/environment*.yml
-!/example/programming-languages.txt
-
-!/example/scripts/*.exp
-!/example/scripts/*.sh
-
 !/cmake/**/*.cmake
 
 !/proto/CMakeLists.txt

@@ -1,0 +1,9 @@
+!/.gitignore
+!/CMakeLists.txt
+!/README.md
+!/environment*.yml
+!/resources/*.txt
+!/scripts/*.exp
+!/scripts/*.sh
+!/src/**/*.cpp
+!/src/**/*.h

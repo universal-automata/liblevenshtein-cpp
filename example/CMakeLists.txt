@@ -20,11 +20,11 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 find_package(Protobuf REQUIRED)
 find_package(liblevenshtein REQUIRED)
 
-add_executable(${PROJECT_NAME}
-  "command_line.cpp"
-  "main.cpp")
+add_executable(${PROJECT_NAME})
 
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
     protobuf::libprotobuf
     levenshtein)
+
+add_subdirectory("src")
