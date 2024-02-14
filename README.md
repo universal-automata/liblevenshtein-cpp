@@ -85,6 +85,8 @@ The files will be installed to the following locations:
 $ tree "${CMAKE_INSTALL_PREFIX}"
 ${CMAKE_INSTALL_PREFIX}
 ├── include
+│   ├── MurmurHash2.h
+│   ├── MurmurHash3.h
 │   └── liblevenshtein
 │       ├── collection
 │       │   ├── dawg.h
@@ -104,30 +106,33 @@ ${CMAKE_INSTALL_PREFIX}
 │       │   └── liblevenshtein.pb.h
 │       ├── serialization
 │       │   └── serializer.h
-│       ├── transducer
-│       │   ├── algorithm.h
-│       │   ├── comparator.h
-│       │   ├── distance.h
-│       │   ├── intersection.h
-│       │   ├── lazy_query.h
-│       │   ├── merge.h
-│       │   ├── position.h
-│       │   ├── position_transition.h
-│       │   ├── state.h
-│       │   ├── state_iterator.h
-│       │   ├── state_transition.h
-│       │   ├── subsumes.h
-│       │   ├── transducer.h
-│       │   └── unsubsume.h
-│       └── utils
-│           ├── MurmurHash2.h
-│           └── MurmurHash3.h
+│       └── transducer
+│           ├── algorithm.h
+│           ├── comparator.h
+│           ├── distance.h
+│           ├── intersection.h
+│           ├── lazy_query.h
+│           ├── merge.h
+│           ├── position.h
+│           ├── position_transition.h
+│           ├── state.h
+│           ├── state_iterator.h
+│           ├── state_transition.h
+│           ├── subsumes.h
+│           ├── transducer.h
+│           └── unsubsume.h
 └── lib
+    ├── cmake
+    │   └── liblevenshtein
+    │       ├── liblevenshtein-config-version.cmake
+    │       ├── liblevenshtein-config.cmake
+    │       ├── liblevenshtein-targets-release.cmake
+    │       └── liblevenshtein-targets.cmake
     ├── liblevenshtein.so -> liblevenshtein.so.4.0
     ├── liblevenshtein.so.4.0 -> liblevenshtein.so.4.0.0
     └── liblevenshtein.so.4.0.0
 
-10 directories, 33 files
+11 directories, 37 files
 ```
 
 ### Disabling tests
