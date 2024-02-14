@@ -20,7 +20,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 include(GNUInstallDirs)
 
 find_package(absl REQUIRED) # workaround for protobuf linking bug
-find_package(Protobuf CONFIG REQUIRED)
+find_package(Protobuf REQUIRED)
 find_package(liblevenshtein REQUIRED)
 
 add_executable(${PROJECT_NAME}
