@@ -3,7 +3,6 @@
 
 namespace liblevenshtein {
 
-// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 Transition::Transition(char label, DawgNode* source, DawgNode* target)
   : _label(label),
     _source(source),
@@ -32,10 +31,6 @@ auto Transition::operator==(const Transition &other) const -> bool {
   return _label == other._label
     && *_source == *(other._source)
     && *_target == *(other._target);
-}
-
-auto Transition::operator!=(const Transition &other) const -> bool {
-  return !(*this == other);
 }
 
 } // namespace liblevenshtein

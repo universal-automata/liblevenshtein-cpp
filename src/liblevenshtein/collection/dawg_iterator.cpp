@@ -30,8 +30,8 @@ auto DawgIterator::operator*() const -> std::string {
   return _next_value;
 }
 
-auto DawgIterator::operator!=(const DawgIterator &other) const -> bool {
-  return _term_index < other._term_index;
+auto DawgIterator::operator==(const DawgIterator &other) const -> bool {
+  return _term_index == other._term_index;
 }
 
 void DawgIterator::advance() {

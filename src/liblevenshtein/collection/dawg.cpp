@@ -73,10 +73,6 @@ auto Dawg::operator==(const Dawg &other) const -> bool {
   return size() == other.size() && *root() == *other.root();
 }
 
-auto Dawg::operator!=(const Dawg &other) const -> bool {
-  return !(*this == other);
-}
-
 } // namespace liblevenshtein
 
 

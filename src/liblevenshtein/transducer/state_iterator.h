@@ -5,31 +5,84 @@
 
 namespace liblevenshtein {
 
-  class State;
+/** Forward declaration to avoid cyclic imports. */
+class State;
 
-  class StateIterator {
-  public:
-    StateIterator(State* state, Position* head, StateIterator *parent = nullptr);
+/**
+ * Iterates over the Position nodes in the linked-list of a Levenshtein State.
+ */
+class StateIterator {
+public:
 
-    void insert(Position *position);
-    void remove();
+  /**
+   * Constructs a new StateIterator of the Position nodes of `state`, with an
+   * optional `outer` pointer for unsubsumption.
+   *
+   * @param state Levenshtein State owning the linked-list being iterated over.
+   * @param head Head Position of the current sub-list.
+   * @param outer Iterator during unsubsumption that owns the outermost level of
+   * iteration over the linked-list.
+   */
+  StateIterator(State* state, Position* head, StateIterator *outer = nullptr);
 
-    auto operator++() -> StateIterator &;
-    auto operator*() const -> Position *;
-    auto operator!=(const StateIterator &other) const -> bool;
-    auto operator==(const StateIterator &other) const -> bool;
+  /**
+   * Inserts a new Position after the current one in the linked-list.
+   *
+   * @param position New Position to add after the current one in the linked-list.
+   */
+  void insert(Position *position);
 
-  private:
-    StateIterator* _parent = nullptr;
-    State* _state = nullptr;
-    Position* _next = nullptr;
-    Position* _curr = nullptr;
-    Position* _prev = nullptr;
+  /**
+   * Removes the current Position from the linked-list.
+   */
+  void remove();
 
-    void advance();
-  };
+  /**
+   * Advances the Position in the linked-list by one.
+   *
+   * @return A reference to the iterator containing the advanced state.
+   */
+  auto operator++() -> StateIterator &;
+
+  /**
+   * Returns a pointer to the current Position in the linked-list.
+   *
+   * @return A pointer to the current Position in the linked-list.
+   */
+  auto operator*() const -> Position *;
+
+  /**
+   * Returns whether this StateIterator is equivalent to another. By convention,
+   * the iterators must be over the same linked-list.
+   *
+   * @param other A StateIterator to compare with this one for equivalence.
+   * @return Whether this StateIterator is equivalent to the other.
+   */
+  auto operator==(const StateIterator &other) const -> bool;
+
+private:
+
+  /** Outermost iterator over the same linked-list, used for unsubsumption. */
+  StateIterator* _outer = nullptr;
+
+  /** Levenshtein State that owns the linked-list being iterated over. */
+  State* _state = nullptr;
+
+  /** Next Position to be iterated over. */
+  Position* _next = nullptr;
+
+  /** Current Position being iterated over. */
+  Position* _curr = nullptr;
+
+  /** Previous Position being iterated over. */
+  Position* _prev = nullptr;
+
+  /**
+   * Advances the Position being iterated over by one.
+   */
+  void advance();
+};
 
 } // namespace liblevenshtein
-
 
 #endif // LIBLEVENSHTEIN_TRANSDUCER_STATE_ITERATOR_H

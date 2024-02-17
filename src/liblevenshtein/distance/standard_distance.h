@@ -7,6 +7,10 @@
 
 namespace liblevenshtein::distance {
 
+/**
+ * Computes the standard Levenshtein distance, which includes the elementary
+ * operations of insertion, deletion, and substitution.
+ */
 class StandardDistance : public MemoizedDistance {
 public:
   auto between(std::string v, std::string w) -> std::size_t override;

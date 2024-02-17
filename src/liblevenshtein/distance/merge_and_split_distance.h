@@ -7,8 +7,14 @@
 
 namespace liblevenshtein::distance {
 
+/**
+ * Computes the standard Levenshtein distance extended with two additional
+ * elementary operations: (1) merge and (2) split. This is most useful for
+ * correcting OCR errors (optical character recognition).
+ */
 class MergeAndSplitDistance : public MemoizedDistance {
 public:
+
   auto between(std::string v, std::string w) -> std::size_t override;
 };
 

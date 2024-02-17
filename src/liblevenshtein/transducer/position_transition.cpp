@@ -3,10 +3,8 @@
 
 namespace liblevenshtein {
 
-// NOLINTBEGIN(bugprone-easily-swappable-parameters)
 auto index_of(std::vector<bool> &characteristic_vector, std::size_t k,
               std::size_t i) -> std::size_t {
-  // NOLINTEND(bugprone-easily-swappable-parameters)
   for (std::size_t j = 0; j < k; j += 1) {
     if (characteristic_vector[i + j]) {
       return j;

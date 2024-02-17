@@ -25,6 +25,7 @@ option(BUILD_BASELINE_METRICS "Builds baseline distance metrics for validation" 
 option(BUILD_TESTS "Build liblevenshtein testing suite" OFF)
 option(ENABLE_TEST_COVERAGE "Generate test coverage report" OFF)
 option(ENABLE_LINTING "Enables the source code linter" OFF)
+option(GENERATE_DOCS "Whether to generate the documentation" OFF)
 
 if(ENABLE_LINTING)
   find_program(CLANGXX_PATH clang++)
@@ -77,4 +78,17 @@ install(FILES
 
 if(BUILD_TESTS)
   add_subdirectory(test)
+endif()
+
+if(GENERATE_DOCS)
+  find_package(Doxygen
+    REQUIRED dot
+    OPTIONAL_COMPONENTS mscgen dia)
+
+  set(DOXYFILE_PATH "${CMAKE_BINARY_DIR}/Doxyfile")
+  configure_file("${CMAKE_CURRENT_LIST_DIR}/Doxyfile.in" "${DOXYFILE_PATH}")
+
+  doxygen_add_docs(doxygen ALL
+    CONFIG_FILE "${DOXYFILE_PATH}"
+  )
 endif()

@@ -175,10 +175,10 @@ enabled for them if the baseline metrics are not explicitly enabled.
 variation is defined by the elementary operations it supports. An elementary
 operation is an edit operation that errs in a penalty of 1 unit.
 
-1. `liblevenshtein::STANDARD`
+1. `liblevenshtein::Algorithm::STANDARD`
   * Standard Levenshtein distance including the traditional elementary
     operations of `insert`, `delete`, and `substitute`.
-2. `liblevenshtein::TRANSPOSITION`
+2. `liblevenshtein::Algorithm::TRANSPOSITION`
   * Standard Levenshtein distance extended with `transpose` as an elementary
     operation.
   * The elementary operations supported by this algorithm follow: `insert`,
@@ -191,7 +191,7 @@ operation is an edit operation that errs in a penalty of 1 unit.
   * This algorithm is preferred for correcting typographical errors, where the
     majority of misspellings in English are within 2 units of error from the
     intended spelling with many errors being transpositions.
-3. `liblevenshtein::MERGE_AND_SPLIT`
+3. `liblevenshtein::Algorithm::MERGE_AND_SPLIT`
   * Standard Levenshtein distance extended with two additional elementary
     operations: `merge` and `split`.
   * The elementary operations supported by this algorithm follow: `insert`,
@@ -249,14 +249,12 @@ find_package(Protobuf REQUIRED)
 find_package(liblevenshtein REQUIRED)
 
 add_executable(${PROJECT_NAME}
-  "command_line.cpp"
   "main.cpp")
 
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
     protobuf::libprotobuf
     levenshtein)
-
 ```
 
 ```c++

@@ -2,7 +2,6 @@
 
 namespace liblevenshtein {
 
-// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 Position::Position(std::size_t term_index, std::size_t num_errors, bool is_special)
   : _term_index(term_index),
     _num_errors(num_errors),

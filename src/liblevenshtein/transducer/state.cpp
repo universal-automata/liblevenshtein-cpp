@@ -70,44 +70,44 @@ void State::remove(Position *prev, Position *curr) {
   delete temp;
 }
 
-auto State::merge_sort(const Comparator &compare, Position *lhs_head)
+auto State::merge_sort(const Comparator &compare, Position *lower)
     -> Position * {
-  if (lhs_head == nullptr || lhs_head->next() == nullptr) {
-    return lhs_head;
+  if (lower == nullptr || lower->next() == nullptr) {
+    return lower;
   }
 
-  Position* middle = find_middle(lhs_head);
-  Position* rhs_head = middle->next();
+  Position* middle = find_middle(lower);
+  Position* upper = middle->next();
   middle->next(nullptr);
 
   return merge(compare,
-         merge_sort(compare, lhs_head),
-         merge_sort(compare, rhs_head));
+         merge_sort(compare, lower),
+         merge_sort(compare, upper));
 }
 
-auto State::merge(const Comparator &compare, Position *lhs_head,
-                  Position *rhs_head) -> Position * {
+auto State::merge(const Comparator &compare, Position *lower, Position *upper)
+    -> Position * {
   Position temp(-1, -1);
   Position* next = &temp;
   Position* curr = next;
 
-  while (lhs_head != nullptr && rhs_head != nullptr) {
-    if (compare(lhs_head, rhs_head) < 1) {
-      curr->next(lhs_head);
-      lhs_head = lhs_head->next();
+  while (lower != nullptr && upper != nullptr) {
+    if (compare(lower, upper) < 1) {
+      curr->next(lower);
+      lower = lower->next();
     }
     else {
-      curr->next(rhs_head);
-      rhs_head = rhs_head->next();
+      curr->next(upper);
+      upper = upper->next();
     }
     curr = curr->next();
   }
 
-  if (rhs_head != nullptr) {
-    curr->next(rhs_head);
+  if (upper != nullptr) {
+    curr->next(upper);
   }
-  else if (lhs_head != nullptr) {
-    curr->next(lhs_head);
+  else if (lower != nullptr) {
+    curr->next(lower);
   }
 
   curr = next->next();
@@ -115,9 +115,9 @@ auto State::merge(const Comparator &compare, Position *lhs_head,
   return curr;
 }
 
-auto State::find_middle(Position *head) -> Position * {
-  Position* slow = head;
-  Position* fast = head;
+auto State::find_middle(Position *lower) -> Position * {
+  Position* slow = lower;
+  Position* fast = lower;
 
   while (fast->next() != nullptr && fast->next()->next() != nullptr) {
     slow = slow->next();

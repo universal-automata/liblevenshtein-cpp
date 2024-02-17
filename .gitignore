@@ -10,6 +10,7 @@
 !/.gitignore
 !/CMakeLists.txt
 !/Config.cmake.in
+!/Doxyfile.in
 !/LICENSE.txt
 !/README.md
 !/environment*.yml
@@ -19,11 +20,12 @@
 !/proto/CMakeLists.txt
 !/proto/*.proto
 
-!/src/**/CMakeLists.txt
+!/src/**/*.cpp
 !/src/**/*.h
 !/src/**/*.hpp
-!/src/**/*.cpp
 !/src/**/*.pxd
+!/src/**/CMakeLists.txt
+!/src/**/namespaces.dox
 
 !/third-party/**/CMakeLists.txt
 !/third-party/**/*.h

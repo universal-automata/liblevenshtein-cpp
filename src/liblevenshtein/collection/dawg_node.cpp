@@ -65,10 +65,6 @@ auto DawgNode::operator==(const DawgNode &other) const -> bool {
   return true;
 }
 
-auto DawgNode::operator!=(const DawgNode &other) const -> bool {
-  return !(*this == other);
-}
-
 auto operator<<(std::ostream &out, const DawgNode &node) -> std::ostream & {
   out << "DawgNode{is_final=" << (node.is_final() ? "true" : "false") << ", edges={";
   int index = 0;

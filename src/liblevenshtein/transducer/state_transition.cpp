@@ -5,13 +5,11 @@
 
 namespace liblevenshtein {
 
-// NOLINTBEGIN(bugprone-easily-swappable-parameters)
 StateTransition::StateTransition(PositionTransitionFn transition,
                                  CompareFn compare, MergeFn merge,
                                  UnsubsumeFn unsubsume,
                                  std::size_t max_distance,
                                  std::size_t query_length)
-    // NOLINTEND(bugprone-easily-swappable-parameters)
     : transition(std::move(transition)), compare(std::move(compare)),
       merge(std::move(merge)), unsubsume(std::move(unsubsume)),
       max_distance(max_distance), query_length(query_length) {}

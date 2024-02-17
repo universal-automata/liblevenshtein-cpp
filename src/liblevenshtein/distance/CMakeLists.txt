@@ -4,6 +4,7 @@ file(GLOB MODULE_HEADERS "*.h" "*.hpp")
 target_sources(levenshtein
   PRIVATE
     "symmetric_pair.cpp"
+    "distance.cpp"
     "memoized_distance.cpp"
     "standard_distance.cpp"
     "transposition_distance.cpp"

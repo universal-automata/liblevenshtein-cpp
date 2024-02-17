@@ -10,45 +10,154 @@
 
 namespace liblevenshtein {
 
-  class Dawg {
-  public:
-    Dawg(DawgNode* root, std::size_t size);
-    Dawg();
-    virtual ~Dawg();
+  /**
+   * A Directed Acyclic Word Graph (DAWG) maps sequences of characters to form
+   * words; the collection of words is known as a dictionary. As its name
+   * implies, it is a directed, acyclic automaton having a single root node from
+   * which all terms in the dictionary are reachable. It is important that only
+   * those terms in the dictionary may be formed by traversing the edges of the
+   * DAWG, no terms that are not in the dictionary may be formed by joining
+   * subsequent outgoing edges from the root. Nodes denoting word boundaries are
+   * flagged as being final.
+   */
+class Dawg {
+public:
 
-    virtual auto add(const std::string &term) -> bool = 0;
-    virtual auto remove(const std::string &term) -> bool = 0;
+  /**
+   * Constructs a new DAWG with the given root node and number of dictionary
+   * terms (size). The number of terms reachable by combining the subsequent
+   * outgoing edges from the root must be equal to the size.
+   *
+   * @param root Node from which all dictionary terms may be reached by
+   * subsequently traversing its outgoing edges.
+   * @param size Number of terms in the dictionary.
+   */
+  Dawg(DawgNode* root, std::size_t size);
 
-    [[nodiscard]] auto contains(const std::string &term) const -> bool;
+  /**
+   * Constructs an empty DAWG with a default root node (there are no outgoing
+   * edges or reachable terms from the root, not even the empty string).
+   */
+  Dawg();
 
-    [[nodiscard]] auto root() const -> DawgNode *;
-    [[nodiscard]] auto size() const -> size_t;
+  /**
+   * Deletes all the nodes associated with this dictionary.
+   */
+  virtual ~Dawg();
 
-    [[nodiscard]] auto begin() const -> DawgIterator;
-    [[nodiscard]] auto end() const -> DawgIterator;
+  /**
+   * Adds a new term to this dictionary by adding missing sequential edges
+   * leading outward from the root node.
+   *
+   * @param term The term to add to this dictionary.
+   * @return Whether the term was successfully added to this dictionary.
+   */
+  virtual auto add(const std::string &term) -> bool = 0;
 
-    auto operator==(const Dawg &other) const -> bool;
-    auto operator!=(const Dawg &other) const -> bool;
+  /**
+   * Removes a term from this dictionary and cleans up its path.
+   *
+   * @param term The term to remove from this dictionary.
+   * @return Whether the term was removed from this dictionary.
+   */
+  virtual auto remove(const std::string &term) -> bool = 0;
 
-    friend class std::hash<Dawg>;
-    friend auto operator<<(std::ostream &out, const Dawg &dawg)
-        -> std::ostream &;
+  /**
+   * Determines whether the given term is contained within this dictionary.
+   *
+   * @param term Query term whose membership in this dictionary must be
+   * determined.
+   * @return Whether the term is contained within this dictionary.
+   */
+  [[nodiscard]] auto contains(const std::string &term) const -> bool;
 
-  protected:
-    DawgNode* _root;
-    std::size_t _size;
+  /**
+   * Returns a pointer to the root node of this dictionary from which all its
+   * terms may be determined.
+   *
+   * @return A pointer to the root node of this dictionary.
+   */
+  [[nodiscard]] auto root() const -> DawgNode *;
 
-    [[nodiscard]] auto all_nodes() const -> std::unordered_set<DawgNode *>;
-  };
+  /**
+   * Returns the number of terms in this dictionary.
+   *
+   * @return The size of this dictionary.
+   */
+  [[nodiscard]] auto size() const -> size_t;
+
+  /**
+   * Returns an iterator pointing to the first term in this dictionary, from
+   * which all terms may be iterated over.
+   *
+   * @return An iterator pointing to the first term in this dictionary.
+   */
+  [[nodiscard]] auto begin() const -> DawgIterator;
+
+  /**
+   * Returns an iterator representing the boundary following the final term in
+   * this dictionary. The value of the iterator is not a term, but represent a
+   * boundary that must not be crossed.
+   *
+   * @return An iterator pointing to the boundary following the final term in
+   * this dictionary.
+   */
+  [[nodiscard]] auto end() const -> DawgIterator;
+
+  /**
+   * Determines whether another DAWG is equivalent to this one.
+   *
+   * @param other Dictionary (DAWG) to compare to this one.
+   * @return Whether the other dictionary is equivalent to this one.
+   */
+  auto operator==(const Dawg &other) const -> bool;
+
+  /** Specifies the hash function for this DAWG may view its membership. */
+  friend class std::hash<Dawg>;
+
+  /** Specifies the output streaming operator for this DAWG may view its
+  membership. */
+  friend auto operator<<(std::ostream &out, const Dawg &dawg)
+      -> std::ostream &;
+
+protected:
+
+  /** Root node of this DAWG from which all its terms may be reached. */
+  DawgNode* _root;
+
+  /** Number of terms reachable from the root node. */
+  std::size_t _size;
+
+  /**
+   * Returns a set of all nodes reachable from the root, including the root.
+   *
+   * @return The closure of nodes reachable from the root, including the root.
+   */
+  [[nodiscard]] auto all_nodes() const -> std::unordered_set<DawgNode *>;
+};
+
 } // namespace liblevenshtein
 
 
 namespace std {
 
-  template <>
-  struct hash<liblevenshtein::Dawg> {
-    auto operator()(const liblevenshtein::Dawg &dawg) const -> size_t;
-  };
+/**
+ * Generates a hash code for the given DAWG.
+ *
+ * @param dawg Dictionary whose hash code should be generated.
+ * @return The generated hash code for the parameterized DAWG.
+ */
+template <>
+struct hash<liblevenshtein::Dawg> {
+
+  /**
+   * Generates a hash code for the given DAWG.
+   *
+   * @param dawg DAWG whose hash code is to be generated.
+   * @return The hash code for the given DAWG.
+   */
+  auto operator()(const liblevenshtein::Dawg &dawg) const -> size_t;
+};
 } // namespace std
 
 

@@ -7,6 +7,11 @@
 
 namespace liblevenshtein::distance {
 
+/**
+ * Computes the standard Levenshtein distance extended with the elementary
+ * operation of transposition. This is most useful for correcting typographic
+ * errors.
+ */
 class TranspositionDistance : public MemoizedDistance {
 public:
   auto between(std::string v, std::string w) -> std::size_t override;

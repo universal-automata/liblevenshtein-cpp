@@ -6,11 +6,6 @@ using namespace std::literals;
 
 namespace liblevenshtein::distance {
 
-auto MemoizedDistance::operator()(const std::string &v, const std::string &w)
-    -> std::size_t {
-  return between(v, w);
-}
-
 auto MemoizedDistance::get(const SymmetricPair &key, std::size_t &distance) -> bool {
   std::shared_lock reader(mutex);
   auto iter = memo.find(key);

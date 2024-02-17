@@ -110,16 +110,14 @@ auto LazyQuery<Result>::operator*() const -> const Result & {
 }
 
 template <class Result>
-auto LazyQuery<Result>::operator!=(const LazyQuery<Result> &other) const
+auto LazyQuery<Result>::operator==(const LazyQuery<Result> &other) const
     -> bool {
-  return !_is_complete;
+  return _is_complete;
 }
 
-// NOLINTBEGIN(bugprone-easily-swappable-parameters)
 template <class Result>
 auto LazyQuery<Result>::characteristic_vector(char x, std::string &term,
                                               std::size_t k, std::size_t i)
-    // NOLINTEND(bugprone-easily-swappable-parameters)
     -> std::vector<bool> {
   std::vector<bool> characteristic_vector(k);
   for (int j = 0; j < k; j += 1) {
