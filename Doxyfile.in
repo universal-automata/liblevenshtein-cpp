@@ -1,7 +1,7 @@
 PROJECT_NAME           = @PROJECT_NAME@
 PROJECT_NUMBER         = @PROJECT_VERSION@
 PROJECT_BRIEF          = @PROJECT_DESCRIPTION@
-PROJECT_LOGO           = @CMAKE_SOURCE_DIR@/Gravatar - dylondevo - 55 x 55.png
+PROJECT_LOGO           = @CMAKE_SOURCE_DIR@/logo-55x55.png
 INPUT                  = @CMAKE_SOURCE_DIR@/src
 OUTPUT_DIRECTORY       = @CMAKE_BINARY_DIR@/doxygen
 ALLOW_UNICODE_NAMES    = YES

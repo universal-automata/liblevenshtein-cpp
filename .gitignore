@@ -14,6 +14,7 @@
 !/LICENSE.txt
 !/README.md
 !/environment*.yml
+!/logo-55x55.png
 
 !/cmake/**/*.cmake
 
@@ -21,11 +22,11 @@
 !/proto/*.proto
 
 !/src/**/*.cpp
+!/src/**/*.dox
 !/src/**/*.h
 !/src/**/*.hpp
 !/src/**/*.pxd
 !/src/**/CMakeLists.txt
-!/src/**/namespaces.dox
 
 !/third-party/**/CMakeLists.txt
 !/third-party/**/*.h
