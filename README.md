@@ -5,6 +5,7 @@
 | **Operating System** | [![Test Ubuntu](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-ubuntu.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-ubuntu.yml) | [![Test MacOS](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-macos.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-macos.yml) | [![Test Windows](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-windows.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/test-windows.yml) |
 | **Engineering Excellence** | [![Coverage Status](https://coveralls.io/repos/github/universal-automata/liblevenshtein-cpp/badge.svg?branch=master)](https://coveralls.io/github/universal-automata/liblevenshtein-cpp?branch=master) | [![Linter](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/linter.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/linter.yml) | [![CodeQL](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/codeql.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/codeql.yml) |
 | **Demo App** | [![Run Demo](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/run-demo.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/run-demo.yml) |||
+| **Documentation** | [![Deploy static content to Pages](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/deploy-static-pages.yml/badge.svg)](https://github.com/universal-automata/liblevenshtein-cpp/actions/workflows/deploy-static-pages.yml) |||
 
 A library for generating Finite State Transducers based on Levenshtein Automata.
 
@@ -22,153 +23,10 @@ For a demonstration, please reference the [example app](example/README.md).
 For API documentation, please reference the
 [GitHub Pages](https://universal-automata.github.io/liblevenshtein-cpp/).
 
-## Initialization
+## Development and Installation
 
-To ease dependency management during development,
-[Anaconda](https://www.anaconda.com/) is used but should not be required if you
-have the necessary libraries installed. If you do not have a working
-[Anaconda](https://www.anaconda.com/) installation, I recommend the
-[Mamba](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html)
-variant:
-
-```shell
-# For Linux (x86_64)
-wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-bash Miniforge3-Linux-x86_64.sh -b
-```
-
-```shell
-# For OS X (arm64)
-wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-bash Miniforge3-MacOSX-arm64.sh -b
-```
-
-TODO: Add instructions for Windows.
-
-Initialize the `base` environment:
-
-```bash
-__conda_setup="$("$HOME/miniforge3/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0  ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh"  ]; then
-        source "$HOME/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/miniforge3/bin:$PATH"
-    fi
-fi
-```
-
-Clone [liblevenshtein-cpp](https://github.com/universal-automata/liblevenshtein-cpp):
-
-```shell
-git clone https://github.com/universal-automata/liblevenshtein-cpp.git
-cd liblevenshtein-cpp
-```
-
-Initialize the conda environment:
-
-```shell
-mamba env create --force -f environment.yml
-conda activate ll-cpp
-```
-
-## Building and Installation
-
-```shell
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX ..
-make
-make install
-```
-
-The files will be installed to the following locations:
-
-```
-$ tree "${CMAKE_INSTALL_PREFIX}"
-${CMAKE_INSTALL_PREFIX}
-├── include
-│   ├── MurmurHash2.h
-│   ├── MurmurHash3.h
-│   └── liblevenshtein
-│       ├── collection
-│       │   ├── dawg.h
-│       │   ├── dawg_iterator.h
-│       │   ├── dawg_node.h
-│       │   ├── prefix.h
-│       │   ├── sorted_dawg.h
-│       │   └── transition.h
-│       ├── distance
-│       │   ├── distance.h
-│       │   ├── memoized_distance.h
-│       │   ├── merge_and_split_distance.h
-│       │   ├── standard_distance.h
-│       │   ├── symmetric_pair.h
-│       │   └── transposition_distance.h
-│       ├── proto
-│       │   └── liblevenshtein.pb.h
-│       ├── serialization
-│       │   └── serializer.h
-│       └── transducer
-│           ├── algorithm.h
-│           ├── comparator.h
-│           ├── distance.h
-│           ├── intersection.h
-│           ├── lazy_query.h
-│           ├── merge.h
-│           ├── position.h
-│           ├── position_transition.h
-│           ├── state.h
-│           ├── state_iterator.h
-│           ├── state_transition.h
-│           ├── subsumes.h
-│           ├── transducer.h
-│           └── unsubsume.h
-└── lib
-    ├── cmake
-    │   └── liblevenshtein
-    │       ├── liblevenshtein-config-version.cmake
-    │       ├── liblevenshtein-config.cmake
-    │       ├── liblevenshtein-targets-release.cmake
-    │       └── liblevenshtein-targets.cmake
-    ├── liblevenshtein.so -> liblevenshtein.so.4.0
-    ├── liblevenshtein.so.4.0 -> liblevenshtein.so.4.0.0
-    └── liblevenshtein.so.4.0.0
-
-11 directories, 37 files
-```
-
-### Enabling tests
-
-If you want to build the library with tests, use the same instructions but
-add the CMake option `BUILD_TESTS=ON`, as described below:
-
-```shell
-cmake -DCMAKE_BUILD_TYPE=Debug \
-      -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-      -DBUILD_TESTS=ON \
-      ..
-```
-
-### Enabling baseline metrics
-
-If you want to enable the baseline metrics for validation, you must pass
-`-DBUILD_BASELINE_METRICS=ON` to CMake:
-
-```shell
-cmake -DCMAKE_BUILD_TYPE=Debug \
-      -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-      -DBUILD_BASELINE_METRICS=ON \
-      ..
-```
-
-The baseline metrics are intended for validation of the search results but might
-be useful if you need to compute edit distances among individual pairs of terms.
-
-NOTE: The baseline metrics are required for the tests and will be implicitly
-enabled for them if the baseline metrics are not explicitly enabled.
+For instructions how to develop and install liblevenshtein, please reference the
+[wiki](https://github.com/universal-automata/liblevenshtein-cpp/wiki/Development).
 
 ## Usage
 
@@ -342,15 +200,3 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 ```
-
-## Testing
-
-```shell
-# Within the build directory
-./test/test-liblevenshtein
-```
-
-### Dependencies
-
-For the most up-to-date list of dependencies, please reference
-[environment.yml](environment.yml).
