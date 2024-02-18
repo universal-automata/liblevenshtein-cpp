@@ -19,6 +19,9 @@ stating the standard you need compatibility with and I will comply if I can.
 
 For a demonstration, please reference the [example app](example/README.md).
 
+For API documentation, please reference the
+[GitHub Pages](https://universal-automata.github.io/liblevenshtein-cpp/).
+
 ## Initialization
 
 To ease dependency management during development,
