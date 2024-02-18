@@ -1,0 +1,16 @@
+// -*- mode: c-or-c++ -*-
+
+/**
+ * Various utilities regarding Levenshtein transducers. The classes of interest,
+ * to most, will be the various dictionaries, transducer implementations, and
+ * serializers. The remaining classes are likely of little interest to anyone
+ * but maintainers and the curiously minded.
+ */
+namespace liblevenshtein {}
+
+/**
+ * Memoized, recursive distance metrics typically used to evaluate the
+ * correctness of Levenshtein automata. These may also be used to compare
+ * individual pairs of terms.
+ */
+namespace liblevenshtein::distance {}

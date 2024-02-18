@@ -17,7 +17,7 @@ whichever is the latest standard). If you need compatibility with an older
 standard, please either submit a pull request (preferably) or create an issue
 stating the standard you need compatibility with and I will comply if I can.
 
-For a demonstration, please reference the [example app](example/).
+For a demonstration, please reference the [example app](example/README.md).
 
 ## Initialization
 
@@ -257,7 +257,7 @@ target_link_libraries(${PROJECT_NAME}
     levenshtein)
 ```
 
-```c++
+```cpp
 // file: main.cpp
 
 #include <algorithm>

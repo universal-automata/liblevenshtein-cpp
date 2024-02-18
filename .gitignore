@@ -22,11 +22,13 @@
 !/proto/*.proto
 
 !/src/**/*.cpp
-!/src/**/*.dox
 !/src/**/*.h
 !/src/**/*.hpp
 !/src/**/*.pxd
 !/src/**/CMakeLists.txt
+
+!/docs/**/*.dox
+!/docs/**/*.md
 
 !/third-party/**/CMakeLists.txt
 !/third-party/**/*.h
