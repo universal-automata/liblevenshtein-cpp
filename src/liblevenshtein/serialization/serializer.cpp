@@ -20,7 +20,7 @@ namespace liblevenshtein {
 
 #if _MSC_VER && !__INTEL_COMPILER
 #pragma warning(push)
-#pragma warning(disable : 5232)
+#pragma warning(disable : 4717)
 #endif
 
 auto serialize_protobuf(Dawg *dawg, const fs::path &path) -> bool {
