@@ -19,6 +19,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         build_type: [Debug, Release]
+        algorithm: [--standard, --transposition, --merge-and-split]
 
     steps:
       - uses: actions/checkout@v4
@@ -66,3 +67,4 @@ jobs:
           ./scripts/run-demo.exp ./build/liblevenshtein-demo
           --dictionary-path resources/programming-languages.txt
           --serialization-path build/programming-languages.pb
+          ${{ matrix.algorithm }}

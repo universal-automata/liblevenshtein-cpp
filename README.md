@@ -138,65 +138,65 @@ target_link_libraries(${PROJECT_NAME}
 namespace ll = liblevenshtein;
 
 int main(int argc, char *argv[]) {
-    // Verify that the version of the library that we linked against is
-    // compatible with the version of the headers we compiled against.
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
+  // Verify that the version of the library that we linked against is
+  // compatible with the version of the headers we compiled against.
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    // path to file containing serialized dictionary
-    std::string serialization_path;
+  // path to file containing serialized dictionary
+  std::string serialization_path;
 
-    ll::Dawg *dawg = ll::deserialize_protobuf(serialization_path);
+  ll::Dawg *dawg = ll::deserialize_protobuf(serialization_path);
 
-    if (dawg == nullptr) {
-        std::vector<std::string> terms; // populate with your spelling candidates
-        std::sort(terms.begin(), terms.end()); // must be sorted for now
+  if (dawg == nullptr) {
+    std::vector<std::string> terms; // populate with your spelling candidates
+    std::sort(terms.begin(), terms.end()); // must be sorted for now
 
-        // NOTE: If (dawg == nullptr) then the construction of the dictionary
-        // failed, probably because terms wasn't sorted lexicographically in
-        // ascending order.
-        dawg = ll::sorted_dawg(terms.begin(), terms.end());
-    }
+    // NOTE: If (dawg == nullptr) then the construction of the dictionary
+    // failed, probably because terms wasn't sorted lexicographically in
+    // ascending order.
+    dawg = ll::sorted_dawg(terms.begin(), terms.end());
+  }
 
-    /**
-     * Template arguments:
-     * 1. ll::Algorithm to use for searching (options: STANDARD, TRANSPOSITION, or MERGE_AND_SPLIT)
-     * 2. Return type for spelling candidates (options: std::string or ll::Candidate)
-     *
-     * NOTE: ll::Candidate is an alias for std::pair<std::string, std::size_t>
-     */
-    ll::Transducer<ll::Algorithm::TRANSPOSITION, ll::Candidate> transduce(dawg->root());
+  /**
+   * Template arguments:
+   * 1. ll::Algorithm to use for searching (options: STANDARD, TRANSPOSITION, or MERGE_AND_SPLIT)
+   * 2. Return type for spelling candidates (options: std::string or ll::Candidate)
+   *
+   * NOTE: ll::Candidate is an alias for std::pair<std::string, std::size_t>
+   */
+  ll::Transducer<ll::Algorithm::TRANSPOSITION, ll::Candidate> transduce(dawg->root());
 
-    std::string query_term;        // assign the term whose spelling you wish to correct
+  std::string query_term;    // assign the term whose spelling you wish to correct
 
-    std::size_t max_distance = 2;  // maximum number of operations allowed to transform
-                                   // a spelling candidate into query_term (edit distance)
+  std::size_t max_distance = 2;  // maximum number of operations allowed to transform
+                                 // a spelling candidate into query_term (edit distance)
 
-    // NOTE: ll:Candidate is an alias for std::pair<std::string, std::size_t>
-    for (const ll::Candidate& candidate : transduce(query_term, max_distance)) {
-        const std::string& term = candidate.first;       // spelling candidate for query_term
+  // NOTE: ll:Candidate is an alias for std::pair<std::string, std::size_t>
+  for (const ll::Candidate& candidate : transduce(query_term, max_distance)) {
+    const std::string& term = candidate.first;     // spelling candidate for query_term
 
-        const std::size_t& distance = candidate.second;  // minimum number of operations required
-                                                         // to transform query_term into term
-    }
+    const std::size_t& distance = candidate.second;  // minimum number of operations required
+                                                     // to transform query_term into term
+  }
 
-    /**
-     * If you had initialized the transducer as
-     * ll::Transducer<ll::Algorithm::TRANSPOSITION, std::string>, you'd iterate
-     * over the results as follows:
-     * for (const std::string& term : transduce(query_term, max_distance)) {
-     *     // do something with term, which is guaranteed to require no more
-     *     // than max_distance operations to transform it into the query_term.
-     * }
-     */
+  /**
+   * If you had initialized the transducer as
+   * ll::Transducer<ll::Algorithm::TRANSPOSITION, std::string>, you'd iterate
+   * over the results as follows:
+   * for (const std::string& term : transduce(query_term, max_distance)) {
+   *   // do something with term, which is guaranteed to require no more
+   *   // than max_distance operations to transform it into the query_term.
+   * }
+   */
 
-    // save the dictionary for reuse
-    ll::serialize_protobuf(dawg, serialization_path);
+  // save the dictionary for reuse
+  ll::serialize_protobuf(dawg, serialization_path);
 
-    delete dawg;
+  delete dawg;
 
-    // Optional:  Delete all global objects allocated by libprotobuf.
-    google::protobuf::ShutdownProtobufLibrary();
+  // Optional:  Delete all global objects allocated by libprotobuf.
+  google::protobuf::ShutdownProtobufLibrary();
 
-    return 0;
+  return 0;
 }
 ```
