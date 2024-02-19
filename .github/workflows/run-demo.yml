@@ -26,21 +26,21 @@ jobs:
 
       - name: Cache lib6-dev
         uses: actions/cache@v4
-        id: cache-libc6-dev
+        id: cache-libc6-dbg
         with:
-          path: "~/libc6-dev"
+          path: "~/libc6-dbg"
 
-      - name: Install libc6-dev
+      - name: Install libc6-dbg
         env:
-          CACHE_HIT: ${{steps.cache-libc6-dev.outputs.cache-hit}}
+          CACHE_HIT: ${{steps.cache-libc6-dbg.outputs.cache-hit}}
         run: |
           if [[ "$CACHE_HIT" == 'true' ]]; then
-            sudo cp --verbose --force --recursive ~/libc6-dev/* /
+            sudo cp --verbose --force --recursive ~/libc6-dbg/* /
           else
             sudo apt-get update
-            sudo apt-get install --yes libc6-dev
-            mkdir -p ~/libc6-dev
-            sudo dpkg -L libc6-dev | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory ~/libc6-dev/
+            sudo apt-get install --yes libc6-dbg
+            mkdir -p ~/libc6-dbg
+            sudo dpkg -L libc6-dbg | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory ~/libc6-dbg/
           fi
 
       - uses: conda-incubator/setup-miniconda@v3
