@@ -29,6 +29,7 @@ jobs:
         id: cache-libc6-dbg
         with:
           path: "~/libc6-dbg"
+          key: ${{ runner.os  }}-${{ hashFiles('**/lockfiles')  }}
 
       - name: Install libc6-dbg
         env:
