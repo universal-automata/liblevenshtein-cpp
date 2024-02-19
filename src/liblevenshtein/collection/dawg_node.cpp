@@ -46,7 +46,8 @@ auto DawgNode::add_edge(char label, DawgNode *target) -> DawgNode * {
 }
 
 #if _MSC_VER && !__INTEL_COMPILER
-#pragma warning(once : 5232)
+#pragma warning(push)
+#pragma warning(ignore : 5232)
 #endif
 
 auto DawgNode::operator==(const DawgNode &other) const -> bool {
@@ -68,6 +69,10 @@ auto DawgNode::operator==(const DawgNode &other) const -> bool {
 
   return true;
 }
+
+#if _MSC_VER && !__INTEL_COMPILER
+#pragma warning(pop)
+#endif
 
 auto operator<<(std::ostream &out, const DawgNode &node) -> std::ostream & {
   out << "DawgNode{is_final=" << (node.is_final() ? "true" : "false") << ", edges={";
