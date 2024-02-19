@@ -31,6 +31,30 @@ jobs:
           use-mamba: true
           channels: conda-forge
 
+      - name: Clone RapidCheck
+        shell: bash -el {0}
+        env:
+          - RAPIDCHECK_GIT_SHA: ff6af6fc683159deb51c543b065eba14dfcf329b
+        run: |
+          git clone --single-branch --branch master https://github.com/emil-e/rapidcheck.git ~/rapidcheck
+          cd ~/rapidcheck
+          git checkout $RAPIDCHECK_GIT_SHA
+
+      - name: Configure RapidCheck
+        shell: bash -el {0}
+        working-directory: ~/rapidcheck
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
+
+      - name: Build RapidCheck
+        shell: bash -el {0}
+        working-directory: ~/rapidcheck
+        run: cmake --build build --config ${{ matrix.build_type }}
+
+      - name: Install RapidCheck
+        shell: bash -el {0}
+        working-directory: ~/rapidcheck
+        run: cmake --install build --config ${{ matrix.build_type }}
+
       - name: Configure CMake
         shell: bash -el {0}
         run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTS=ON
