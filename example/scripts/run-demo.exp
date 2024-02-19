@@ -1,13 +1,10 @@
 #!/usr/bin/env expect
-spawn valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=100 --verbose {*}$argv
-expect -ex "query> "
-send -- "Jvaa\n"
-expect -ex "query> "
-send -- "Clojre\n"
-expect -ex "query> "
-send -- "Ptyhon\n"
-expect -ex "query> "
-send -- "\n"
+#spawn valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=100 --verbose {*}$argv
+spawn {*}$argv
+expect -ex "query> " {send "Jvaa\n"}
+expect -ex "query> " {send "Clojre\n"}
+expect -ex "query> " {send "Ptyhon\n"}
+expect -ex "query> " {send "\n"}
 expect eof
 catch wait result
 exit [lindex $result 3]
