@@ -45,6 +45,10 @@ auto DawgNode::add_edge(char label, DawgNode *target) -> DawgNode * {
   return this;
 }
 
+#if _MSC_VER && !__INTEL_COMPILER
+#pragma warning(once : 5232)
+#endif
+
 auto DawgNode::operator==(const DawgNode &other) const -> bool {
   if (is_final() != other.is_final()) {
     return false;
