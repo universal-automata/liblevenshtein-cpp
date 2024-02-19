@@ -34,7 +34,7 @@ jobs:
       - name: Clone RapidCheck
         shell: bash -el {0}
         env:
-          - RAPIDCHECK_GIT_SHA: ff6af6fc683159deb51c543b065eba14dfcf329b
+          RAPIDCHECK_GIT_SHA: ff6af6fc683159deb51c543b065eba14dfcf329b
         run: |
           git clone --single-branch --branch master https://github.com/emil-e/rapidcheck.git ~/rapidcheck
           cd ~/rapidcheck
