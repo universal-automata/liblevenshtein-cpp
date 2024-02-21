@@ -13,7 +13,7 @@ RapidCheckParser::RapidCheckParser(const std::filesystem::path &config_path)
 auto RapidCheckParser::parse() -> std::string {
   std::stringstream ss;
 
-  YAML::Node config = YAML::LoadFile(config_path.c_str());
+  YAML::Node config = YAML::LoadFile(config_path.generic_string());
 
   if (config["seed"]) {
     ss << "seed=" << config["seed"].as<std::string>() << " ";
