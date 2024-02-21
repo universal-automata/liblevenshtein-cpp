@@ -54,6 +54,4 @@ jobs:
 
       - name: Test
         shell: bash -el {0}
-        run: |
-          find $PWD -name 'test-liblevenshtein.exe'
-          ./build/test/Debug/test-liblevenshtein.exe
+        run: find . -name test-liblevenshtein.exe -exec '{}'
