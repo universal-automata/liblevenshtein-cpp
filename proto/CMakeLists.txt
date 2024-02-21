@@ -10,20 +10,15 @@ target_sources(levenshtein
   PRIVATE
     "liblevenshtein.proto")
 
-find_package(Protobuf REQUIRED)
+find_package(Protobuf CONFIG REQUIRED)
 
 target_include_directories(levenshtein PUBLIC
-  "${Protobuf_INCLUDE_DIRS}"
   $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/generated>
-  $<INSTALL_INTERFACE:include>
-)
+  $<INSTALL_INTERFACE:include>)
 
-target_link_libraries(levenshtein PUBLIC protobuf::libprotobuf)
-
-# workaround for protobuf linking bug
-# see: https://github.com/protocolbuffers/protobuf/issues/15604
-find_package(absl REQUIRED)
-target_link_libraries(levenshtein PRIVATE absl::log_internal_check_op)
+target_link_libraries(levenshtein
+  PUBLIC
+    protobuf::libprotobuf)
 
 protobuf_generate(
   TARGET levenshtein
