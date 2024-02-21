@@ -39,7 +39,7 @@ jobs:
           git clone --single-branch --branch master https://github.com/emil-e/rapidcheck.git ~/rapidcheck
           pushd ~/rapidcheck
           git checkout $RAPIDCHECK_GIT_SHA
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON -DRC_ENABLE_GMOCK=ON -DRC_ENABLE_GTEST=ON
           cmake --build build --config ${{ matrix.build_type }}
           cmake --install build --config ${{ matrix.build_type }}
           popd
