@@ -1,5 +1,9 @@
 #include <sstream>
 
+#if _MSC_VER && !__INTEL_COMPILER
+#include <winbase.h>
+#endif
+
 #include <yaml-cpp/yaml.h>
 
 #include "liblevenshtein/config/rapidcheck_parser.h"
@@ -57,8 +61,12 @@ void init_rapidcheck(const char* executable) {
   fs::path config_path =
       fs::canonical(executable).parent_path() / "rapidcheck.yaml";
   RapidCheckParser config_parser(config_path);
+#if _MSC_VER && !__INTEL_COMPILER
+  SetEnvironmentVariable("RC_PARAMS", config_parser.parse().c_str());
+#else
   // NOLINTNEXTLINE(concurrency-mt-unsafe)
   setenv("RC_PARAMS", config_parser.parse().c_str(), 1);
+#endif
 }
 
 } // namespace liblevenshtein
