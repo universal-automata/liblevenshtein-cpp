@@ -50,7 +50,10 @@ jobs:
 
       - name: Build
         shell: bash -el {0}
-        run: cmake --build build --config ${{ matrix.build_type }}
+        run: |
+          cmake --build build --config ${{ matrix.build_type }}
+          pwd
+          find . -name 'test-liblevenshtein*'
 
       - name: Test
         shell: bash -el {0}
