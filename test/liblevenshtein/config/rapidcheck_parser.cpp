@@ -1,9 +1,5 @@
 #include <sstream>
 
-#if _MSC_VER && !__INTEL_COMPILER
-#include <winbase.h>
-#endif
-
 #include <yaml-cpp/yaml.h>
 
 #include "liblevenshtein/config/rapidcheck_parser.h"

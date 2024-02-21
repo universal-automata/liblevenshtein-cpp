@@ -9,3 +9,4 @@ dependencies:
   - protobuf >=4.25.2
   - rapidcheck >=2023.4.13
   - yaml-cpp >=0.8.0
+  - zlib >=1.3
