@@ -48,10 +48,8 @@ jobs:
         shell: bash -el {0}
         run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTS=ON
 
-      - name: Build
+      - name: Build and Test
         shell: bash -el {0}
-        run: cmake --build build --config ${{ matrix.build_type }}
-
-      - name: Test
-        shell: bash -el {0}
-        run: find . -name test-liblevenshtein.exe -exec '{}' \;
+        run: |
+          cmake --build build --config ${{ matrix.build_type }}
+          ./build/test/Debug/test-liblevenshtein.exe
