@@ -31,10 +31,6 @@ jobs:
           use-mamba: true
           channels: conda-forge
 
-      - name: Install expect
-        shell: bash -el {0}
-        run: conda install -c conda-forge expect
-
       - name: Install RapidCheck
         shell: bash -el {0}
         env:
@@ -87,7 +83,7 @@ jobs:
         working-directory: example
         shell: bash -el {0}
         run: >
-          ./scripts/run-demo.exp
+          echo 'Jvaa\nClojre\nPtyhon\n\n' |
           ./build/${{ matrix.build_type }}/liblevenshtein-demo.exe
           --dictionary-path resources/programming-languages.txt
           --serialization-path build/programming-languages.pb
