@@ -25,8 +25,10 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: false
-          environment-file: environment.yml
-          activate-environment: ll-cpp
+          # environment-file: environment.yml
+          # activate-environment: ll-cpp
+          environment-file: environment-demo.yml
+          activate-environment: ll-cpp-demo
           miniforge-version: latest
           use-mamba: true
           channels: conda-forge
@@ -44,12 +46,46 @@ jobs:
           cmake --install build --config ${{ matrix.build_type }}
           popd
 
-      - name: Configure CMake
+      - name: Configure liblevenshtein-cpp
         shell: bash -el {0}
-        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTS=ON
+        # FIXME: GTest or RapidCheck do not work on Windows
+        # run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTS=ON
+        run: >
+          cmake -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
 
-      - name: Build and Test
+      - name: Build liblevenshtein-cpp
         shell: bash -el {0}
-        run: |
-          cmake --build build --config ${{ matrix.build_type }}
-          ./build/test/Debug/test-liblevenshtein.exe
+        run: cmake --build build --config ${{ matrix.build_type }}
+
+      # FIXME: GTest or RapidCheck do not work on Windows
+      # - name: Test liblevenshtein-cpp
+      #   shell: bash -el {0}
+      #   run: ./build/test/${{ matrix.build_type }}/test-liblevenshtein.exe
+
+      - name: Install liblevenshtein-cpp
+        shell: bash -el {0}
+        run: cmake --install build --config ${{ matrix.build_type }}
+
+      - name: Configure liblevenshtein-demo
+        working-directory: example
+        shell: bash -el {0}
+        run: >
+          cmake -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
+
+      - name: Build liblevenshtein-demo
+        working-directory: example
+        shell: bash -el {0}
+        run: cmake --build build --config ${{ matrix.build_type }}
+
+      - name: Run liblevenshtein-demo
+        working-directory: example
+        shell: bash -el {0}
+        run: >
+          ./scripts/run-demo.exp
+          ./build/${{ matrix.build_type }}/liblevenshtein-demo.exe
+          --dictionary-path resources/programming-languages.txt
+          --serialization-path build/programming-languages.pb

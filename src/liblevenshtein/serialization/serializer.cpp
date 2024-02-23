@@ -18,13 +18,8 @@ namespace llp = liblevenshtein::proto;
 
 namespace liblevenshtein {
 
-#if _MSC_VER && !__INTEL_COMPILER
-#pragma warning(push)
-#pragma warning(disable : 4717)
-#endif
-
 auto serialize_protobuf(Dawg *dawg, const fs::path &path) -> bool {
-  return serialize_protobuf(dawg, path.c_str());
+  return serialize_protobuf(dawg, path.generic_string());
 }
 
 auto serialize_protobuf(Dawg *dawg, const std::string &path) -> bool {
@@ -47,7 +42,7 @@ auto serialize_protobuf(Dawg *dawg, std::ostream &output) -> bool {
 }
 
 auto deserialize_protobuf(const fs::path &path) -> Dawg * {
-  return deserialize_protobuf(path.c_str());
+  return deserialize_protobuf(path.generic_string());
 }
 
 auto deserialize_protobuf(const std::string &path) -> Dawg * {
@@ -69,10 +64,6 @@ auto deserialize_protobuf(std::istream &input) -> Dawg * {
   }
   return dawg;
 }
-
-#if _MSC_VER && !__INTEL_COMPILER
-#pragma warning(pop)
-#endif
 
 void collect_nodes(DawgNode *source, std::set<uint64_t> &node_ids,
                    std::set<uint64_t> &final_node_ids) {

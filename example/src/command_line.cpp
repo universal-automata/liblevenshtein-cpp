@@ -90,8 +90,8 @@ auto CommandLine::parse_opts() -> bool {
     std::cerr << "Either --dictionary-path=<PATH> or "
                  "--serialization-path=<PATH> must exist"
               << std::endl;
-    std::cerr << "--dictionary_path=" << _dictionary_path << std::endl;
-    std::cerr << "--serialization_path=" << _serialization_path << std::endl;
+    std::cerr << "--dictionary-path=" << _dictionary_path << std::endl;
+    std::cerr << "--serialization-path=" << _serialization_path << std::endl;
     _return_code = ReturnCode::RETURN_FILE_NOT_EXISTS;
     return false;
   }
